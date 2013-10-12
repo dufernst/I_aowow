@@ -21,7 +21,7 @@ if(!$quests = load_cache(QUEST_LISTING, $cache_key))
 			, l.Title_loc?d AS Title_loc
 		}
 		FROM quest_template q
-		{ LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ? }
+		{ LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ? }
 		WHERE
 			1 = 1
 			{ AND ZoneOrSort = ? }
@@ -33,6 +33,7 @@ if(!$quests = load_cache(QUEST_LISTING, $cache_key))
 			AND q.Title NOT LIKE '<TEST>%'
 			AND q.Title NOT LIKE '<TXT>%'
 			AND q.Title NOT LIKE '<UNUSED%'
+
 		ORDER BY Title
 		{LIMIT ?d}
 		",
@@ -56,7 +57,7 @@ if(!$quests_tot = load_cache(QUEST_TOT, 'quest_tot'))
     unset($quests_tot);
     
     $quests_tot = $DB->select("
-		SELECT COUNT(q.Id) as quest_tot
+		SELECT COUNT(q.entry) as quest_tot
 		FROM quest_template q
 		WHERE
 			q.Title NOT IN ('','----','?????')

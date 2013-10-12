@@ -23,7 +23,7 @@
 					<tr><td>
 						<div class="infobox-spacer"></div>
 						<ul>
-							{if $quest.Level>0}<li><div>{#Level#}: {$quest.Level}</div></li>{/if}
+							{if $quest.QuestLevel>0}<li><div>{#Level#}: {$quest.QuestLevel}</div></li>{/if}
 							{if $quest.MinLevel>0}<li><div>{#Requires_level#}: {$quest.MinLevel}</div></li>{/if}
 							{if isset($quest.zone)}<li><div>{#Loremaster#}: <a href="/?maps={$quest.ZoneOrSort}">{$quest.zone}</a></li></div>{/if}
 							{if $quest.typename}<li><div>{#Type#}: {$quest.typename}</div></li>{/if}

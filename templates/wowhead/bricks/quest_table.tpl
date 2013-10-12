@@ -8,9 +8,9 @@
 		data:[
 			{section name=i loop=$data}
 				{ldelim}
-					id:'{$data[i].Id}',
+					id:'{$data[i].entry}',
 					name:'{$data[i].Title|escape:"quotes"}',
-					level:'{$data[i].Level}',
+					level:'{$data[i].QuestLevel}',
 					{if ($data[i].MinLevel)}
 						reqlevel:{$data[i].MinLevel},
 					{/if}
@@ -21,7 +21,7 @@
 								[{$data[i].itemrewards[j].entry},{$data[i].itemrewards[j].count}]
 								{if $smarty.section.j.last}{else},{/if}
 							{/section}
-							
+
 						]
 					{/if}
 					{if isset($data[i].itemchoices)}
@@ -35,8 +35,8 @@
 					{if isset($data[i].xp)}
 						,xp:{$data[i].xp}
 					{/if}
-					{if isset($data[i].RewardOrRequiredMoney)}
-						,money:{$data[i].RewardOrRequiredMoney}
+					{if isset($data[i].RewOrReqMoney)}
+						,money:{$data[i].RewOrReqMoney}
 					{/if}
 					{if isset($data[i].category)}
 						,category:{$data[i].category}

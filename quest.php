@@ -28,9 +28,9 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	// Добавляем сам квест в цепочку
 	$quest['series'] = array(
 		array(
-			'Id' => $quest['Id'],
+			'entry' => $quest['entry'],
 			'Title' => $quest['Title'],
-			'NextQuestIdChain' => $quest['NextQuestIdChain']
+			'NextQuestInChain' => $quest['NextQuestInChain']
 			)
 	);
 	// Квесты в цепочке до этого квеста
@@ -38,16 +38,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	while($tmp)
 	{
 		$tmp = $DB->selectRow('
-			SELECT q.Id, q.Title
+			SELECT q.entry, q.Title
 				{, l.Title_loc?d as Title_loc}
 			FROM quest_template q
-				{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?d}
-			WHERE q.NextQuestIdChain=?d
+				{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?d}
+			WHERE q.NextQuestInChain=?d
 			LIMIT 1
 			',
 			($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 			($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-			$quest['series'][0]['Id']
+			$quest['series'][0]['entry']
 		);
 		if($tmp)
 		{
@@ -60,16 +60,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	while($tmp)
 	{
 		$tmp = $DB->selectRow('
-			SELECT q.Id, q.Title, q.NextQuestIdChain
+			SELECT q.entry, q.Title, q.NextQuestInChain
 				{, l.Title_loc?d as Title_loc}
 			FROM quest_template q
-				{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
-			WHERE q.Id=?d
+				{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
+			WHERE q.entry=?d
 			LIMIT 1
 			',
 			($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 			($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-			$quest['series'][count($quest['series'])-1]['NextQuestIdChain']
+			$quest['series'][count($quest['series'])-1]['NextQuestInChain']
 		);
 		if($tmp)
 		{
@@ -88,16 +88,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Квесты, которые необходимо выполнить, что бы получить этот квест
 	if(!$quest['req'] = $DB->select('
-				SELECT q.Id, q.Title, q.NextQuestIdChain
+				SELECT q.entry, q.Title, q.NextQuestInChain
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE
-					(q.NextQuestId=?d AND q.ExclusiveGroup<0)
-					OR (q.Id=?d AND q.NextQuestIdChain<>?d)
+					(q.NextQuestID=?d AND q.ExclusiveGroup<0)
+					OR (q.entry=?d AND q.NextQuestInChain<>?d)
 				LIMIT 20',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$quest['Id'], $quest['PrevQuestId'], $quest['Id']
+				$quest['entry'], $quest['PrevQuestId'], $quest['entry']
 				)
 		)
 			unset($quest['req']);
@@ -106,16 +106,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Квесты, которые становятся доступными, только после того как выполнен этот квест (необязательно только он)
 	if(!$quest['open'] = $DB->select('
-				SELECT q.Id, q.Title
+				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE
-					(q.PrevQuestId=?d AND q.Id<>?d)
-					OR q.Id=?d
+					(q.PrevQuestId=?d AND q.entry<>?d)
+					OR q.entry=?d
 				LIMIT 20',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$quest['Id'], $quest['NextQuestIdChain'], $quest['NextQuestId']
+				$quest['entry'], $quest['NextQuestInChain'], $quest['NextQuestID']
 				)
 		)
 			unset($quest['open']);
@@ -125,16 +125,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	// Квесты, которые становятся недоступными после выполнения этого квеста
 	if($quest['ExclusiveGroup']>0)
 		if(!$quest['closes'] = $DB->select('
-				SELECT q.Id, q.Title
+				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE
-					q.ExclusiveGroup=?d AND q.Id<>?d
+					q.ExclusiveGroup=?d AND q.entry<>?d
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$quest['ExclusiveGroup'], $quest['Id']
+				$quest['ExclusiveGroup'], $quest['entry']
 				)
 		)
 			unset($quest['closes']);
@@ -143,16 +143,16 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Требует выполнения одного из квестов, на выбор:
 	if(!$quest['reqone'] = $DB->select('
-				SELECT q.Id, q.Title
+				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE
 					q.ExclusiveGroup>0 AND q.NextQuestId=?d
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$quest['Id']
+				$quest['entry']
 				)
 		)
 			unset($quest['reqone']);
@@ -161,15 +161,15 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Квесты, которые доступны, только во время выполнения этого квеста
 	if(!$quest['enables'] = $DB->select('
-				SELECT q.Id, q.Title
+				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE q.PrevQuestId=?d
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				-$quest['Id']
+				-$quest['entry']
 				)
 		)
 			unset($quest['enables']);
@@ -179,11 +179,11 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	// Квесты, во время выполнения которых доступен этот квест
 	if($quest['PrevQuestId']<0)
 		if(!$quest['enabledby'] = $DB->select('
-				SELECT q.Id, q.Title
+				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
-					{LEFT JOIN (locales_quest l) ON l.Id=q.Id AND ?}
-				WHERE q.Id=?d
+					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
+				WHERE q.entry=?d
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
@@ -204,7 +204,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	/*             НАГРАДЫ И ТРЕБОВАНИЯ             */
 
-	if($quest['RequiredSkillPoints']>0 && $quest['SkillOrClassMask']>0)
+	if($quest['RequiredSkillValue']>0 && $quest['RequiredSkill']>0)
 	{
 		// Требуемый уровень скилла, что бы получить квест
 		/*
@@ -220,21 +220,23 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 			-181 => 171		// Alchemy
 		);
 		*/
-		
+
 		// TODO: skill localization
 		$quest['reqskill'] = array(
-			'name' => $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM ?_skill WHERE skillID=?d LIMIT 1',$quest['SkillOrClassMask']),
-			'value' => $quest['RequiredSkillPoints']
+			'name' => $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM ?_skill WHERE skillID=?d LIMIT 1',$quest['RequiredSkill']),
+			'value' => $quest['RequiredSkillValue']
 		);
 	}
-	elseif($quest['SkillOrClassMask']<0)
+	// Класс, требуемый чтобы получить квест
+	if($quest['RequiredClasses']>0)
 	{
-		$s = array();
+		$reqclass = array();
 		foreach($classes as $i => $class)
-			if (intval(-$quest['SkillOrClassMask'])==$i)
-				$s[] = $class;
-						
-		if (!count($s) == 0) 
+			if ($quest['RequiredClasses'] & (1<<($i-1)))
+				$reqclass[] = $class;
+		$quest['reqclass'] = implode(", ", $reqclass);
+
+		if (!count($s) == 0)
 			// Требуемый класс, что бы получить квест
 			$quest['reqclass'] = implode(", ", $s);
 	}
@@ -257,37 +259,37 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	// Хранить в базе все локализации - задачка на будующее
 	$quest['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
 	// Спелл, кастуемый на игрока в начале квеста
-    if($quest['SourceSpellId'])
-    {
-        $tmp = $DB->selectRow('
-            SELECT ?#, s.spellname_loc'.$_SESSION['locale'].'
-            FROM ?_spell s, ?_spellicons si
-            WHERE
-                s.spellID=?d
-                AND si.id=s.spellicon
-            LIMIT 1',
-            $spell_cols[0],
-            $quest['SourceSpellId']
-        );
-        if($tmp)
-        {
-            $quest['SourceSpellId'] = array(
-                'name' => $tmp['spellname_loc'.$_SESSION['locale']],
-                'entry' => $tmp['spellID']);
-            allspellsinfo2($tmp);
-        }
-        unset($tmp);
-    }
+    if($quest['SrcSpell'])
+	{
+		$tmp = $DB->selectRow('
+			SELECT ?#, s.spellname_loc'.$_SESSION['locale'].'
+			FROM ?_spell s, ?_spellicons si
+			WHERE
+				s.spellID=?d
+				AND si.id=s.spellicon
+			LIMIT 1',
+			$spell_cols[0],
+			$quest['SrcSpell']
+		);
+		if($tmp)
+		{
+			$quest['SrcSpell'] = array(
+				'name' => $tmp['spellname_loc'.$_SESSION['locale']],
+				'entry' => $tmp['spellID']);
+			allspellsinfo2($tmp);
+		}
+		unset($tmp);
+	}
 
 	// Итем, выдаваемый игроку в начале квеста
-	if($quest['SourceItemId'])
+	if($quest['SrcItemId'])
 	{
-		$quest['SourceItemId'] = iteminfo($quest['SourceItemId']);
-		$quest['SourceItemId']['SourceItemCount'] = $quest['SourceItemCount'];
+		$quest['SrcItem'] = iteminfo($quest['SrcItemId']);
+		$quest['SrcItem']['count'] = $quest['SrcItemCount'];
 	}
 
 	// Дополнительная информация о квесте (флаги, повторяемость, скрипты)
-	$quest['flagsdetails'] = GetFlagsDetails($quest);
+	$quest['flagsdetails'] = GetQuestFlagsDetails($quest);
 	if (!$quest['flagsdetails'])
 		unset($quest['flagsdetails']);
 
@@ -302,14 +304,14 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 				AND si.id=s.spellicon
 			LIMIT 1',
 			$spell_cols[0],
-			$quest['RewardSpell']>0?$quest['RewardSpell']:$quest['RewardSpellCast']
+			$quest['RewSpell']>0?$quest['RewSpell']:$quest['RewSpellCast']
 		);
 		if($tmp)
 		{
 			$quest['spellreward'] = array(
 				'name' => $tmp['spellname_loc'.$_SESSION['locale']],
 				'entry' => $tmp['spellID'],
-				'realentry' => $quest['RewardSpellCast']>0 ? $quest['RewardSpellCast'] : $quest['RewardSpell']);
+				'realentry' => $quest['RewSpellCast']>0 ? $quest['RewSpellCast'] : $quest['RewSpell']);
 			allspellsinfo2($tmp);
 		}
 		unset($tmp);
@@ -322,13 +324,13 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	for($i=0;$i<=4;++$i)
 	{
 		//echo $quest['ReqCreatureOrGOCount'.$i].'<br />';
-		if($quest['RequiredNpcOrGo'.$i] != 0 && $quest['RequiredNpcOrGoCount'.$i] != 0)
+		if($quest['ReqCreatureOrGOId'.$i] != 0 && $quest['ReqCreatureOrGOCount'.$i] != 0)
 		{
-			if($quest['RequiredNpcOrGo'.$i] > 0)
+			if($quest['ReqCreatureOrGOId'.$i] > 0)
 			{
 				// Необходимо какое-либо взамодействие с созданием
 				$quest['coreqs'][$i] = array_merge(
-					creatureinfo($quest['RequiredNpcOrGo'.$i]),
+					creatureinfo($quest['ReqCreatureOrGOId'.$i]),
 					array('req_type' => 'npc')
 				);
 			}
@@ -336,17 +338,17 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 			{
 				// необходимо какое-то взаимодействие с объектом
 				$quest['coreqs'][$i] = array_merge(
-					objectinfo(-$quest['RequiredNpcOrGo'.$i]),
+					objectinfo(-$quest['ReqCreatureOrGOId'.$i]),
 					array('req_type' => 'object')
 				);
 			}
 			// Количество
-			$quest['coreqs'][$i]['count'] = $quest['RequiredNpcOrGoCount'.$i];
+			$quest['coreqs'][$i]['count'] = $quest['ReqCreatureOrGOCount'.$i];
 			// Спелл
-			if($quest['RequiredSpellCast'.$i])
+			if($quest['ReqSpellCast'.$i])
 				$quest['coreqs'][$i]['spell'] = array(
-					'name' => $DB->selectCell('SELECT spellname_loc'.$_SESSION['locale'].' FROM ?_spell WHERE spellid=?d LIMIT 1', $quest['RequiredSpellCast'.$i]),
-					'entry' => $quest['RequiredSpellCast'.$i]
+					'name' => $DB->selectCell('SELECT spellname_loc'.$_SESSION['locale'].' FROM ?_spell WHERE spellid=?d LIMIT 1', $quest['ReqSpellCast'.$i]),
+					'entry' => $quest['ReqSpellCast'.$i]
 				);
 		}
 	}
@@ -357,8 +359,8 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	$quest['itemreqs'] = array();
 	for($i=0;$i<=4;++$i)
 	{
-		if($quest['RequiredItemId'.$i]!=0 && $quest['RequiredItemCount'.$i]!=0)
-			$quest['itemreqs'][] = array_merge(iteminfo($quest['RequiredItemId'.$i]), array('count' => $quest['RequiredItemCount'.$i]));
+		if($quest['ReqItemId'.$i]!=0 && $quest['ReqItemCount'.$i]!=0)
+			$quest['itemreqs'][] = array_merge(iteminfo($quest['ReqItemId'.$i]), array('count' => $quest['ReqItemCount'.$i]));
 	}
 	if(!$quest['itemreqs'])
 		unset($quest['itemreqs']);
@@ -389,7 +391,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$quest['Id']
+		$quest['entry']
 	);
 	if($rows)
 	{
@@ -406,12 +408,12 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	unset($rows);
 
 	// НПС-ивентовые
-	$rows = event_find(array('quest_id' => $quest['Id']));
+	$rows = event_find(array('quest_id' => $id));
 	if ($rows)
 	{
 		foreach ($rows as $event)
 			foreach ($event['creatures_quests_id'] as $ids)
-				if ($ids['quest'] == $quest['Id'])
+				if ($ids['quest'] == $quest['entry'])
 				{
 					$tmp = creatureinfo($ids['creature']);
 					if($tmp['react'] == '-1,1')
@@ -436,7 +438,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$quest['Id']
+		$quest['entry']
 	);
 	if($rows)
 	{
@@ -460,7 +462,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$quest['Id']
+		$quest['entry']
 	);
 	if($rows)
 	{
@@ -471,7 +473,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		}
 	}
 	unset($rows);
-	
+
 	// КВЕСТТЕЙКЕРЫ
 	// НПС
 	$rows = $DB->select('
@@ -486,7 +488,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$quest['Id']
+		$quest['entry']
 	);
 	if($rows)
 	{
@@ -514,7 +516,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$quest['Id']
+		$quest['entry']
 	);
 	if($rows)
 	{
@@ -542,7 +544,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		$_SESSION['locale'],
 		$_SESSION['locale'],
 		array(ACHIEVEMENT_CRITERIA_TYPE_COMPLETE_QUEST),
-		$quest['Id'],
+		$quest['entry'],
 		$_SESSION['locale']
 	);
 	if($rows)
@@ -556,13 +558,13 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 	}
 
 	// Награды и благодарности, присылаемые почтой
-	if ($quest['RewardMailTemplateId'])
+	if ($quest['RewMailTemplateId'])
 	{
-		if(!($quest['mailrewards'] = loot('mail_loot_template', $quest['RewardMailTemplateId'])))
+		if(!($quest['mailrewards'] = loot('mail_loot_template', $quest['RewMailTemplateId'])))
 			unset ($quest['mailrewards']);
 	}
-	if ($quest['RewardMailDelay'])
-		$quest['maildelay'] = sec_to_time($quest['RewardMailDelay']);
+	if ($quest['RewMailDelaySecs'])
+		$quest['maildelay'] = sec_to_time($quest['RewMailDelaySecs']);
 
 	save_cache(QUEST_PAGE, $cache_key, $quest);
 }
@@ -574,7 +576,7 @@ $page = array(
 	'Title' => $quest['Title'].' - '.$smarty->get_config_vars('Quests'),
 	'tab' => 0,
 	'type' => 5,
-	'typeid' => $quest['Id'],
+	'typeid' => $quest['entry'],
 	'username' => $_SESSION['username'],
 	'path' => path(0, 3, $quest['maincat'], $quest['category']) // TODO
 );
