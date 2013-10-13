@@ -841,28 +841,25 @@ var mn_tools=[
 		[10,"2.4.2","?patchnotes=2.4.2"],
 		[11,"2.4.0","?patchnotes=2.4.0"]
 	]],
-	*/[8,"Utilitaires",,[
+	[8,"Utilitaires",,[
 		[,"Base de données"],
-		/*[0,"Derniers ajouts","?latest=additions"],
-		[1,"Derniers articles","?latest=articles"], */
-		[2,"Derniers commentaires","?latest=comments"],
-		[3,"Dernières captures d'écran","?latest=screenshots"],
-		/* [9,"Nouveaux objets dans la mise à jour",,[
+		[0,"Derniers ajouts","?latest-additions"],
+		[1,"Derniers articles","?latest-articles"],
+		[2,"Derniers commentaires","?latest-comments"],
+		[3,"Dernières captures d'écran","?latest-screenshots"],
+		[9,"Nouveaux objets dans la mise à jour",,[
 			[2,"3.3","?new-items=3.3"],
 			[1,"3.2","?new-items=3.2"],
 			[0,"3.1","?new-items=3.1"]
 		]],
 		[4,"Page au hasard","?random"],
 		[5,"[Unrated Comments]","?unrated-comments"],
-		*/ [,"Forum"],
-		[6,"Dernières réponses","https://github.com/darki73/Freehead/docs/Forum_FR"],
-		[7,"Derniers sujets","https://github.com/darki73/Freehead/docs/Forum_FR"],
-		[8,"Sujets sans réponse","https://github.com/darki73/Freehead/docs/Forum_FR"]
-	]],
-	[,"Utile"]
-	[32,"Développeurs Github","https://github.com/darki73"],
-	[33,"Développeurs Website","http://freedomcore.ru"],
-	[34,"Tooltips","/?powered"]
+		[,"Forum"],
+		[6,"Dernières réponses","?latest-replies"],
+		[7,"Derniers sujets","?latest-topics"],
+		[8,"Sujets sans réponse","?unanswered-topics"]
+	]]*/
+	[30,"Derniers commentaires","?latest=comments"]
 ];
 var mn_forums=[
 	[0,"WoW en général"],
@@ -953,7 +950,6 @@ var mn_more=[
 ];
 var mn_path=[
 	[0,"Base de données",,mn_database],
-	[2,"News",,mn_news],
 	[1,"Outils",,mn_tools],
 	//[3,"Communauté",,mn_community],
 	//[2,"Plus",,mn_more]
@@ -1574,9 +1570,7 @@ var g_quest_types={
 	41:"JcJ",
 	82:"Événement mondial",
 	84:"Escorte",
-	85:"Héroïque",
-	88:"Raid (10)",
-	89:"Raid (25)"
+	85:"Héroïque"
 };
 var g_sides={
 	1:"Alliance",
@@ -2177,8 +2171,6 @@ var LANG={
 	req:"Req. ",
 	reputation:"Réputation",
 	rewards:"Récompenses",
-	expirience:"Exp.",
-	money:"Monnaie",
 	petfamily:"Familier",
 	pieces:"Morceaux",
 	points:"Points",
@@ -2551,7 +2543,6 @@ var LANG={
 	tab_starts:"Débute",
 	tab_startsquest:"[Starts quest]",
 	tab_submitascreenshot:"Envoyer une capture d'écran",
-	tab_submityourdata:"Envoyer des données",
 	tab_summonedby:"Invoqué par",
 	tab_talents:"Talents",
 	tab_tameable:"Domptables",
@@ -2563,8 +2554,6 @@ var LANG={
 	tab_triggeredby:"Déclenché par",
 	tab_uncategorizedspells:"Sorts non classés",
 	tab_unlocks:"Déverouille",
-	tab_reputation:"Reputation History",
-	tab_characters:"Characters",
 	tab_usedby:"Utilisé par",
 	tab_zones:"Zones",
 	menu_browse:"Consulter",

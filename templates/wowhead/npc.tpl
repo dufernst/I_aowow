@@ -7,7 +7,6 @@
 
 			<script type="text/javascript">
 				{include file='bricks/allcomments.tpl'}
-				{include file='bricks/allscreenshots.tpl'}
 				var g_pageInfo = {ldelim}type: 1, typeId: {$npc.entry}, name: '{$npc.name|escape:"quotes"}'{rdelim};
 				g_initPath([0,4,{$npc.type}]);
 			</script>
@@ -17,21 +16,10 @@
 				<tr><td><div class="infobox-spacer"></div>
 					<ul>
 						<li><div>{#Level#}: {if $npc.minlevel<>$npc.maxlevel}{$npc.minlevel} - {/if}{$npc.maxlevel}</div></li>
-						<li><div>{#Classification#}: {if $npc.dtype == 3}<img src="/images/boss_icon.png"> {$npc.rank}{else}{$npc.rank}{/if}</div></li>
+						<li><div>{#Classification#}: {$npc.rank}</div></li>
 						<li><div>{#React#}: <span class="q{if $npc.A==-1}10{elseif $npc.A==1}2{else}{/if}">A</span> <span class="q{if $npc.H==-1}10{elseif $npc.H==1}2{else}{/if}">H</span></div></li>
 						<li><div>{#Faction#}: <a href="?faction={$npc.faction_num}">{$npc.faction}</a></div></li>
-						<li><div>{#Health#}: 
-						{if $npc.heroic.type == 1}
-						<span class="tip" id="infobox-details"
-							onmouseover="Tooltip.showAtCursor(event, 'Heroic 10ppl:  {$npc.10pplh}<br>Heroic 25ppl: {$npc.25pplh}', 0, 0, 0)"
-							onmousemove="Tooltip.cursorUpdate(event)"
-							onmouseout="Tooltip.hide()">{$npc.minhealth}</span></div></li>
-						{else}
-						<span class="tip" id="infobox-details"
-							onmouseover="Tooltip.showAtCursor(event, 'Normal 10ppl:  {$npc.minhealth}<br>Normal 25ppl: {$npc.25ppln}', 0, 0, 0)"
-							onmousemove="Tooltip.cursorUpdate(event)"
-							onmouseout="Tooltip.hide()">{$npc.minhealth}</span></div></li>
-						{/if}
+						<li><div>{#Health#}: {if $npc.minhealth<>$npc.maxhealth}{$npc.minhealth} - {/if}{$npc.maxhealth}</div></li>
 {if ($npc.minmana or $npc.maxmana)}
 						<li><div>{#Mana#}: {if $npc.minmana<>$npc.maxmana}{$npc.minmana} - {/if}{$npc.maxmana}</div></li>
 {/if}
@@ -50,17 +38,20 @@
 {if $npc.armor > 0}
 						<li><div>{#Armor#}: {$npc.armor}</div></li>
 {/if} 
-<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
-<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
+{if ($npc.kill_rep_value1 or $npc.kill_rep_value2)}
+						<li><div>{#Onkill#}: {strip}
+							{if $npc.kill_rep_value1}{$npc.kill_rep_value1|string_format:"%+d"} {#reputationwith#} {$npc.kill_rep_faction1} {#until#} {$npc.kill_rep_until1}{/if}
+							{if ($npc.kill_rep_value1 and $npc.kill_rep_value2)}<br><span style="visibility: hidden;">{#Onkill#}: </span>{/if} 
+							{if $npc.kill_rep_value2}{$npc.kill_rep_value2|string_format:"%+d"} {#reputationwith#} {$npc.kill_rep_faction2} {#until#} {$npc.kill_rep_until2}{/if}
+                                                {/strip}</div></li>
+{/if} 
 					</ul>
 				</td></tr>
 			</table>
 
 			<div class="text">
 				<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
-				<a href="javascript:;" id="dsgndslgn464d" class="button-red" onclick="this.blur(); ModelViewer.show({ldelim} type: {$page.type}, typeId: {$npc.entry}, displayId: {$npc.model}{rdelim})"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
 				<h1>{$npc.name}{if $npc.subname} &lt;{$npc.subname}&gt;{/if}</h1>
-			
 
 {if $npc.heroic}
 				<div>{if $npc.heroic.type == 1}{#This_is_heroic_NPC#}{else}{#This_is_normal_NPC#}{/if} <a href="?npc={$npc.heroic.entry}">{$npc.heroic.name}</a>.</div>
@@ -122,77 +113,6 @@
 {else}
 				{#This_NPC_cant_be_found#}
 {/if}
-<br>
-{if $npc.quotes_count > 0}
-<a class="disclosure-off" id="show_id" onclick="document.getElementById('spoiler_id').style.display=''; document.getElementById('show_id').style.display='none';" class="link">
-{#Quotes#} ({$npc.quotes_count})</a>
-<span id="spoiler_id" style="display: none">
-<a class="disclosure-on" id="show_id" onclick="document.getElementById('spoiler_id').style.display='none'; document.getElementById('show_id').style.display='';" class="link">
-{#Quotes#} ({$npc.quotes_count})</a><br>
-{/if}
-{foreach from=$npc.quotes item="row"}
-{if $row.type == 12}
-<ul><li><font color='white'>{$npc.name}{$npc.subname} say: {$row.text}<br/> </font></li></ul>
-{/if}
-{if $row.type == 14}
-<ul><li><font color='red'>{$npc.name}{$npc.subname} yells: {$row.text}<br/> </font></li></ul>
-{/if}
-{if $row.type == 15}
-<ul><li><font color='#FFB2EB'>{$npc.name}{$npc.subname} whispers: {$row.text}<br/></font></li></ul>
-{/if}
-{if $row.type == 16}
-<ul><li><font color='white'>{$npc.name}{$npc.subname} yells: {$row.text}<br/> </font></li></ul>
-{/if}
-{if $row.type == 41}
-<ul><li><font color='yellow'>{$npc.name}{$npc.subname} {$row.text}<br/> </font></li></ul>
-{/if}
-{if $row.type == 42}
-<ul><li><font color='red'>{$npc.name}{$npc.subname} say: {$row.text}<br/> </font></li></ul>
-{/if}
-{/foreach}
-</span>
-
-					<h3>{#Rewards#}</h3>
-{if isset($npc.reprewards)}
-{section name=j loop=$npc.reprewards}
-						<li><div>{$npc.reprewards[j].value} {#reputationwith#} <a href="?faction={$npc.reprewards[j].entry}">{$npc.reprewards[j].name}</a></div></li>
-{/section}
-{/if}	
-{if isset($npc.onkillrep)}
-{#Onkill_rep#}
-{foreach from=$npc.killrep item=onkill}
-{if $npc.dtype == 3}
-<ul>
-	<li>
-		<span class="rep-difficulty">Normal</span>
-	</li>
-<ul>
-	<li>
-		<div>
-			<span>{$onkill.value}</span> {#reputationwith#} <a href="/faction={$onkill.entry}">{$onkill.name}</a>
-		</div>
-	</li>
-</ul>
-</ul>
-<ul>
-	<li>
-		<span class="rep-difficulty">Heroic</span>
-	</li>
-<ul>
-	<li>
-		<div>
-			<span>{$onkill.value*2}</span> {#reputationwith#} <a href="/faction={$onkill.entry}">{$onkill.name}</a>
-		</div>
-	</li>
-</ul>
-</ul>
-{elseif $onkill.value < 0}
-<li><div><font color="red"><strong>{$onkill.value}</strong></font> {#reputationwith#} <a href="?faction={$onkill.entry}" rel="faction={$onkill.entry}">{$onkill.name}</a></div></li>
-{elseif $onkill.value > 0}
-<li><div><font color="green"><strong>+{$onkill.value}</strong></font>  {#reputationwith#} <a href="?faction={$onkill.entry}" rel="faction={$onkill.entry}">{$onkill.name}</a></div></li>
-{/if}
-{/foreach}
-{/if}
 
 				<h2>{#Related#}</h2>
 
@@ -214,9 +134,7 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if isset($npc.teaches)}{include		file='bricks/spell_table.tpl'			id='teaches-ability'	name='teaches'			tabsid='tabsRelated' data=$npc.teaches			}{/if}
 {if isset($npc.criteria_of)}{include 	file='bricks/achievement_table.tpl' 	id='criteria-of'		name='criteriaof'		tabsid='tabsRelated' data=$npc.criteria_of		}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
-new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
-ss_appendSticky();
 </script>
 
 			{include file='bricks/contribute.tpl'}

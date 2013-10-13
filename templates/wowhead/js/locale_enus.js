@@ -795,13 +795,13 @@ var mn_database=[
 	[2,"Item Sets","?itemsets"/*,mn_itemSets*/],
 	[4,"NPCs","?npcs",mn_npcs],
 	[3,"Quests","?quests",mn_quests],
-	/* [6,"Zones","?zones",mn_zones], */
+	//[6,"Zones","?zones",mn_zones],
 	[1,"Spells","?spells",mn_spells],
 	[9,"Achievements","?achievements",mn_achievements],
 	[5,"Objects","?objects",mn_objects],
 	[7,"Factions","?factions",mn_factions],
-	/* [10,"Titles","?titles",mn_titles],
-	[8,"Hunter Pets","?pets",mn_pets], */
+	//[10,"Titles","?titles",mn_titles],
+	//[8,"Hunter Pets","?pets",mn_pets],
 	[11,"World Events","?events"/*,mn_holidays*/]
 ];
 var mn_tools=[
@@ -841,31 +841,25 @@ var mn_tools=[
 		[10,"2.4.2","?patchnotes=2.4.2"],
 		[11,"2.4.0","?patchnotes=2.4.0"]
 	]],
-	*/
 	[8,"Utilities",,[
 		[,"Database"],
-		/* [0,"Latest Additions","?latest=additions"],
-		[1,"Latest Articles","?latest=articles"], */
-		[2,"Latest Comments","?latest=comments"],
-		[3,"Latest Screenshots","?latest=screenshots"],
-		/*[9,"New Items in Patch",,[
+		[0,"Latest Additions","?latest-additions"],
+		[1,"Latest Articles","?latest-articles"],
+		[2,"Latest Comments","?latest-comments"],
+		[3,"Latest Screenshots","?latest-screenshots"],
+		[9,"New Items in Patch",,[
 			[2,"3.3","?new-items=3.3"],
 			[1,"3.2","?new-items=3.2"],
 			[0,"3.1","?new-items=3.1"]
 		]],
 		[4,"Random Page","?random"],
 		[5,"Unrated Comments","?unrated-comments"],
-		*/
 		[,"Forums"],
-		[6,"Latest Replies","https://github.com/darki73/Freehead/docs/Forum_EN"],
-		[7,"Latest Topics","https://github.com/darki73/Freehead/docs/Forum_EN"],
-		[8,"Unanswered Topics","https://github.com/darki73/Freehead/docs/Forum_EN"]
-	]],
-	[,"Useful info"],
-	[32,"Developers Github","https://github.com/darki73"],
-	[33,"Developers Website","http://freedomcore.ru"],
-	[34,"Tooltips","/?powered"],
-	[35,"Searchbox","/?searchbox"]
+		[6,"Latest Replies","?latest-replies"],
+		[7,"Latest Topics","?latest-topics"],
+		[8,"Unanswered Topics","?unanswered-topics"]
+	]]*/
+	[30,"Latest Comments","?latest=comments"]
 ];
 var mn_forums=[
 	[0,"WoW General"],
@@ -892,24 +886,6 @@ var mn_forums=[
 	[20,"Theorycrafting"],
 	[2,"Randomness"],
 	[1,"Wowhead Feedback"]
-];
-var mn_news=[
-	[0,"News","/?news"],
-	//Delete /* and */ if you want to add forum links to your servers news
-	/*[1,"Server","",[
-		[,"x5"],
-		[1,"Server 1", ""],
-		[2,"Server 2", ""],
-		[,"x10"],
-		[3,"Server 3", ""],
-		[4,"Server 4", ""]
-	]],*/
-	// Edit link to social networks
-	[,"Social Networks"],
-	[1,"Facebook", 'http://facebook.com/'],
-	[2,"Vkontakte", 'http://vk.com/'],
-	[3,"Twitter", 'http://twitter.com/'],
-	[4,"IRC Channel", '/']
 ];
 var mn_community=[
 	[3,"Forums","?forums",mn_forums],
@@ -975,7 +951,6 @@ var mn_more=[
 ];
 var mn_path=[
 	[0,"Database",,mn_database],
-	[2,"News",,mn_news],
 	[1,"Tools",,mn_tools],
 	//[3,"Community",,mn_community],
 	//[2,"More",,mn_more]
@@ -1596,9 +1571,7 @@ var g_quest_types={
 	41:"PvP",
 	82:"World Event",
 	84:"Escort",
-	85:"Heroic",
-	88:"Raid (10)",
-	89:"Raid (25)"
+	85:"Heroic"
 };
 var g_sides={
 	1:"Alliance",
@@ -2139,9 +2112,6 @@ var g_socket_names={
 	14:"Prismatic Socket"
 };
 var LANG={
-	book_previous:"Previous",
-	book_next:"Next",
-	book_of:" of ",
 	comma:", ",
 	ellipsis:"...",
 	dash:" \u2013 ",
@@ -2202,8 +2172,6 @@ var LANG={
 	req:"Req. ",
 	reputation:"Reputation",
 	rewards:"Rewards",
-	expirience:"Exp.",
-	money:"Money",
 	petfamily:"Pet family",
 	pieces:"Pieces",
 	points:"Points",
@@ -2576,7 +2544,6 @@ var LANG={
 	tab_starts:"Starts",
 	tab_startsquest:"Starts quest",
 	tab_submitascreenshot:"Submit a screenshot",
-	tab_submityourdata:"Send your data",
 	tab_summonedby:"Summoned by",
 	tab_talents:"Talents",
 	tab_tameable:"Tameable",
@@ -2588,8 +2555,6 @@ var LANG={
 	tab_triggeredby:"Triggered by",
 	tab_uncategorizedspells:"Uncategorized spells",
 	tab_unlocks:"Unlocks",
-	tab_reputation:"Reputation History",
-	tab_characters:"Characters",
 	tab_usedby:"Used by",
 	tab_zones:"Zones",
 	menu_browse:"Browse",

@@ -1,16 +1,19 @@
 <?php
+define('AOWOW_REVISION', 12);
+
+/* ================ LOADING ================ */
 require_once('configs/config.php');
-error_reporting(0);
+error_reporting(2039);
 ini_set('serialize_precision', 4);
 session_start();
+
 // Префикс
 $tableprefix = $AoWoWconf['mangos']['aowow'];
-$items_to_be_displayed = $AoWoWconf['limit'];
 
-		
 $locales = array(
 	0 => 'enus',
-	6 => 'eses',
+	2 => 'frfr',
+	3 => 'dede',
 	8 => 'ruru',
 );
 function checklocale()
@@ -22,6 +25,7 @@ function checklocale()
 checklocale();
 // Это должно быть ПОСЛЕ checklocale()
 require_once('includes/alllocales.php');
+
 
 /* ================ MISC FUNCTIONS ================ */
 function str_normalize($str)
@@ -50,7 +54,6 @@ define('CLASS_PALADIN', 2);
 define('CLASS_HUNTER', 4);
 define('CLASS_ROGUE', 8);
 define('CLASS_PRIEST', 16);
-define('CLASS_DEATH_KNIGHT', 32);
 define('CLASS_SHAMAN', 64);
 define('CLASS_MAGE', 128);
 define('CLASS_WARLOCK', 256);
@@ -60,14 +63,14 @@ define('CLASS_DRUID', 1024);
 $classes = array(
 	1 => LOCALE_WARRIOR,
 	2 => LOCALE_PALADIN,
-	4 => LOCALE_HUNTER,
-	8 => LOCALE_ROGUE,
-	16 => LOCALE_PRIEST,
-	32 => LOCALE_DEATH_KNIGHT,
-	64 => LOCALE_SHAMAN,
-	128 => LOCALE_MAGE,
-	256 => LOCALE_WARLOCK,
-	1024 => LOCALE_DRUID
+	3 => LOCALE_HUNTER,
+	4 => LOCALE_ROGUE,
+	5 => LOCALE_PRIEST,
+	6 => LOCALE_DEATH_KNIGHT,
+	7 => LOCALE_SHAMAN,
+	8 => LOCALE_MAGE,
+	9 => LOCALE_WARLOCK,
+	11 => LOCALE_DRUID
 );
 
 define('RACE_HUMAN', 1);
@@ -87,37 +90,37 @@ $types = array(
 	2 => array('object',	'gameobject_template',	'entry'			),
 	3 => array('item',		'item_template',		'entry'			),
 	4 => array('itemset',	$tableprefix.'itemset',	'itemsetID'		),
-	5 => array('quest',		'quest_template',		'Id'			),
+	5 => array('quest',		'quest_template',		'entry'			),
 	6 => array('spell',		$tableprefix.'spell',	'spellID'		),
 	7 => array('zone',		$tableprefix.'zones',	'areatableID'	),
 	8 => array('faction',	$tableprefix.'factions','factionID'		),
-	9 => array('zone',		$tableprefix.'zones','entry'			),
-	10 => array('title',	$tableprefix.'char_titles',	'id'	),
 );
 
 // Отношения со фракциями
 function reputations($value)
 {
-	switch ($value)
-	{
-		case 0:
-		case 1:
-			return LOCALE_NEUTRAL;
-		case 2999:
-		case 3000:
-			return LOCALE_FRIENDLY;
-		case 8999:
-		case 9000:
-			return LOCALE_HONORED;
-		case 20999:
-		case 21000:
-			return LOCALE_REVERED;
-		case 41999:
-		case 42000:
-			return LOCALE_EXALTED;
-		default:
-			return $value;
-	}
+	if ($value < 0)
+		return $value;
+	elseif ($value <= 1)
+		return LOCALE_NEUTRAL;
+	elseif ($value < 2999)
+		return LOCALE_NEUTRAL . "+" . $value;
+	elseif ($value <= 3000)
+		return LOCALE_FRIENDLY;
+	elseif ($value < 8999)
+		return LOCALE_FRIENDLY . "+" . ($value-3000);
+	elseif ($value <= 9000)
+		return LOCALE_HONORED;
+	elseif ($value < 20999)
+		return LOCALE_HONORED . "+" . ($value-9000);
+	elseif ($value <= 21000)
+		return LOCALE_REVERED;
+	elseif ($value < 41999)
+		return LOCALE_REVERED . "+" . ($value-21000);
+	elseif ($value <= 42000)
+		return LOCALE_EXALTED;
+	else
+		return LOCALE_EXALTED . "+" . ($value-42000);
 }
 
 $sides = array(
@@ -125,7 +128,6 @@ $sides = array(
 	2 => LOCALE_HORDE,
 	3 => LOCALE_BOTH_FACTIONS
 );
-
 // TODO: добавить форму преобразования секунд в строку времени
 function sec_to_time($secs)
 {
@@ -175,27 +177,25 @@ function classes($class)
 {
 	$tmp = '';
 	if($class & CLASS_WARRIOR)
-		$tmp = '<font color="#CD853F">'.LOCALE_WARRIOR.'</font>';
+		$tmp = LOCALE_WARRIOR;
 	if($class & CLASS_PALADIN)
-		if($tmp) $tmp = $tmp.', '.'<font color="#FF6699">'.LOCALE_PALADIN.'</font>'; else $tmp = '<font color="#FF6699">'.LOCALE_PALADIN.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_PALADIN; else $tmp = LOCALE_PALADIN;
 	if($class & CLASS_HUNTER)
-		if($tmp) $tmp = $tmp.', '.'<font color="#33FF99">'.LOCALE_HUNTER.'</font>'; else $tmp = '<font color="#33FF99">'.LOCALE_HUNTER.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_HUNTER; else $tmp = LOCALE_HUNTER;
 	if($class & CLASS_ROGUE)
-		if($tmp) $tmp = $tmp.', '.'<font color="#FFFF99">'.LOCALE_ROGUE.'</font>'; else $tmp = '<font color="#FFFF99">'.LOCALE_ROGUE.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_ROGUE; else $tmp = LOCALE_ROGUE;
 	if($class & CLASS_PRIEST)
-		if($tmp) $tmp = $tmp.', '.'<font color="white">'.LOCALE_PRIEST.'</font>'; else $tmp = '<font color="white">'.LOCALE_PRIEST.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_PRIEST; else $tmp = LOCALE_PRIEST;
 	if($class & CLASS_SHAMAN)
-		if($tmp) $tmp = $tmp.', '.'<font color="#1F1FFF">'.LOCALE_SHAMAN.'</font>'; else $tmp = '<font color="#1F1FFF">'.LOCALE_SHAMAN.'</font>';
-	if($class & CLASS_DEATH_KNIGHT)
-		if($tmp) $tmp = $tmp.', '.'<font color="#CD2626">'.LOCALE_DEATH_KNIGHT.'</font>'; else $tmp = '<font color="#CD2626">'.LOCALE_DEATH_KNIGHT.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_SHAMAN; else $tmp = LOCALE_SHAMAN;
 	if($class & CLASS_MAGE)
-		if($tmp) $tmp = $tmp.', '.'<font color="#66FFFF">'.LOCALE_MAGE.'</font>'; else $tmp = '<font color="#66FFFF">'.LOCALE_MAGE.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_MAGE; else $tmp = LOCALE_MAGE;
 	if($class & CLASS_WARLOCK)
-		if($tmp) $tmp = $tmp.', '.'<font color="#9933CC">'.LOCALE_WARLOCK.'</font>'; else $tmp = '<font color="#9933CC">'.LOCALE_WARLOCK.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_WARLOCK; else $tmp = LOCALE_WARLOCK;
 	if($class & CLASS_DRUID)
-		if($tmp) $tmp = $tmp.', '.'<font color="#FF9933">'.LOCALE_DRUID.'</font>'; else $tmp = '<font color="#FF9933">'.LOCALE_DRUID.'</font>';
+		if($tmp) $tmp = $tmp.', '.LOCALE_DRUID; else $tmp = LOCALE_DRUID;
 	if($tmp == LOCALE_WARRIOR.', '.LOCALE_PALADIN.', '.LOCALE_HUNTER.', '.LOCALE_ROGUE
-		.', '.LOCALE_PRIEST.', '.LOCALE_SHAMAN.', '.LOCALE_DEATH_KNIGHT.', '.LOCALE_MAGE.', '.LOCALE_WARLOCK.', '.LOCALE_DRUID)
+		.', '.LOCALE_PRIEST.', '.LOCALE_SHAMAN.', '.LOCALE_MAGE.', '.LOCALE_WARLOCK.', '.LOCALE_DRUID)
 		return;
 	else
 		return $tmp;
@@ -446,7 +446,6 @@ $cache_types = array(
 
 	array('object_page',		false			),
 	array('object_listing',		false			),
-	array('object_tot',		    false			),
 
 	array('item_page',			false			),
 	array('item_tooltip',		false			),
@@ -458,7 +457,6 @@ $cache_types = array(
 	array('quest_page',			false			),
 	array('quest_tooltip',		false			),
 	array('quest_listing',		false			),
-	array('quest_tot',		    false			),
 
 	array('spell_page',			false			),
 	array('spell_tooltip',		false			),
@@ -478,8 +476,6 @@ $cache_types = array(
 	array('achievement_listing',false			),
 
 	array('glyphs',				false			),
-
-	array('search',				false			),
 );
 foreach($cache_types as $id => $cType)
 {

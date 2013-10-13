@@ -8,8 +8,7 @@ require_once('includes/allnpcs.php');
 require_once('includes/allobjects.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
-require_once('includes/allscreenshots.php');
-require_once('includes/allreputation.php');
+
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file, 'item');
 
@@ -163,12 +162,12 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 	$rows_qr = $DB->select('
 			SELECT q.?# {, l.Title_loc?d AS Title_loc}
 			FROM quest_template q
-			{ LEFT JOIN (locales_quest l) ON l.entry=q.Id AND ? }
+			{ LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ? }
 			WHERE
-				RequiredItemId1=?d
-				OR RequiredItemId2=?d
-				OR RequiredItemId3=?d
-				OR RequiredItemId4=?d
+				ReqItemId1=?d
+				OR ReqItemId2=?d
+				OR ReqItemId3=?d
+				OR ReqItemId4=?d
 		',
 		$quest_cols[2],
 		$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
@@ -187,8 +186,8 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 	$rows_qp = $DB->select('
 			SELECT q.?# {, l.Title_loc?d AS Title_loc}
 			FROM quest_template q
-			{ LEFT JOIN (locales_quest l) ON l.entry=q.Id AND ? }
-			WHERE SourceItemId=?d
+			{ LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ? }
+			WHERE SrcItemId=?d
 		',
 		$quest_cols[2],
 		$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
@@ -207,18 +206,18 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 	$rows_qrw = $DB->select('
 			SELECT q.?# {, l.Title_loc?d AS Title_loc}
 			FROM quest_template q 
-			{ LEFT JOIN (locales_quest l) ON l.entry=q.Id AND ? }
+			{ LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ? }
 			WHERE
-				RewardItemId1=?d
-				OR RewardItemId2=?d
-				OR RewardItemId3=?d
-				OR RewardItemId4=?d
-				OR RewardChoiceItemId1=?d
-				OR RewardChoiceItemId2=?d
-				OR RewardChoiceItemId3=?d
-				OR RewardChoiceItemId4=?d
-				OR RewardChoiceItemId5=?d
-				OR RewardChoiceItemId6=?d
+				RewItemId1=?d
+				OR RewItemId2=?d
+				OR RewItemId3=?d
+				OR RewItemId4=?d
+				OR RewChoiceItemId1=?d
+				OR RewChoiceItemId2=?d
+				OR RewChoiceItemId3=?d
+				OR RewChoiceItemId4=?d
+				OR RewChoiceItemId5=?d
+				OR RewChoiceItemId6=?d
 		',
 		$quest_cols[2],
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
@@ -243,8 +242,8 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 			$rows_qm = $DB->select('
 					SELECT q.?# {, l.Title_loc?d AS Title_loc}
 					FROM quest_template q
-					{ LEFT JOIN (locales_quest l) ON l.entry=q.Id AND ? }
-					WHERE RewardMailTemplateId=?d
+					{ LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ? }
+					WHERE RewMailTemplateId=?d
 				',
 				$quest_cols[2],
 				$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
@@ -499,7 +498,7 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 			$item['reagentfor'][$i] = array();
 			$item['reagentfor'][$i]['entry'] = $row['spellID'];
 			$item['reagentfor'][$i]['name'] = $row['spellname_loc'.$_SESSION['locale']];
-			$item['reagentfor'][$i]['school'] = $row['resistancesID'];
+			$item['reagentfor'][$i]['school'] = spell_schoolmask($row['schoolMask']);
 			$item['reagentfor'][$i]['level'] = $row['levelspell'];
 			$item['reagentfor'][$i]['quality'] = '@';
 			for ($j=1;$j<=8;$j++)
@@ -689,6 +688,30 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 	}
 	unset($rows_cf);
 
+	// Добывается из спелла
+	$drops_sp = drop('spell_loot_template', $item['entry']);
+	if($drops_sp)
+	{
+		$item['containedinspell'] = array();
+		foreach($drops_sp as $lootid => $drop)
+		{
+			$rows = $DB->select('
+				SELECT s.?#, s.spellID
+				FROM ?_spell s, ?_spellicons i
+				WHERE
+					s.spellID = ?d
+					AND i.id = s.spellicon
+				',
+				$spell_cols[2],
+				$lootid
+			);
+			foreach($rows as $row)
+				$item['containedinspell'][] = array_merge(spellinfo2($row), $drop);
+			unset($rows);
+		}
+	}
+	unset($drops_sp);
+
 	// Цель критерии
 	$rows = $DB->select('
 			SELECT a.id, a.faction, a.name_loc?d AS name, a.description_loc?d AS description, a.category, a.points, s.iconname, z.areatableID
@@ -723,27 +746,20 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 global $page;
 $page = array(
 	'Mapper' => false,
-	'Book' => false,
+	'Book' => $item['pagetext'] ? true : false,
 	'Title' => $item['name'].' - '.$smarty->get_config_vars('Items'),
 	'tab' => 0,
 	'type' => 3,
 	'typeid' => $item['entry'],
-	'username' => $_SESSION['username'],
 	'path' => path(0, 0, $item['classs'], $item['subclass'], $item['type'])
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
-$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
-$smarty->assign('wh_ss', get_wowhead_screenshots($page['type'], $page['typeid'], 'page'));
 
-if($_GET['error']==2){
-$smarty->assign('screenshot_error', $smarty->get_config_vars('Error2'));
-};
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
-$smarty->assign('reputation', getreputation($page['username']));
 $smarty->assign('item', $item);
 $smarty->display('item.tpl');
 ?>

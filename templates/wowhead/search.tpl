@@ -4,7 +4,7 @@
 	<div class="main-contents" id="main-contents">
 {if $found}
 		<div class="text">
-			<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
+			<a href="http://www.wowhead.com/?{$query}" class="button-red"><div><blockquote><i>Wowhead</i></blockquote><span>Wowhead</span></div></a>
 			<h1>{#Search_results_for#} <i>{$search|escape:"html"}</i></h1>
 		</div>
 		<div id="tabs-generic"></div>
@@ -17,14 +17,13 @@ var myTabs = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if $found.quest}{include	file='bricks/quest_table.tpl'		id='quests'		name='quests'				tabsid='myTabs' data=$found.quest	}{/if}
 {if $found.itemset}{include	file='bricks/itemset_table.tpl'		id='itemsets'	name='itemsets'				tabsid='myTabs' data=$found.itemset	}{/if}
 {if $found.spell}{include	file='bricks/spell_table.tpl'		id='spells'		name='uncategorizedspells'	tabsid='myTabs' data=$found.spell	}{/if}
-{if $found.achievement}{include	file='bricks/achievement_table.tpl'		id='achievements'		name='achievements'	tabsid='myTabs' data=$found.achievement	}{/if}
 myTabs.flush();
 </script>
 		<div class="clear"></div>
 	{else}
 		<div class="text">
 			<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
-			{if $search|escape:"html" == ''}<h1>{#No_results_empty#}</h1>{else}<h1>{#No_results_for#} <i>{$search|escape:"html"}</i></h1>{/if}
+			<h1>{#No_results_for#} <i>{$search|escape:"html"}</i></h1>
 
 			{#Please_try_some_different_keywords_or_check_your_spelling#}
 		</div>

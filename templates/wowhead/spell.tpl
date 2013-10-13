@@ -7,7 +7,6 @@
 
 		<script type="text/javascript">
 			{include file='bricks/allcomments.tpl'}
-			{include file='bricks/allscreenshots.tpl'}
 			var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$spell.name|escape:"javascript"}'{rdelim};
 			g_initPath({$page.path});
 		</script>
@@ -115,7 +114,7 @@
 				</tr>
 				<tr>
 					<th style="border-top: 0">{#cost#}</th>
-					<td style="border-top: 0">{if isset($spell.manacost)}{$spell.manacost}{else}{#None#}{/if}</td>
+					<td style="border-top: 0">{if isset($spell.manacost)}{$spell.manacost} {#manas#}{else}{#None#}{/if}</td>
 				</tr>
 				<tr>
 					<th>{#range#}</th>
@@ -127,7 +126,7 @@
 				</tr>
 				<tr>
 					<th>{#Cooldown#}</th>
-					<td>{if isset($spell.cooldown) and ($spell.cooldown>60)}{$spell.cooldown/60} {#minutes#}{elseif isset($spell.cooldown) and ($spell.cooldown>0) and ($spell.cooldown<60)}{$spell.cooldown} {#seconds#}{else}<span class="q0">n/a</span>{/if}</td>
+					<td>{if isset($spell.cooldown)}{$spell.cooldown} {#seconds#}{else}<span class="q0">n/a</span>{/if}</td>
 				</tr>
 {section name=i loop=$spell.effect}
 				<tr>
@@ -190,10 +189,10 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if isset($spell.usedbynpc)}{include			file='bricks/creature_table.tpl'		id='used-by-npc'		tabsid='tabsRelated' data=$spell.usedbynpc			name='usedby'		}{/if}
 {if isset($spell.usedbyitem)}{include			file='bricks/item_table.tpl'			id='used-by-item'		tabsid='tabsRelated' data=$spell.usedbyitem			name='usedby'		}{/if}
 {if isset($spell.usedbyitemset)}{include		file='bricks/itemset_table.tpl'			id='itemsets'			tabsid='tabsRelated' data=$spell.usedbyitemset		name='usedby'		}{/if}
+{if isset($spell.contains)}{include			file='bricks/item_table.tpl'			id='contains'                   tabsid='tabsRelated' data=$spell.contains		name='contains'}{/if}
 {if isset($spell.seealso)}{include				file='bricks/spell_table.tpl'			id='see-also-ability'	tabsid='tabsRelated' data=$spell.seealso			name='seealso'		}{/if}
 {if isset($spell.criteria_of)}{include 			file='bricks/achievement_table.tpl' 	id='criteria-of'		tabsid='tabsRelated' data=$spell.criteria_of		name='criteriaof'	}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
-new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
 </script>
 		{include file='bricks/contribute.tpl'}

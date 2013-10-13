@@ -75,7 +75,7 @@ $rows = $DB->select('
 	FROM quest_template q {, ?# l}
 	WHERE
 		(?# LIKE ?)
-		{AND (q.Id=l.?#)}
+		{AND (q.entry=l.?#)}
 	ORDER BY ?#
 	LIMIT 3
 	',
@@ -90,7 +90,7 @@ $rows = $DB->select('
 foreach($rows as $i => $row)
 	$found[$row['Title'].' (Quest)'] = array(
 		'type' => 5,
-		'Id'=> $row['Id'],
+		'entry'=> $row['entry'],
 		'side' => SideByRace($row['RequiredRaces'])
 	);
 

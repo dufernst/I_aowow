@@ -10,7 +10,7 @@
 				<div id="lv-npcs" class="listview"></div>
 
 				<script type="text/javascript">
-					{include file='bricks/creature_table.tpl' id='npcs' data=$npcs num_npcs=$npc_tot}
+					{include file='bricks/creature_table.tpl' id='npcs' data=$npcs}
 				</script>
 
 				<div class="clear"></div>

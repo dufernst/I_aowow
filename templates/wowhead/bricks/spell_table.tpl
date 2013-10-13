@@ -3,21 +3,23 @@
 {assign var="level" value=false}
 {assign var="skill" value=false}
 {assign var="reagents" value=false}
+{assign var="percent" value=false}
 
 {foreach from=$data item=curr}
 	{if $curr.level}{assign var="level" value=true}{/if}
 	{if $curr.skill}{assign var="skill" value=true}{/if}
 	{if $curr.reagents}{assign var="reagents" value=true}{/if}
+	{if isset($curr.percent)}{assign var="percent" value=true}{/if}
 {/foreach}
 
 	new Listview({ldelim}
 		template:'spell',
 		id:'{$id}',
-		note:'{#Spell_Found#}',
 		{if isset($name)}name:LANG.tab_{$name},{/if}
+		{if $percent}extraCols:[Listview.extraCols.percent],{/if}
 		visibleCols:[{if $level}'level'{/if}],
 		hiddenCols:[{if !$reagents}'reagents',{/if}{if !$skill}'skill',{/if}'school'],
-		sort:[{if isset($sort)}{$sort}{else}'name'{/if}],
+		sort:[{if isset($sort)}{$sort}{else}{if $percent}'-percent',{/if}'name'{/if}],
 		{if $script}note:sprintf(LANG.lvnote_scripttype, '{$script|escape:"javascript"}'),{/if}
 		{if isset($tabsid)}tabs:{$tabsid}, parent:'listview-generic',{/if}
 		data:[
@@ -25,7 +27,7 @@
 				{ldelim}
 					name:'{$data[i].quality}{$data[i].name|escape:"javascript"}',
 					{if $level}level:{$data[i].level},{/if}
-					school:{$data[i].school},
+					school:'{$data[i].school|escape:"javascript"}',
 					{if isset($data[i].rank)}
 						rank:'{$data[i].rank|escape:"javascript"}',
 					{/if}
@@ -59,6 +61,9 @@
 								{if $smarty.section.j.last}{else},{/if}
 							{/section}
 						],
+					{/if}
+					{if isset($data[i].percent)}
+						percent:{$data[i].percent},
 					{/if}
 					id:{$data[i].entry}
 				{rdelim}

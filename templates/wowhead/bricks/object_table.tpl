@@ -11,7 +11,6 @@
 new Listview({ldelim}
 	template:'object',
 	id:'{$id}',
-	note:'{$num_objects} {#Object_Found#}',
 	{if isset($name)}name:LANG.tab_{$name},{/if}
 	{if isset($tabsid)}tabs:{$tabsid},parent:'listview-generic',{/if}
 	{if $percent}extraCols:[Listview.extraCols.percent],{/if}
@@ -20,7 +19,6 @@ new Listview({ldelim}
 	hiddenCols:[],
 	data:[
 		{section name=i loop=$data}
-		{if $data[i].name != ''}
 			{ldelim}
 				{* Название обекта, обязательно *}
 				name:'{$data[i].name|escape:"quotes"}',
@@ -38,7 +36,6 @@ new Listview({ldelim}
 					id:{$data[i].entry}
 				{rdelim}
 				{if $smarty.section.i.last}{else},{/if}
-				{/if}
 		{/section}
 	]{rdelim}
 );

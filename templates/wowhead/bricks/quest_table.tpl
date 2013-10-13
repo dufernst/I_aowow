@@ -2,7 +2,6 @@
 	new Listview({ldelim}
 		template:'quest',
 		id:'{$id}',
-		note:'{if $locale == 8}{#Quest_Found_total#} {$num_quest} {#Quest_Found#} 300{#Quest_Found_2#}{elseif $locale ==0} {$num_quest} {#Quest_Found_total#}300 {#Quest_Found#}{/if}',
 		{if isset($name)}name:LANG.tab_{$name},{/if}
 		{if isset($tabsid)}tabs:{$tabsid},parent:'listview-generic',{/if}
 		data:[
@@ -21,7 +20,6 @@
 								[{$data[i].itemrewards[j].entry},{$data[i].itemrewards[j].count}]
 								{if $smarty.section.j.last}{else},{/if}
 							{/section}
-
 						]
 					{/if}
 					{if isset($data[i].itemchoices)}
@@ -35,8 +33,8 @@
 					{if isset($data[i].xp)}
 						,xp:{$data[i].xp}
 					{/if}
-					{if isset($data[i].RewOrReqMoney)}
-						,money:{$data[i].RewOrReqMoney}
+					{if isset($data[i].money)}
+						,money:{$data[i].money}
 					{/if}
 					{if isset($data[i].category)}
 						,category:{$data[i].category}

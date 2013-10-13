@@ -7,12 +7,11 @@
 
 			<script type="text/javascript">
 				{include file='bricks/allcomments.tpl'}
-				{include file='bricks/allscreenshots.tpl'}
 				var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$object.name|escape:"quotes"}'{rdelim};
 				g_initPath({$page.path});
 			</script>
 
-{if isset($object.key) or isset($object.lockpicking) or isset($object.mining) or isset($object.herbalism) or isset($wh_ss)}
+{if isset($object.key) or isset($object.lockpicking) or isset($object.mining) or isset($object.herbalism)}
 			<table class="infobox">
 				<tr><th>{#Quick_Facts#}</th></tr>
 				<tr><td><div class="infobox-spacer"></div>
@@ -23,15 +22,11 @@
 					{if isset($object.herbalism)}<li><div>{#Herb#} (<span class="tip" onmouseover="Tooltip.showAtCursor(event, '{#Required_herb_skill#}', 0, 0, 'q')" onmousemove="Tooltip.cursorUpdate(event)" onmouseout="Tooltip.hide()">{$object.herbalism}</span>)</div></li>{/if}
 				</ul>
 				</td></tr>
-				<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
-<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
 			</table>
 {/if}
 
 			<div class="text">
-				<a href="javascript:;" class="button-red button-red-disabled"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
-				<a href="javascript:;" class="button-red button-red-disabled"><em><b><i>{#Compare#}</i></b><span>{#Compare#}</span></em></a>
-				<a href="javascript:;" class="button-red button-red-disabled"><em><b><i>{#Find_better#}...</i></b><span>{#Find_better#}...</span></em></a>
+
 				<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
 				<h1>{$object.name}</h1>
 
@@ -89,7 +84,7 @@
 {/if}
 
 {if isset($object.pagetext)}
-	<h3>{#Object_Page_Content#}</h3>
+	<h3>Content</h3>
 	<div id="book-generic"></div>
 	{strip}
 		<script>
@@ -115,9 +110,7 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if isset($object.ends)}{include			file='bricks/quest_table.tpl'		id='ends'			name='ends'			tabsid='tabsRelated'	data=$object.ends		}{/if}
 {if isset($object.criteria_of)}{include		file='bricks/achievement_table.tpl'	id='criteria-of'	name='criteriaof'	tabsid='tabsRelated'	data=$object.criteria_of}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
-new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
-ss_appendSticky();
 </script>
 
 {include file='bricks/contribute.tpl'}

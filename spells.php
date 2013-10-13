@@ -1,7 +1,7 @@
 <?php
 
 require_once('includes/allspells.php');
-require_once('includes/allreputation.php');
+
 $smarty->config_load($conf_file, 'spell');
 
 @list($s1, $s2, $s3) = extract_values($podrazdel);
@@ -130,7 +130,7 @@ if(!$spells = load_cache(SPELL_LISTING, $cache_key))
 		$rows = array();
 		for($i=1; $i<=5; $i++)
 		{
-			$rows = @array_merge($rows, $DB->select('
+			$rows = array_merge($rows, $DB->select('
 				SELECT DISTINCT ?#, `s`.`spellID`
 				FROM ?_talenttab b, ?_talent t, ?_spell s, ?_spellicons i {, ?_skill_line_ability ?# }
 				WHERE
@@ -159,7 +159,7 @@ if(!$spells = load_cache(SPELL_LISTING, $cache_key))
 		$rows = array();
 		for($i=1; $i<=5; $i++)
 		{
-			$rows = @array_merge($rows, $DB->select('
+			$rows = array_merge($rows, $DB->select('
 				SELECT DISTINCT ?#, `s`.`spellID`
 				FROM ?_talenttab b, ?_talent t, ?_spell s, ?_spellicons i
 				WHERE
@@ -205,7 +205,6 @@ $page = array(
 	'tab' => 0,
 	'type' => 6,
 	'typeid' => 0,
-	'username' => $_SESSION['username'],
 	'path' => path(0, 1, $s1, $s2, $s3),
 	'sort' => isset($spells['sort'])?$spells['sort']:"'level','name'"
 );
@@ -213,7 +212,6 @@ $smarty->assign('page', $page);
 
 // Статистика выполнения mysql запросов
 $smarty->assign('mysql', $DB->getStatistics());
-$smarty->assign('reputation', getreputation($page['username']));
 $smarty->assign('spells', $spells['data']);
 // Загружаем страницу
 $smarty->display('spells.tpl');

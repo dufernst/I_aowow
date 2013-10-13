@@ -7,8 +7,7 @@ require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
-require_once('includes/allscreenshots.php');
-require_once('includes/allreputation.php');
+
 $smarty->config_load($conf_file, 'quest');
 
 // Номер квеста
@@ -97,7 +96,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 					OR (q.entry=?d AND q.NextQuestInChain<>?d)
 				LIMIT 20',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$quest['entry'], $quest['PrevQuestId'], $quest['entry']
+				$quest['entry'], $quest['PrevQuestID'], $quest['entry']
 				)
 		)
 			unset($quest['req']);
@@ -111,7 +110,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 				FROM quest_template q
 					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
 				WHERE
-					(q.PrevQuestId=?d AND q.entry<>?d)
+					(q.PrevQuestID=?d AND q.entry<>?d)
 					OR q.entry=?d
 				LIMIT 20',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
@@ -165,7 +164,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 					{, l.Title_loc?d as Title_loc}
 				FROM quest_template q
 					{LEFT JOIN (locales_quest l) ON l.entry=q.entry AND ?}
-				WHERE q.PrevQuestId=?d
+				WHERE q.PrevQuestID=?d
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
@@ -177,7 +176,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 			$questItems[] = 'enables';
 
 	// Квесты, во время выполнения которых доступен этот квест
-	if($quest['PrevQuestId']<0)
+	if($quest['PrevQuestID']<0)
 		if(!$quest['enabledby'] = $DB->select('
 				SELECT q.entry, q.Title
 					{, l.Title_loc?d as Title_loc}
@@ -187,7 +186,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 				LIMIT 20
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP, ($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				-$quest['PrevQuestId']
+				-$quest['PrevQuestID']
 				)
 		)
 			unset($quest['enabledby']);
@@ -220,13 +219,14 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 			-181 => 171		// Alchemy
 		);
 		*/
-
+		
 		// TODO: skill localization
 		$quest['reqskill'] = array(
 			'name' => $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM ?_skill WHERE skillID=?d LIMIT 1',$quest['RequiredSkill']),
 			'value' => $quest['RequiredSkillValue']
 		);
 	}
+
 	// Класс, требуемый чтобы получить квест
 	if($quest['RequiredClasses']>0)
 	{
@@ -235,10 +235,6 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 			if ($quest['RequiredClasses'] & (1<<($i-1)))
 				$reqclass[] = $class;
 		$quest['reqclass'] = implode(", ", $reqclass);
-
-		if (!count($s) == 0)
-			// Требуемый класс, что бы получить квест
-			$quest['reqclass'] = implode(", ", $s);
 	}
 
 	// Требуемые отношения с фракциями, что бы начать квест
@@ -257,9 +253,9 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Спеллы не требуют локализации, их инфа берется из базы
 	// Хранить в базе все локализации - задачка на будующее
-	$quest['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
+
 	// Спелл, кастуемый на игрока в начале квеста
-    if($quest['SrcSpell'])
+	if($quest['SrcSpell'])
 	{
 		$tmp = $DB->selectRow('
 			SELECT ?#, s.spellname_loc'.$_SESSION['locale'].'
@@ -294,7 +290,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		unset($quest['flagsdetails']);
 
 	// Спелл, кастуемый на игрока в награду за выполнение
-	if($quest['RewardSpellCast']>0 || $quest['RewardSpell']>0)
+	if($quest['RewSpellCast']>0 || $quest['RewSpell']>0)
 	{
 		$tmp = $DB->SelectRow('
 			SELECT ?#, s.spellname_loc'.$_SESSION['locale'].'
@@ -426,6 +422,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 				}
 	}
 	unset($rows);
+
 	// ГО
 	$rows = $DB->select('
 		SELECT g.entry, g.name
@@ -473,7 +470,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 		}
 	}
 	unset($rows);
-
+	
 	// КВЕСТТЕЙКЕРЫ
 	// НПС
 	$rows = $DB->select('
@@ -571,23 +568,22 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 global $page;
 $page = array(
-	'Mapper' => true,
+	'Mapper' => false,
 	'Book' => false,
 	'Title' => $quest['Title'].' - '.$smarty->get_config_vars('Quests'),
 	'tab' => 0,
 	'type' => 5,
 	'typeid' => $quest['entry'],
-	'username' => $_SESSION['username'],
-	'path' => path(0, 3, $quest['maincat'], $quest['category']) // TODO
+	'path' => path(0, 5) // TODO
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
-$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
-$smarty->assign('reputation', getreputation($page['username']));
+
 // Данные о квесте
 $smarty->assign('quest', $quest);
+
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
 // Загружаем страницу

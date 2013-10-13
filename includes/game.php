@@ -24,7 +24,6 @@ function loot($table, $lootid, $group = 0)
 			{LEFT JOIN (locales_item loc) ON loc.entry=i.entry AND ?d}
 		WHERE
 			l.entry=?d
-			AND l.entry <> 0
 			{ AND l.groupid = ?d }
 		{LIMIT ?d}
 		',
@@ -64,7 +63,7 @@ function loot($table, $lootid, $group = 0)
 	// Cохраняем весь нессылочный лут
 	$loot = array();
 	foreach ($rows as $row)
-		if ($row['mincountOrRef'] > 0)
+		if ($row['mincountOrRef'] >= 0)
 		{
 			$chance = $row['ChanceOrQuestChance'];
 			if($chance == 0) // Запись из группы с равным шансом дропа, считаем реальную вероятность
@@ -542,7 +541,6 @@ function transform_coords2($points)
 						$cached_images[$area['areatableID']] = imagecreatefrompng($maskfilename);
 					$game_x = 100 - ($point['y']-$area['y_min']) / (($area['y_max']-$area['y_min']) / 100);
 					$game_y = 100 - ($point['x']-$area['x_min']) / (($area['x_max']-$area['x_min']) / 100);
-
 					if (imagecolorat($cached_images[$area['areatableID']], round($game_x * 10), round($game_y * 10)) === 0)
 						$curpriority |= 4;
 			        }
@@ -622,21 +620,24 @@ function position($id, $type, $spawnMask = 0)
 		foreach($data as $spawnid => $spawn)
 		{
 			if($spawn['mt'] == 2)
-			{
-				$wps = $DB->select('
-						SELECT ?d AS m, position_x AS x, position_y AS y, "3" AS `type`
-						FROM waypoint_data
-						WHERE id = ?d
-						{ GROUP BY ROUND(x,?d), ROUND(y,?d) }
-						ORDER BY x,y
-					',
-					$spawn['m'],
-					$spawn['guid'],
-					$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP,
-					$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP
-				);
-				$data = array_merge($wps, $data);
-			}
+				$wpWalkingCreaturesGuids[] = $spawn['guid'];
+		}
+		if($wpWalkingCreaturesGuids)
+		{
+			$wps = $DB->select('
+					SELECT c.map AS m, m.position_x AS x, m.position_y AS y, "3" AS `type`
+					FROM creature_movement m, creature c
+					WHERE
+						m.id = c.guid
+						AND m.id IN (?a)
+					{ GROUP BY ROUND(x,?d), ROUND(y,?d) }
+					ORDER BY x,y
+				',
+				$wpWalkingCreaturesGuids,
+				$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP,
+				$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP
+			);
+			$data = array_merge($wps, $data);
 		}
 	}
 
@@ -667,6 +668,7 @@ function position($id, $type, $spawnMask = 0)
 		if($cached_images)
 			foreach($cached_images as $img)
 				imagedestroy($img);
+		$cached_images = array();
 
 		return $data;
 	}

@@ -7,7 +7,6 @@
 
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
-					{include file='bricks/allscreenshots.tpl'}
 					var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$achievement.name|escape:"quotes"}'{rdelim};
 					g_initPath({$page.path});
 				</script>
@@ -17,7 +16,7 @@
 					<tr><td>
 						<div class="infobox-spacer"></div>
 						<ul>
-							<li><div>{#Points#}: {if $achievement.points == 0} {#Feat_of_strength#} </div></li>{else} <span class="moneyachievement tip" onmouseover="Listview.funcBox.moneyAchievementOver(event)" onmousemove="Tooltip.cursorUpdate(event)" onmouseout="Tooltip.hide()"> {$achievement.points}&nbsp;</span></div></li>{/if}
+							<li><div>{#Points#}: <span class="moneyachievement tip" onmouseover="Listview.funcBox.moneyAchievementOver(event)" onmousemove="Tooltip.cursorUpdate(event)" onmouseout="Tooltip.hide()">{$achievement.points}</span></div></li>
 							<li><div>{#Side#}: {$achievement.side}</div></li>
 						</ul>
 					</td></tr>
@@ -49,8 +48,9 @@
 
 				<div class="text">
 
+					<a href="javascript:;" class="button-red" onclick="this.blur(); g_getIngameLink('ffffff00','achievement:{$achievement.id}:&quot;..UnitGUID(&quot;player&quot;)..&quot;:0:0:0:0:0:0:0:0', '{$achievement.name|escape:"javascript"}')"><em><b><i>Link</i></b><span>Link</span></em></a>
 					<div id="h1-icon-generic" class="h1-icon"></div>
-					<a href="http://{if $locale == 8}ru{elseif $locale == 0}www{elseif $locale == 6}es{/if}.wowhead.com/{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
+					<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
 					<h1 class="h1-icon">{$achievement.name}</h1>
 					<script type="text/javascript">
 					ge('h1-icon-generic').appendChild(Icon.create('{$achievement.iconname|escape:"javascript"}', 1));
@@ -121,7 +121,6 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if $achievement.see_also}{include		file='bricks/achievement_table.tpl'	id='see-also'		tabsid='tabsRelated'	data=$achievement.see_also		name='seealso'}{/if}
 {if $achievement.criteria_of}{include	file='bricks/achievement_table.tpl'	id='criteria-of'	tabsid='tabsRelated'	data=$achievement.criteria_of	name='criteriaof'}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
-new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
 </script>
 

@@ -4,10 +4,6 @@
 $smarty->config_load($conf_file, 'account');
 
 // Создание аккаунта
-if($_GET['error']==1){
-$smarty->assign('signin_error', $smarty->get_config_vars('Error1'));
-};
-
 if($_REQUEST['account'] == 'signup' && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['c_password']) && $AoWoWconf['register'] == true)
 {
 	// Совпадают ли введенные пароли?
@@ -35,9 +31,6 @@ if($_REQUEST['account'] == 'signup' && isset($_POST['username']) && isset($_POST
 				$AoWoWconf['expansion'],
 				(isset($_SERVER["REMOTE_ADDR"]))? $_SERVER["REMOTE_ADDR"] : ''
 			);
-			$currdate = date('Y/m/d');
-			$username = $_POST['username'];
-			$addrep = mysql_query("INSERT INTO account_reputation (username, reputation, reason, date) VALUES ('$username', '100', '1', '$currdate')");
 			if($success > 0)
 				// Все отлично, авторизуем
 				$_REQUEST['account']='signin';

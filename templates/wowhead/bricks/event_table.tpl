@@ -1,6 +1,6 @@
 {strip}
 
-{assign var="category" value=true}
+{assign var="category" value=false}
 {foreach from=$data item=curr}
 	{if $curr.category}{assign var="category" value=true}{/if}
 {/foreach}
@@ -14,10 +14,11 @@
 		data:[
 			{foreach name=event from=$data item=curr}
 				{ldelim}
-					id: {$curr.id},
-					icon:'{$curr.icon|escape:"javascript"}',
+					id:{$curr.id},
 					name:'{$curr.name|escape:"javascript"}',
-					category:'{$curr.cat}',
+					{if $curr.category}
+						category:{$curr.category},
+					{/if}
 					{if $curr.today}
 						today:{$curr.today},
 					{/if}

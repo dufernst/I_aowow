@@ -9,11 +9,11 @@ require_once('includes/allquests.php');
 global $item_cols;
 $item_cols = array(
 	// для allitems($level=0) - соответствия номер-иконка
-	0 => array('entry', 'iconname', 'quality', 'name', 'WDBVerified'),
+	0 => array('entry', 'iconname', 'quality', 'name'),
 	// для allitems($level=1) - ajax, тултип
-	1 => array('entry', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'GemProperties', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'RandomSuffix', 'socketColor_1', 'socketColor_2', 'socketColor_3', 'socketBonus', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'spellcharges_1','spellcharges_2','spellcharges_3','spellcharges_4','spellcharges_5', 'spellppmRate_1','spellppmRate_2','spellppmRate_3','spellppmRate_4','spellppmRate_5', 'spellcooldown_1','spellcooldown_2','spellcooldown_3','spellcooldown_4','spellcooldown_5', 'spellcategorycooldown_1','spellcategorycooldown_2','spellcategorycooldown_3','spellcategorycooldown_4','spellcategorycooldown_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank', 'itemset', 'ItemLevel'),
+	1 => array('entry', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'GemProperties', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'RandomSuffix', 'socketColor_1', 'socketColor_2', 'socketColor_3', 'socketBonus', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'spellcharges_1','spellcharges_2','spellcharges_3','spellcharges_4','spellcharges_5', 'spellppmRate_1','spellppmRate_2','spellppmRate_3','spellppmRate_4','spellppmRate_5', 'spellcooldown_1','spellcooldown_2','spellcooldown_3','spellcooldown_4','spellcooldown_5', 'spellcategorycooldown_1','spellcategorycooldown_2','spellcategorycooldown_3','spellcategorycooldown_4','spellcategorycooldown_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank', 'itemset'),
 	// для iteminfo($level=0) - строчки списка
-	2 => array('name', 'quality', 'iconname', 'InventoryType', 'ItemLevel', 'RequiredLevel', 'class', 'subclass', 'stackable', 'BuyPrice', 'armor', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'ContainerSlots', 'AllowableClass'),
+	2 => array('name', 'quality', 'iconname', 'InventoryType', 'ItemLevel', 'RequiredLevel', 'class', 'subclass', 'stackable', 'BuyPrice', 'armor', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'ContainerSlots'),
 	// для iteminfo($level=1)
 	3 => array('entry', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'GemProperties', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'RandomSuffix', 'socketColor_1', 'socketColor_2', 'socketColor_3', 'socketBonus', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'spellcharges_1','spellcharges_2','spellcharges_3','spellcharges_4','spellcharges_5', 'spellppmRate_1','spellppmRate_2','spellppmRate_3','spellppmRate_4','spellppmRate_5', 'spellcooldown_1','spellcooldown_2','spellcooldown_3','spellcooldown_4','spellcooldown_5', 'spellcategorycooldown_1','spellcategorycooldown_2','spellcategorycooldown_3','spellcategorycooldown_4','spellcategorycooldown_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank', 'itemset', 'ItemLevel', 'stackable', 'BuyPrice', 'DisenchantID', 'SellPrice', 'RequiredDisenchantSkill', 'displayid')
 );
@@ -119,8 +119,7 @@ function b_type($type, $value, $level)
 	global $green;
 	switch($type)
 	{
-		// белые стат
-		case 1: return '+'.$value.LOCALE_STAT_HEALTH.'<br />';				# 1 - Health
+		// белые статы
 		case 3: return '+'.$value.LOCALE_STAT_AGILITY.'<br />';				# 3 - Agility
 		case 4: return '+'.$value.LOCALE_STAT_STRENGTH.'<br />';			# 4 - Strength
 		case 5: return '+'.$value.LOCALE_STAT_INTELLECT.'<br />';			# 5 - Intellect
@@ -136,9 +135,6 @@ function b_type($type, $value, $level)
 		case 19: $green[] = green_bonus(LOCALE_GBONUS_MELEECRIT_RATING, $value, $type, $level);		return;
 		case 20: $green[] = green_bonus(LOCALE_GBONUS_RANGEDCRIT_RATING, $value, $type, $level);	return;
 		case 21: $green[] = green_bonus(LOCALE_GBONUS_SPELLCRIT_RATING, $value, $type, $level);		return;
-		case 22: $green[] = green_bonus(LOCALE_GBONUS_HIT_TAKEN_MELEE_RATING, $value, $type, $level);		return;
-		case 24: $green[] = green_bonus(LOCALE_GBONUS_HIT_TAKEN_SPELL_RATING, $value, $type, $level);		return;
-		case 28: $green[] = green_bonus(LOCALE_GBONUS_HASTE_MELEE_RATING, $value, $type, $level);		return;
 
 		case 30: $green[] = green_bonus(LOCALE_GBONUS_SPELLHASTE_RATING, $value, $type, $level);	return;
 		case 31: $green[] = green_bonus(LOCALE_GBONUS_HIT_RATING, $value, $type, $level);			return;
@@ -147,15 +143,13 @@ function b_type($type, $value, $level)
 		case 36: $green[] = green_bonus(LOCALE_GBONUS_HASTE_RATING, $value, $type, $level);			return;
 		case 37: $green[] = green_bonus(LOCALE_GBONUS_EXPERTISE_RATING, $value, $type, $level);		return;
 		case 38: $green[] = green_bonus(LOCALE_GBONUS_ATTACKPOWER, $value);							return;
-		case 39: $green[] = green_bonus(LOCALE_GBONUS_RANGED_ATTACK_POWER, $value);							return;
 		case 43: $green[] = green_bonus(LOCALE_GBONUS_RESTOREMANA, $value);							return;
 		case 44: $green[] = green_bonus(LOCALE_GBONUS_ARMORPENETRATION, $value, $type, $level);		return;
 		case 45: $green[] = green_bonus(LOCALE_GBONUS_SPELLPOWER, $value);							return;
 		case 46: $green[] = green_bonus(LOCALE_GBONUS_HEALTHREGEN, $value);							return;
 		case 47: $green[] = green_bonus(LOCALE_GBONUS_SPELLPENETRATION, $value);							return;
 		case 48: $green[] = green_bonus(LOCALE_GBONUS_BLOCK, $value);							return;
-
-		default: $green[] = green_bonus(LOCALE_GBONUS_UNKNOWN, $type);
+		default: $green[] = green_bonus(LOCALE_GBONUS_UNKNOWN, $type);								return;
 	}
 }
 
@@ -194,7 +188,7 @@ function spell_to_bonus($spell_id, $trigger, $charges, $ppmrate, $cooldown, $cat
 	if($tooltip == '_empty_')
 		return;
 	if(!$tooltip)
-		return; //'<a href="?spell='.$spell_id.'">Error in spell_desc for spell '.$spell_id.'</a>';
+		return '<a href="?spell='.$spell_id.'">Error in spell_desc for spell '.$spell_id.'</a>';
 	switch($trigger)
 	{
 		case 0:
@@ -219,19 +213,13 @@ function spell_to_bonus($spell_id, $trigger, $charges, $ppmrate, $cooldown, $cat
 
 	if ($cooldown < $catcooldown)
 		$cooldown = $catcooldown;
-	if (($cooldown/1000) < 60 && $cooldown > 1)
-		$tooltip = $tooltip . ' (' . LOCALE_COOLDOWN . ' ' . round($cooldown/1000,1) .' '.LOCALE_SECONDS.')';
-	elseif (($cooldown/1000) > 60)
-		$tooltip = $tooltip . ' (' . LOCALE_COOLDOWN . ' ' . round($cooldown/60000, 1) . ' '.LOCALE_MINUTES.')';
-	elseif (($cooldown/1000) == 1)
-		$tooltip = $tooltip . ' (' . LOCALE_COOLDOWN . ' ' . $cooldown/1000 .' '.LOCALE_SECOND.')';
-	elseif (($cooldown/1000) == 60)
-		$tooltip = $tooltip . ' (' . LOCALE_COOLDOWN . ' ' . $cooldown/60000 . ' '.LOCALE_MINUTE.')';
+	if ($cooldown > 0)
+		$tooltip = $tooltip . ' (' . LOCALE_COOLDOWN . ' ' . ($cooldown/1000) . 's)';
 
 	if ($charges == -1)
-		$tooltip = $tooltip . ' </br>' . LOCALE_GBONUS_EXPENDABLE;
+		$tooltip = $tooltip . ', ' . LOCALE_GBONUS_EXPENDABLE;
 	elseif ($charges < 0)
-		$tooltip = $tooltip . '</br> ' . (-$charges) . ' ' . LOCALE_GBONUS_CHARGES . ' </br>' . LOCALE_GBONUS_EXPENDABLE;
+		$tooltip = $tooltip . ', ' . (-$charges) . ' ' . LOCALE_GBONUS_CHARGES . ', ' . LOCALE_GBONUS_EXPENDABLE;
 	elseif ($charges > 0)
 		$tooltip = $tooltip . ', ' . $charges . ' ' . LOCALE_GBONUS_CHARGES;
 	return $tooltip;
@@ -332,22 +320,14 @@ function render_item_tooltip(&$Row)
 	global $green;
 	// Столбцы для извлечения
 	global $itemset_col;
-
+	
 	$green = array();
 
 	$x = '';
 	// Начальный тег таблицы
 	$x .= '<table><tr><td>';
 	// Название и цвет названия
-	$x .= '<b class="q'.$Row['quality'].'">'.localizedName($Row).'</b><br />';
-	// Проверяем героическая ли вещь, и если да, то отображаем это в тултипе
-	$ilvlarray = array("284","277","271","258");
-	if(in_array($Row['ItemLevel'], $ilvlarray, true) AND $Row['entry'] != "49623")
-	$x .= '<font color="limegreen">'.LOCALE_ITEM_HEROIC.'</font><br>';
-	// Уровень вещи
-	if($Row['ItemLevel']!=0)
-    $x .= '<font color="gold">'.LOCALE_ITEM_LEVEL.' '.$Row['ItemLevel'].'</font>';
-
+	$x .= '<b class="q'.$Row['quality'].'">'.localizedName($Row).'</b>';
 	// Биндинг вещи
 	$x .= $bond[$Row['bonding']];
 
@@ -446,83 +426,7 @@ function render_item_tooltip(&$Row)
 		$x .= LOCALE_DURABILITY.' '.$Row['MaxDurability'].' / '.$Row['MaxDurability'].'<br />';
 	// Требуемые классы
 	if(classes($Row['AllowableClass']))
-		{
-			// Распределяем вещи
-			if($Row['class'] == 4 AND $Row['subclass'] == 1)
-				{
-					if($Row['AllowableClass'] == 16)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('16').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 128)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('128').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 256)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('256').'<br />';
-						}
-					else
-						{
-							$x .= LOCALE_CLASSES.': '.classes('400').'<br />';
-						}
-				}
-			elseif($Row['class'] == 4 AND $Row['subclass'] == 2)
-				{
-					if($Row['AllowableClass'] == 8)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('8').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 1024)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('1024').'<br />';
-						}
-					else
-						{
-							$x .= LOCALE_CLASSES.': '.classes('1032').'<br />';
-						}
-				}
-			elseif($Row['class'] == 4 AND $Row['subclass'] == 3)
-				{
-					if($Row['AllowableClass'] == 4)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('4').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 64)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('64').'<br />';
-						}
-					else
-						{
-							$x .= LOCALE_CLASSES.': '.classes('68').'<br />';
-						}
-				}
-			elseif($Row['class'] == 4 AND $Row['subclass'] == 4)
-				{
-					if($Row['AllowableClass'] == 1)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('1').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 2)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('2').'<br />';
-						}
-					elseif($Row['AllowableClass'] == 32)
-						{
-							$x .= LOCALE_CLASSES.': '.classes('32').'<br />';
-						}
-					else
-						{
-							$x .= LOCALE_CLASSES.': '.classes('35').'<br />';
-						}
-				}
-			else
-				{
-					$x .= LOCALE_CLASSES.': '.classes($Row['AllowableClass']).'<br />';
-				}
-			
-		}
-
+		$x .= LOCALE_CLASSES.': '.classes($Row['AllowableClass']).'<br />';
 
 	// Требуемый уровень
 	if($Row['RequiredLevel']>1)
@@ -549,29 +453,16 @@ function render_item_tooltip(&$Row)
 		$row = factioninfo($Row['RequiredReputationFaction']);
 		$x .= LOCALE_REQUIRES.' '.$row['name'].' - '.$rep_levels[$Row['RequiredReputationRank']];
 	}
-    
-     if($Row['SellPrice']>0){
-        $sellgold = floor($Row['SellPrice']/10000);
-        $sellsilver = floor($Row['SellPrice']%10000/100);
-        $sellcopper = floor($Row['SellPrice']%100);
-        $x .= LOCALE_SELLPRICE .' ';
-        if($sellgold>0)
-            $x .=  '<span class="moneygold">'.$sellgold.'</span> ';
-        if($sellsilver>0)
-            $x .= '<span class="moneysilver">'.$sellsilver.'</span> ';
-        if($sellcopper>0)
-            $x .= '<span class="moneycopper">'.$sellcopper.'</span> <br />';
-     }	$x .= '</td></tr></table>';
+
+	$x .= '</td></tr></table>';
 
 	// Спеллы
 	for($j=1;$j<=5;$j++)
 	{
 		if($Row['spellid_'.$j])
-		{
-				$green[]= spell_to_bonus($Row['spellid_'.$j], $Row['spelltrigger_'.$j],
+			$green[]=spell_to_bonus($Row['spellid_'.$j], $Row['spelltrigger_'.$j],
 				$Row['spellcharges_'.$j], $Row['spellppmRate_'.$j],
 				$Row['spellcooldown_'.$j], $Row['spellcategorycooldown_'.$j]);
-		}
 	}
 
 	// Перебираем все "зеленые" бонусы
@@ -591,7 +482,7 @@ function render_item_tooltip(&$Row)
 			$x .= '<span class="q">"'.localizedName($Row, 'description').'"</span>';
 	}
 	if($Row['PageText'])
-		$x .= '<br /><span class="q2">&lt;Click derecho para leer&gt;</span>'; // TODO: locale
+		$x .= '<br /><span class="q2">&lt;Right Click To Read&gt;</span>'; // TODO: locale
 
 	// Item Set
 	// Временное хранилище всех вещей;
@@ -616,7 +507,6 @@ function render_item_tooltip(&$Row)
 		// Если требуется скилл
 		if($row['skillID'])
 		{
-			$x .= '<br />';
 			$name = $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM ?_skill WHERE skillID=?d LIMIT 1', $row['skillID']);
 			$x .= LOCALE_REQUIRES.' <a href="?spells=11.'.$row['skillID'].'" class="q1">'.$name.'</a>';
 			if($row['skilllevel'])
@@ -683,7 +573,6 @@ function iteminfo2(&$Row, $level=0)
 	// TODO: немного неверное определение
 	$item['classs'] = $Row['class'];
 	$item['subclass'] = $Row['subclass'];
-	$item['rclass'] = $Row['AllowableClass'];
 	// Иконка вещи
 	$item['iconname'] = $Row['iconname'];
 	// Кол-во вещей в пачке
@@ -787,6 +676,32 @@ function iteminfo2(&$Row, $level=0)
 				unset($item['unlocks']);
 		}
 		unset($locks_row);
+
+		// Текст страниц
+		if($Row['PageText'])
+		{
+			$pageid = $Row['PageText'];
+			while($pageid>0)
+			{
+				$row = $DB->selectRow('
+						SELECT text, next_page
+							{, text_loc?d}
+						FROM page_text p
+							{LEFT JOIN (locales_page_text l) ON l.entry = p.entry AND ?}
+						WHERE
+							p.entry = ?d
+						LIMIT 1
+					',
+					$_SESSION['locale'] ? $_SESSION['locale'] : DBSIMPLE_SKIP,
+					$_SESSION['locale'] ? 1 : DBSIMPLE_SKIP,
+					$pageid
+				);
+				$row['text'] = QuestReplaceStr(localizedName($row, 'text'));
+				if(!empty($row['text']))
+					$item['pagetext'][] = $row['text'];
+				$pageid = $row['next_page'];
+			}
+		}
 	}
 	return $item;
 }

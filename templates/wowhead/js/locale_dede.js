@@ -740,76 +740,76 @@ var mn_achievements=[
 	[81,"Heldentaten"]
 ];
 var mn_talentCalc=[
-	[6,"Todesritter","?talent#j"],
-	[11,"Druide","?talent#0"],
-	[3,"Jäger","?talent#c"],
-	[8,"Magier","?talent#o"],
-	[2,"Paladin","?talent#s"],
-	[5,"Priester","?talent#b"],
-	[4,"Schurke","?talent#f"],
-	[7,"Schamane","?talent#h"],
-	[9,"Hexenmeister","?talent#I"],
-	[1,"Krieger","?talent#L"]
+	[6,"Todesritter","/?talent#j"],
+	[11,"Druide","/?talent#0"],
+	[3,"Jäger","/?talent#c"],
+	[8,"Magier","/?talent#o"],
+	[2,"Paladin","/?talent#s"],
+	[5,"Priester","/?talent#b"],
+	[4,"Schurke","/?talent#f"],
+	[7,"Schamane","/?talent#h"],
+	[9,"Hexenmeister","/?talent#I"],
+	[1,"Krieger","/?talent#L"]
 ];
 var mn_petCalc=[
-	[24,"Fledermaus","?petcalc#MR"],
-	[4,"Bär","?petcalc#0R"],
-	[26,"Raubvogel","?petcalc#Mb"],
-	[5,"Eber","?petcalc#0a"],
-	[7,"Aasvogel","?petcalc#0r"],
-	[2,"Katze","?petcalc#0m"],
-	[45,"Kernhund","?petcalc#ma"],
-	[38,"Schimäre","?petcalc#cw"],
-	[8,"Krebs","?petcalc#0w"],
-	[6,"Krokilisk","?petcalc#0b"],
-	[39,"Teufelssaurier","?petcalc#ch"],
-	[30,"Drachenfalke","?petcalc#c0"],
-	[9,"Gorilla","?petcalc#0h"],
-	[25,"Hyäne","?petcalc#Ma"],
-	[37,"Motte","?petcalc#cr"],
-	[34,"Netherrochen","?petcalc#cR"],
-	[11,"Raptor","?petcalc#zM"],
-	[31,"Felshetzer","?petcalc#cM"],
-	[43,"Rhinozeros","?petcalc#mo"],
-	[20,"Skorpid","?petcalc#M0"],
-	[35,"Schlange","?petcalc#ca"],
-	[41,"Silithid","?petcalc#mM"],
-	[3,"Spinne","?petcalc#0o"],
-	[46,"Geisterbestie","?petcalc#mb"],
-	[33,"Sporensegler","?petcalc#co"],
-	[12,"Weitschreiter","?petcalc#zm"],
-	[21,"Schildkröte","?petcalc#MM"],
-	[32,"Sphärenjäger","?petcalc#cm"],
-	[44,"Wespe","?petcalc#mR"],
-	[27,"Windnatter","?petcalc#Mr"],
-	[1,"Wolf","?petcalc#0M"],
-	[42,"Wurm","?petcalc#mm"]
+	[24,"Fledermaus","/?petcalc#MR"],
+	[4,"Bär","/?petcalc#0R"],
+	[26,"Raubvogel","/?petcalc#Mb"],
+	[5,"Eber","/?petcalc#0a"],
+	[7,"Aasvogel","/?petcalc#0r"],
+	[2,"Katze","/?petcalc#0m"],
+	[45,"Kernhund","/?petcalc#ma"],
+	[38,"Schimäre","/?petcalc#cw"],
+	[8,"Krebs","/?petcalc#0w"],
+	[6,"Krokilisk","/?petcalc#0b"],
+	[39,"Teufelssaurier","/?petcalc#ch"],
+	[30,"Drachenfalke","/?petcalc#c0"],
+	[9,"Gorilla","/?petcalc#0h"],
+	[25,"Hyäne","/?petcalc#Ma"],
+	[37,"Motte","/?petcalc#cr"],
+	[34,"Netherrochen","/?petcalc#cR"],
+	[11,"Raptor","/?petcalc#zM"],
+	[31,"Felshetzer","/?petcalc#cM"],
+	[43,"Rhinozeros","/?petcalc#mo"],
+	[20,"Skorpid","/?petcalc#M0"],
+	[35,"Schlange","/?petcalc#ca"],
+	[41,"Silithid","/?petcalc#mM"],
+	[3,"Spinne","/?petcalc#0o"],
+	[46,"Geisterbestie","/?petcalc#mb"],
+	[33,"Sporensegler","/?petcalc#co"],
+	[12,"Weitschreiter","/?petcalc#zm"],
+	[21,"Schildkröte","/?petcalc#MM"],
+	[32,"Sphärenjäger","/?petcalc#cm"],
+	[44,"Wespe","/?petcalc#mR"],
+	[27,"Windnatter","/?petcalc#Mr"],
+	[1,"Wolf","/?petcalc#0M"],
+	[42,"Wurm","/?petcalc#mm"]
 ];
 var mn_holidays=[
-	[1,"Feiertage","?events=1"],
-	[2,"Wiederkehrend","?events=2"],
-	[3,"Spieler vs. Spieler","?events=3"]
+	[1,"Feiertage","/?events=1"],
+	[2,"Wiederkehrend","/?events=2"],
+	[3,"Spieler vs. Spieler","/?events=3"]
 ];
 var mn_database=[
-	[0,"Gegenstände","?items",mn_items],
-	[2,"Sets","?itemsets"/*,mn_itemSets*/],
-	[4,"NPCs","?npcs",mn_npcs],
-	[3,"Quests","?quests",mn_quests],
-	[6,"Gebiete","/?zones",mn_zones],
-	[1,"Zauber","?spells",mn_spells],
-	[9,"Erfolge","?achievements",mn_achievements],
-	[5,"Objekte","?objects",mn_objects],
-	[7,"Fraktionen","?factions",mn_factions],
-	[10,"Titel","/?titles",mn_titles],
-	[8,"Begleiter","/?pets",mn_pets],
-	[11,"Weltereignisse","?events"/*,mn_holidays*/]
+	[0,"Gegenstände","/?items",mn_items],
+	[2,"Sets","/?itemsets"/*,mn_itemSets*/],
+	[4,"NPCs","/?npcs",mn_npcs],
+	[3,"Quests","/?quests",mn_quests],
+	//[6,"Gebiete","/?zones",mn_zones],
+	[1,"Zauber","/?spells",mn_spells],
+	[9,"Erfolge","/?achievements",mn_achievements],
+	[5,"Objekte","/?objects",mn_objects],
+	[7,"Fraktionen","/?factions",mn_factions],
+	//[10,"Titel","/?titles",mn_titles],
+	//[8,"Begleiter","/?pets",mn_pets],
+	[11,"Weltereignisse","/?events"/*,mn_holidays*/]
 ];
 var mn_tools=[
-	[0,"Talentrechner","?talent",mn_talentCalc],
+	[0,"Talentrechner","/?talent",mn_talentCalc],
 	//[2,"Begleiterrechner","/?petcalc",mn_petCalc],
 	//[5,"Profiler","/?profiles"],
 	//[3,"Gegenstandsvergleich","/?compare"],
-	[1,"Karten","?maps"],
+	[1,"Karten","/?maps"],
 	/*[,"Anderes"],
 	[6,"Guides","",[
 		[,"Expansions"],
@@ -843,10 +843,10 @@ var mn_tools=[
 	]],
 	[8,"Hilfsmittel",,[
 		[,"Datenbank"],
-		[0,"Neueste Ergänzungen","/?latest=additions"],
-		[1,"Neueste Artikel","/?latest=articles"],
-		[2,"Neueste Kommentare","/?latest=comments"],
-		[3,"Neueste Screenshots","/?latest=screenshots"],
+		[0,"Neueste Ergänzungen","/?latest-additions"],
+		[1,"Neueste Artikel","/?latest-articles"],
+		[2,"Neueste Kommentare","/?latest-comments"],
+		[3,"Neueste Screenshots","/?latest-screenshots"],
 		[9,"Neue Gegenstände im Patch",,[
 			[2,"3.3","/?new-items=3.3"],
 			[1,"3.2","/?new-items=3.2"],
@@ -855,14 +855,11 @@ var mn_tools=[
 		[4,"Zufällige Seite","/?random"],
 		[5,"Nicht bewertete Kommentare","/?unrated-comments"],
 		[,"Foren"],
-		[6,"Neueste Antworten","/?latest=replies"],
-		[7,"Neueste Themen","/?latest=topics"],
+		[6,"Neueste Antworten","/?latest-replies"],
+		[7,"Neueste Themen","/?latest-topics"],
 		[8,"Unbeantwortete Themen","/?unanswered-topics"]
 	]]*/
-	[32,"Developers Github","https://github.com/darki73"],
-	[33,"Developers Website","http://freedomcore.ru"],
-	[34,"Tooltips","/?powered"],
-	[35,"Searchbox","/?searchbox"]
+	[30,"Neueste Kommentare","/?latest=comments"]
 ];
 var mn_forums=[
 	[0,"WoW Allgemein"],
@@ -891,34 +888,36 @@ var mn_forums=[
 	[1,"Rückmeldungen zu Wowhead"]
 ];
 var mn_community=[
-	[1,"Portal","http://www.landoflegends.de/portal.php"],
-	[2,"Forum","http://www.landoflegends.de/index.php"],
+	[3,"Foren","/?forums",mn_forums],
+	[7,"Blog","/?blog"],
+	[1,"Wettbewerbe","/?contests"],
+	[4,"IRC-Channel","/?irc"],
 	[,"Soziales"],
-	[3,"Facebook Seite","http://www.facebook.com/Landoflegendswow?ref=ts"],
-	[4,"Twitter Seite","http://twitter.com/#!/landoflegends"]
-];mn_community[3].otherImage=["http://static.wowhead.com/images/icons/facebook.gif","-32"];mn_community[4].otherImage=["http://static.wowhead.com/images/icons/twitter.gif","-128"];
+	[6,"Facebook Page","http://facebook.com/Wowhead"],
+	[5,"Twitter Page","http://twitter.com/Wowhead"]
+];mn_community[5].otherImage=["http://static.wowhead.com/images/blog/share/services.gif","-32"];mn_community[6].otherImage=["http://static.wowhead.com/images/blog/share/services.gif","-128"];
 var mn_more=[
-	[,"LoL Projekte"],
-	[0,"Arsenal","http://arsenal.landoflegends.de"],
-	[3,"Bugs Melden","http://bugs.landoflegends.de"]
-	/*[13,"Hilfe",,[
-		[0,"Kommentare und du","?help=commenting-and-you"],
-		[5,"Gegenstandsvergleich","?help=item-comparison"],
-		[1,"Modellviewer","?help=modelviewer"],
-		[6,"Profiler","?help=profiler"],
-		[2,"Screenshots: Tipps & Tricks","?help=screenshots-tips-tricks"],
-		[3,"Gewichtung von Werten","?help=stat-weighting"],
-		[4,"Talentrechner","?help=talent-calculator"]
+	[,"Alles über Wowhead"],
+	[0,"Über uns & Kontakt","/?aboutus"],
+	[3,"FAQ","/?faq"],
+	[13,"Hilfe",,[
+		[0,"Kommentare und du","/?help=commenting-and-you"],
+		[5,"Gegenstandsvergleich","/?help=item-comparison"],
+		[1,"Modellviewer","/?help=modelviewer"],
+		[6,"Profiler","/?help=profiler"],
+		[2,"Screenshots: Tipps & Tricks","/?help=screenshots-tips-tricks"],
+		[3,"Gewichtung von Werten","/?help=stat-weighting"],
+		[4,"Talentrechner","/?help=talent-calculator"]
 	]],
-	[12,"Jobs","?jobs"],
-	[4,"Premium","?premium"],
-	[7,"Was gibt's Neues?","?whats-new"],
-	[2,"Wowhead-Client","?client"],
+	[12,"Jobs","/?jobs"],
+	[4,"Premium","/?premium"],
+	[7,"Was gibt's Neues?","/?whats-new"],
+	[2,"Wowhead-Client","/?client"],
 	[4,"Wowhead Store","http://store.wowhead.com/"],
 	[,"Tolle Sachen"],
-	[10,"Unterstützt von Wowhead","?powered"],
-	[8,"Such-Plugins","?searchplugins"],
-	[9,"Wowhead weiterempfehlen","?spread"],
+	[10,"Unterstützt von Wowhead","/?powered"],
+	[8,"Such-Plugins","/?searchplugins"],
+	[9,"Wowhead weiterempfehlen","/?spread"],
 	[,"Noch mehr"],
 	[5,"Seiten im Netzwerk",,[
 		[99,"ZAM","http://www.zam.com/",[
@@ -947,14 +946,13 @@ var mn_more=[
 		]],
 		[99,"Online Gaming Radio","http://www.onlinegamingradio.com/"],
 		[99,"Thottbot","http://www.thottbot.com/"]
-	]]*/
+	]]
 ];
 var mn_path=[
 	[0,"Datenbank",,mn_database],
-	[4,"News",,mn_news],
 	[1,"Extras",,mn_tools],
-	[3,"Community",,mn_community],
-	[2,"Weiteres",,mn_more]
+	//[3,"Community",,mn_community],
+	//[2,"Weiteres",,mn_more]
 ];
 var g_contact_reasons={
 	1:"Allgemeine Rückmeldungen",
@@ -1146,7 +1144,7 @@ var g_item_subclasses={
 		6:"Leder",
 		7:"Metall & Stein",
 		8:"Fleisch",
-		9:"Kräuter",
+		9:"Kräut",
 		10:"Elementar",
 		12:"Verzauberkunst",
 		13:"Material",
@@ -1322,7 +1320,7 @@ var g_object_types={
 	9:"Buch",
 	3:"Behälter",
 	"-5":"Schließkiste",
-	"-3":"Kräuter",
+	"-3":"Kräut",
 	"-4":"Erzvorkommen",
 	"-2":"Quest"
 };
@@ -1572,9 +1570,7 @@ var g_quest_types={
 	41:"PvP",
 	82:"Weltereignis",
 	84:"Eskorte",
-	85:"Heroisch",
-	88:"Schlachtzug (10)",
-	89:"Schlachtzug (25)"
+	85:"Heroisch"
 };
 var g_sides={
 	1:"Allianz",
@@ -2115,9 +2111,6 @@ var g_socket_names={
 	14:"Prismatischer Sockel"
 };
 var LANG={
-	book_previous:"Zurück",
-	book_next:"Weiter",
-	book_of:" von ",
 	comma:", ",
 	ellipsis:"...",
 	dash:" \u2013 ",
@@ -2178,8 +2171,6 @@ var LANG={
 	req:"Ben. ",
 	reputation:"Ruf",
 	rewards:"Belohnungen",
-	expirience:"Erf.",
-	money:"Geld",
 	petfamily:"Tierart",
 	pieces:"Teile",
 	points:"Punkte",
@@ -2552,7 +2543,6 @@ var LANG={
 	tab_starts:"Startet Quests",
 	tab_startsquest:"Startet Quest",
 	tab_submitascreenshot:"Einen Screenshot einsenden",
-	tab_submityourdata:"Daten senden",
 	tab_summonedby:"Beschwört von",
 	tab_talents:"Talente",
 	tab_tameable:"Zähmbare",
@@ -2564,8 +2554,6 @@ var LANG={
 	tab_triggeredby:"Ausgelöst durch",
 	tab_uncategorizedspells:"Nicht kategorisierte Zauber",
 	tab_unlocks:"Öffnet",
-	tab_reputation:"Reputation Geschichte",
-	tab_characters:"Characters",
 	tab_usedby:"Verwendet von",
 	tab_zones:"Gebiete",
 	menu_browse:"Durchsuchen",

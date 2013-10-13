@@ -15,6 +15,8 @@ switch($_GET['data'])
 		// y - строка (row из aowow_talent)
 		// r - от чего и какого ранка зависит: "r: [r_1, r_2]", где r_1 - номер (нумерация с 0) таланта, r_2 - ранк
 		$class = intval($_GET['class']);
+		if(!in_array($class, array_keys($classes)))
+			exit;
 
 		if(!$p_arr = load_cache(TALENT_DATA, $class))
 		{
@@ -32,7 +34,7 @@ switch($_GET['data'])
 				$_SESSION['locale'],
 				pow(2, $_GET['class']-1)
 			);
-
+			
 			$t_nums = array();
 			$p_arr = array();
 			$i = 0;
@@ -123,14 +125,12 @@ switch($_GET['data'])
 				$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
 				$_SESSION['locale'] > 0 ? 1 : DBSIMPLE_SKIP,
 				74 // SPELL_EFFECT_APPLY_GLYPH
-
+				
 			);
 			$g_glyphs = array();
 			foreach($glyphs as $glyph)
 			{
 				$name = localizedName($glyph);
-				if($_SESSION['locale'] == 0)
-					$name = str_replace(LOCALE_GLYPH_OF, '', $name);
 				$g_glyphs[$glyph['entry']] = array(
 					'name'			=> (string)$name,
 					'description'	=> (string)spell_desc($glyph['spellid']),
@@ -158,12 +158,12 @@ switch($_GET['data'])
 		else
 		{
 			header('Content-type: image/jpeg');
-			$im = imagecreatefromjpeg('images/icons/medium/'.$iconname.'.jpg');
+			$im = @imagecreatefromjpeg('images/icons/medium/'.$iconname.'.jpg');
 
 			if(!$im)
 				exit;
 
-			@imagetograyscale($im);
+			imagetograyscale($im);
 			imagejpeg($im, 'cache/images/'.$iconname.'.jpg');
 			imagejpeg($im);
 			save_cache(TALENT_ICON, $iconname, $iconname);

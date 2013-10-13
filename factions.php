@@ -1,5 +1,4 @@
 <?php
-require_once('includes/allreputation.php');
 $smarty->config_load($conf_file, 'factions');
 
 @list($c1, $c2) = extract_values($podrazdel);
@@ -36,7 +35,7 @@ if(!$factions = load_cache(FACTION_LISTING, $cache_key))
 		foreach($factions as $f)
 			$entrys[] = $f['entry'];
 
-		$factions = @array_merge($factions, $DB->select('
+		$factions = array_merge($factions, $DB->select('
 				SELECT f1.factionID AS entry, f1.team, f1.name_loc?d AS name, f1.side, f1.team AS category2, ?d AS category
 				FROM ?_factions f1
 				WHERE
@@ -58,7 +57,6 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
-	'username' => $_SESSION['username'],
 	'path' => path(0, 7, $c1, $c2)
 );
 $smarty->assign('page', $page);
@@ -66,7 +64,6 @@ $smarty->assign('page', $page);
 $smarty->assign('factions', $factions);
 // Статистика выполнения mysql запросов
 $smarty->assign('mysql', $DB->getStatistics());
-$smarty->assign('reputation', getreputation($page['username']));
 // Загружаем страницу
 $smarty->display('factions.tpl');
 ?>

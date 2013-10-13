@@ -4,9 +4,8 @@ require_once('includes/allspells.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allquests.php');
 require_once('includes/allcomments.php');
-require_once('includes/allscreenshots.php');
 require_once('includes/allachievements.php');
-require_once('includes/allreputation.php');
+
 $smarty->config_load($conf_file, 'spell');
 
 // номер спелла;
@@ -21,19 +20,17 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 	// Данные об спелле:
 	$row = $DB->selectRow('
 		SELECT s.*, i.iconname,
-			sct.base AS basecasttime, sd.durationBase, r.name_loc?d AS school,
+			sct.base AS basecasttime, sd.durationBase,
 			sdt.name_loc?d AS dispel, sm.name_loc?d AS mechanic
 		FROM ?_spellicons i, ?_spell s
 		LEFT JOIN (?_spellcasttimes sct) ON sct.id = s.spellcasttimesID
 		LEFT JOIN (?_spellduration sd) ON sd.durationID = s.durationID
-		LEFT JOIN (?_resistances r) ON r.id = s.resistancesID
 		LEFT JOIN (?_spelldispeltype sdt) ON s.dispeltypeID > 0 AND sdt.id = s.dispeltypeID
 		LEFT JOIN (?_spellmechanic sm) ON s.mechanicID > 0 AND sm.id = s.mechanicID
 		WHERE
 			s.spellID = ?
 			AND i.id = s.spellicon
 		',
-		$_SESSION['locale'], // school
 		$_SESSION['locale'], // dispel
 		$_SESSION['locale'], // mechanic
 		$id
@@ -54,7 +51,7 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 		if($row['manacost'])
 			$spell['manacost'] = $row['manacost'];
 		elseif($row['manacostpercent'])
-			$spell['manacost'] = $row['manacostpercent'].''.LOCALE_OF_MANA_BASE;
+			$spell['manacost'] = $row['manacostpercent'].'% '.$smarty->get_config_vars('of_base');
 		// Уровень спелла
 		$spell['level'] = $row['levelspell'];
 		// Дальность
@@ -67,24 +64,22 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 		$spell['rangename'] = $RangeRow['name_loc'.$_SESSION['locale']];
 		// Время каста
 		if($row['basecasttime'] > 0)
-			$spell['casttime'] = ($row['basecasttime'] / 1000).' '.LOCALE_SECONDS;
+			$spell['casttime'] = ($row['basecasttime'] / 1000).' '.$smarty->get_config_vars('seconds');
 		else if($row['ChannelInterruptFlags'])
 			$spell['casttime'] = 'Channeled';
 		else
-			$spell['casttime'] = 'Sofort';
-
+			$spell['casttime'] = 'Instant';
 		// Cooldown
-		if ($row['cooldown'] > 0)
+		if($row['cooldown'] > 0)
 			$spell['cooldown'] = $row['cooldown'] / 1000;
-
 		// Время действия спелла
 		if($row['durationBase'] > 0)
-			$spell['duration'] = ($row['durationBase'] / 1000).' '.LOCALE_SECONDS;
+			$spell['duration'] = ($row['durationBase'] / 1000).' '.$smarty->get_config_vars('seconds');
 		else
 			$spell['duration'] ='<span class="q0">n/a</span>';
 
 		// Школа
-		$spell['school'] = $row['school'];
+		$spell['school'] = spell_schoolmask($row['schoolMask']);
 		// Диспелл
 		$spell['dispel'] = $row['dispel'];
 		// Механика
@@ -188,8 +183,8 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 					}
 				}
 				// Если просто урон школой - добавляем подпись школы
-				if($row['effect'.$j.'id'] == 2 && $spell['school'])
-					$spell['effect'][$i]['name'] .= ' ('.$spell['school'].')';
+				if($row['effect'.$j.'id'] == 2 && $spell['schoolMask'])
+					$spell['effect'][$i]['name'] .= ' ('.spell_schoolmask($spell['schoolMask']).')';
 				// Радиус действия эффекта
 				if($row['effect'.$j.'radius'])
 					$spell['effect'][$i]['radius'] = $DB->selectCell("SELECT radiusbase FROM ?_spellradius WHERE radiusID = ? LIMIT 1", $row['effect'.$j.'radius']);
@@ -245,6 +240,11 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 				$i++;
 			}
 		}
+
+		// Что лутится из этого спелла (для effect_id=59 /* Open Lock Item */)
+		if(($row['effect1id'] == 59 || $row['effect2id'] == 59 || $row['effect3id'] == 59) &&
+		   !($spell['contains'] = loot('spell_loot_template', $spell['entry'])))
+			unset($spell['contains']);
 
 		if(!IsSet($spell['icon']))
 			$spell['icon'] = $row['iconname'];
@@ -374,7 +374,7 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 				FROM quest_template c
 				{ LEFT JOIN (locales_quest l) ON c.entry = l.entry AND ? }
 				WHERE
-					RewardSpell IN (?a) OR RewardSpellCast IN (?a)
+					RewSpell IN (?a) OR RewSpellCast IN (?a)
 				',
 				$quest_cols[2],
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
@@ -438,33 +438,7 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 			}
 		}
 
-		// Используется NPC:
-		$usedbynpc = $DB->select('
-			SELECT ?#, c.entry
-			{ , name_loc?d AS name_loc, subname_loc'.$_SESSION['locale'].' AS subname_loc }
-			FROM ?_factiontemplate, creature_template c
-			{ LEFT JOIN (locales_creature l) ON c.entry = l.entry AND ? }
-			WHERE
-				(spell1 = ?d
-				OR spell2 = ?d
-				OR spell3 = ?d
-				OR spell4 = ?d)
-				AND factiontemplateID=faction_A
-			',
-			$npc_cols[0],
-			($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
-			($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-			$spell['entry'], $spell['entry'], $spell['entry'], $spell['entry']
-		);
-		if($usedbynpc)
-		{
-			$spell['usedbynpc'] = array();
-			foreach($usedbynpc as $i=>$row)
-				$spell['usedbynpc'][] = creatureinfo2($row);
-			unset($usedbynpc);
-		}
-
-		// Используется вещями:
+		// Используется вещами:
 		$usedbyitem = $DB->select('
 			SELECT ?#, c.entry
 			{ , name_loc?d AS name_loc }
@@ -510,8 +484,8 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 			FROM quest_template c
 			{ LEFT JOIN (locales_quest l) ON c.entry = l.entry AND ? }
 			WHERE
-				RewardSpell = ?d
-				OR RewardSpellCast = ?d
+				RewSpell = ?d
+				OR RewSpellCast = ?d
 			',
 			$quest_cols[2],
 			($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
@@ -577,18 +551,16 @@ $page = array(
 	'tab' => 0,
 	'type' => 6,
 	'typeid' => $spell['entry'],
-	'username' => $_SESSION['username'],
 	'path' => path(0, 1)
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
-$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
-$smarty->assign('reputation', getreputation($page['username']));
+
 $smarty->assign('spell', $spell);
 $smarty->display('spell.tpl');
 

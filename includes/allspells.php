@@ -1,5 +1,7 @@
 <?php
+
 require_once('includes/allitems.php');
+
 // Названия аур
 $spell_aura_names = array(
 	0 => 'None',
@@ -13,89 +15,89 @@ $spell_aura_names = array(
 	8 => 'Periodic Heal',
 	9 => 'Mod Attack Speed',
 	10 => 'Mod Threat',
-	11 => 'Taunt',
-	12 => 'Stun',
+	11 => 'Mod Taunt',
+	12 => 'Mod Stun',
 	13 => 'Mod Damage Done',
 	14 => 'Mod Damage Taken',
 	15 => 'Damage Shield',
 	16 => 'Mod Stealth',
-	17 => 'Mod Detect',
+	17 => 'Mod Stealth Detect',
 	18 => 'Mod Invisibility',
-	19 => 'Mod Invisibility Detection',
-	20 => 'OBS Mod Intellect',
-	21 => 'OBS Mod Spirit',
+	19 => 'Mod Invisibility Detect',
+	20 => 'OBS Mod Health',
+	21 => 'OBS Mod Power',
 	22 => 'Mod Resistance',
-	23 => 'Periodic Trigger',
+	23 => 'Periodic Trigger Spell',
 	24 => 'Periodic Energize',
-	25 => 'Pacify',
-	26 => 'Root',
-	27 => 'Silence',
+	25 => 'Mod Pacify',
+	26 => 'Mod Root',
+	27 => 'Mod Silence',
 	28 => 'Reflect Spells %',
 	29 => 'Mod Stat',
 	30 => 'Mod Skill',
-	31 => 'Mod Speed',
-	32 => 'Mod Speed Mounted',
-	33 => 'Mod Speed Slow',
+	31 => 'Mod Increase Speed',
+	32 => 'Mod Increase Mounted Speed',
+	33 => 'Mod Decrease Speed',
 	34 => 'Mod Increase Health',
 	35 => 'Mod Increase Energy',
-	36 => 'Shapeshift',
-	37 => 'Immune Effect',
-	38 => 'Immune State',
-	39 => 'Immune School',
-	40 => 'Immune Damage',
-	41 => 'Immune Dispel Type',
+	36 => 'Mod Shapeshift',
+	37 => 'Effect Immunity',
+	38 => 'State Immunity',
+	39 => 'School Immunity',
+	40 => 'Damage Immunity',
+	41 => 'Dispel Immunity',
 	42 => 'Proc Trigger Spell',
 	43 => 'Proc Trigger Damage',
 	44 => 'Track Creatures',
 	45 => 'Track Resources',
 	46 => 'Mod Parry Skill',
-	47 => 'Mod Parry Percent',
+	47 => 'Mod Parry %',
 	48 => 'Mod Dodge Skill',
-	49 => 'Mod Dodge Percent',
-	50 => 'Mod Block Skill',
-	51 => 'Mod Block Percent',
-	52 => 'Mod Crit Percent',
+	49 => 'Mod Dodge %',
+	50 => 'Mod Critical Healing Amount',
+	51 => 'Mod Block %',
+	52 => 'Mod Weapon Crit %',
 	53 => 'Periodic Leech',
 	54 => 'Mod Hit Chance',
 	55 => 'Mod Spell Hit Chance',
 	56 => 'Transform',
 	57 => 'Mod Spell Crit Chance',
-	58 => 'Mod Speed Swim',
-	59 => 'Mod Creature Dmg Done',
-	60 => 'Pacify & Silence',
+	58 => 'Mod Increase Swim Speed',
+	59 => 'Mod Creature Damage Done',
+	60 => 'Mod Pacify & Silence',
 	61 => 'Mod Scale',
 	62 => 'Periodic Health Funnel',
 	63 => 'Periodic Mana Funnel',
 	64 => 'Periodic Mana Leech',
-	65 => 'Haste - Spells',
+	65 => 'Mod Casting Speed Not Stack',
 	66 => 'Feign Death',
-	67 => 'Disarm',
+	67 => 'Mod Disarm',
 	68 => 'Mod Stalked',
 	69 => 'School Absorb',
 	70 => 'Extra Attacks',
 	71 => 'Mod School Spell Crit Chance',
-	72 => 'Mod Power Cost',
+	72 => 'Mod School Power Cost %',
 	73 => 'Mod School Power Cost',
-	74 => 'Reflect School Spells %',
+	74 => 'Reflect School Spells',
 	75 => 'Mod Language',
 	76 => 'Far Sight',
-	77 => 'Immune Mechanic',
+	77 => 'Mechanic Immunity',
 	78 => 'Mounted',
-	79 => 'Mod Dmg %',
+	79 => 'Mod Damage %',
 	80 => 'Mod Stat %',
-	81 => 'Split Damage',
+	81 => 'Split Damage %',
 	82 => 'Water Breathing',
 	83 => 'Mod Base Resistance',
 	84 => 'Mod Health Regen',
 	85 => 'Mod Power Regen',
-	86 => 'Create Death Item',
-	87 => 'Mod Dmg % Taken',
-	88 => 'Mod Health Regen Percent',
-	89 => 'Periodic Damage Percent',
+	86 => 'Channel Death Item',
+	87 => 'Mod Damage % Taken',
+	88 => 'Mod Health Regen %',
+	89 => 'Periodic Damage %',
 	90 => 'Mod Resist Chance',
 	91 => 'Mod Detect Range',
-	92 => 'Prevent Fleeing',
-	93 => 'Mod Uninteractible',
+	92 => 'Prevents Fleeing',
+	93 => 'Mod Unattackable',
 	94 => 'Interrupt Regen',
 	95 => 'Ghost',
 	96 => 'Spell Magnet',
@@ -115,44 +117,189 @@ $spell_aura_names = array(
 	110 => 'Mod Power Regen %',
 	111 => 'Add Class Caster Hit Trigger',
 	112 => 'Override Class Scripts',
-	113 => 'Mod Ranged Dmg Taken',
-	114 => 'Mod Ranged % Dmg Taken',
+	113 => 'Mod Ranged Damage Taken',
+	114 => 'Mod Ranged % Damage Taken',
 	115 => 'Mod Healing',
-	116 => 'Regen During Combat',
+	116 => 'Mod Regen During Combat',
 	117 => 'Mod Mechanic Resistance',
 	118 => 'Mod Healing %',
 	119 => 'Share Pet Tracking',
 	120 => 'Untrackable',
 	121 => 'Empathy (Lore, whatever)',
-	122 => 'Mod Offhand Dmg %',
-	123 => 'Mod Power Cost %',
+	122 => 'Mod Offhand Damage %',
+	123 => 'Mod Target Resistance',
 	124 => 'Mod Ranged Attack Power',
-	125 => 'Mod Melee Dmg Taken',
-	126 => 'Mod Melee % Dmg Taken',
-	127 => 'Rngd Atk Pwr Attckr Bonus',
+	125 => 'Mod Melee Damage Taken',
+	126 => 'Mod Melee % Damage Taken',
+	127 => 'Ranged Attack Power Attacker Bonus',
 	128 => 'Mod Possess Pet',
 	129 => 'Mod Speed Always',
 	130 => 'Mod Mounted Speed Always',
 	131 => 'Mod Creature Ranged Attack Power',
 	132 => 'Mod Increase Energy %',
-	133 => 'Mod Max Health %',
-	134 => 'Mod Interrupted Mana Regen',
+	133 => 'Mod Increase Health %',
+	134 => 'Mod Mana Regen Interrupt',
 	135 => 'Mod Healing Done',
 	136 => 'Mod Healing Done %',
 	137 => 'Mod Total Stat %',
-	138 => 'Haste - Melee',
+	138 => 'Mod Melee Haste',
 	139 => 'Force Reaction',
-	140 => 'Haste - Ranged',
-	141 => 'Haste - Ranged (Ammo Only)',
+	140 => 'Mod Ranged Haste',
+	141 => 'Mod Ranged Ammo Haste',
 	142 => 'Mod Base Resistance %',
 	143 => 'Mod Resistance Exclusive',
 	144 => 'Safe Fall',
-	145 => 'Charisma',
-	146 => 'Persuaded',
-	147 => 'Add Creature Immunity',
+	145 => 'Mod Pet Talent Points',
+	146 => 'Allow Tame Pet Type',
+	147 => 'Mechanic Immunity Mask',
 	148 => 'Retain Combo Points',
+	149 => 'Reduce Pushback',
+	150 => 'Mod Shield Blockvalue %',
+	151 => 'Track Stealthed',
+	152 => 'Mod Detected Range',
+	153 => 'Split Damage Flat',
+	154 => 'Mod Stealth Level',
+	155 => 'Mod Water Breathing',
+	156 => 'Mod Reputation Gain',
+	157 => 'Pet Damage Multi',
+	158 => 'Mod Shield Blockvalue',
+	159 => 'No Pvp Credit',
+	160 => 'Mod Aoe Avoidance',
+	161 => 'Mod Health Regen In Combat',
+	162 => 'Power Burn',
+	163 => 'Mod Crit Damage Bonus',
+	165 => 'Melee Attack Power Attacker Bonus',
+	166 => 'Mod Attack Power %',
+	167 => 'Mod Ranged Attack Power %',
+	168 => 'Mod Creature Damage Done',
+	169 => 'Mod Creature Crit %',
+	170 => 'Detect Amore',
+	171 => 'Mod Speed Not Stack',
+	172 => 'Mod Mounted Speed Not Stack',
+	174 => 'Mod Spell Damage Of Stat %',
+	175 => 'Mod Spell Healing Of Stat %',
+	176 => 'Spirit Of Redemption',
+	177 => 'Aoe Charm',
+	178 => 'Mod Debuff Resistance',
+	179 => 'Mod Attacker Spell Crit Chance',
+	180 => 'Mod Creature Flat Spell Damage',
+	182 => 'Mod Resistance Of Stat %',
+	183 => 'Mod Critical Threat',
+	184 => 'Mod Attacker Melee Hit Chance',
+	185 => 'Mod Attacker Ranged Hit Chance',
 	186 => 'Mod Attacker Spell Hit Chance',
-	199 => 'Mod Spell Hit Chance'
+	187 => 'Mod Attacker Melee Crit Chance',
+	188 => 'Mod Attacker Ranged Crit Chance',
+	189 => 'Mod Rating',
+	190 => 'Mod Faction Reputation Gain',
+	191 => 'Use Normal Movement Speed',
+	192 => 'Mod Melee Ranged Haste',
+	193 => 'Melee Slow',
+	194 => 'Mod Target Absorb School',
+	195 => 'Mod Target Ability Absorb School',
+	196 => 'Mod Cooldown',
+	197 => 'Mod Attacker Spell And Weapon Crit Chance',
+	199 => 'Mod Increases Spell Hit %',
+	200 => 'Mod Xp %',
+	201 => 'Fly',
+	202 => 'Ignore Combat Result',
+	203 => 'Mod Attacker Melee Crit Damage',
+	204 => 'Mod Attacker Ranged Crit Damage',
+	205 => 'Mod School Crit Damage Taken',
+	206 => 'Mod Increase Vehicle Flight Speed',
+	207 => 'Mod Increase Mounted Flight Speed',
+	208 => 'Mod Increase Flight Speed',
+	209 => 'Mod Mounted Flight Speed Always',
+	210 => 'Mod Vehicle Speed Always',
+	211 => 'Mod Flight Speed Not Stack',
+	212 => 'Mod Ranged Attack Power Of Stat %',
+	213 => 'Mod Rage From Damage Dealt',
+	215 => 'Arena Preparation',
+	216 => 'Haste Spells',
+	217 => 'Mod Melee Haste 2',
+	218 => 'Haste Ranged',
+	219 => 'Mod Mana Regen From Stat',
+	220 => 'Mod Rating From Stat',
+	221 => 'Mod Detaunt',
+	223 => 'Raid Proc From Charge',
+	225 => 'Raid Proc From Charge With Value',
+	226 => 'Periodic Dummy',
+	227 => 'Periodic Trigger Spell With Value',
+	228 => 'Detect Stealth',
+	229 => 'Mod Aoe Damage Avoidance',
+	231 => 'Proc Trigger Spell With Value',
+	232 => 'Mechanic Duration Mod',
+	233 => 'Change Model For All Humanoids',
+	234 => 'Mechanic Duration Mod Not Stack',
+	235 => 'Mod Dispel Resist',
+	236 => 'Control Vehicle',
+	237 => 'Mod Spell Damage Of Attack Power',
+	238 => 'Mod Spell Healing Of Attack Power',
+	239 => 'Mod Scale 2',
+	240 => 'Mod Expertise',
+	241 => 'Force Move Forward',
+	242 => 'Mod Spell Damage From Healing',
+	243 => 'Mod Faction',
+	244 => 'Comprehend Language',
+	245 => 'Mod Aura Duration By Dispel',
+	246 => 'Mod Aura Duration By Dispel Not Stack',
+	247 => 'Clone Caster',
+	248 => 'Mod Combat Result Chance',
+	249 => 'Convert Rune',
+	250 => 'Mod Increase Health 2',
+	251 => 'Mod Enemy Dodge',
+	252 => 'Mod Speed Slow All',
+	253 => 'Mod Block Crit Chance',
+	254 => 'Mod Disarm Offhand',
+	255 => 'Mod Mechanic Damage Taken %',
+	256 => 'No Reagent Use',
+	257 => 'Mod Target Resist By Spell Class',
+	259 => 'Mod Hot %',
+	260 => 'Screen Effect',
+	261 => 'Phase',
+	262 => 'Ability Ignore Aurastate',
+	263 => 'Allow Only Ability',
+	267 => 'Mod Immune Aura Apply School',
+	268 => 'Mod Attack Power Of Stat %',
+	269 => 'Mod Ignore Target Resist',
+	270 => 'Mod Ability Ignore Target Resist',
+	271 => 'Mod Damage From Caster',
+	272 => 'Ignore Melee Reset',
+	273 => 'X Ray',
+	274 => 'Ability Consume No Ammo',
+	275 => 'Mod Ignore Shapeshift',
+	276 => 'Mod Damage Done For Mechanic',
+	277 => 'Mod Max Affected Targets',
+	278 => 'Mod Disarm Ranged',
+	279 => 'Initialize Images',
+	280 => 'Mod Armor Penetration %',
+	281 => 'Mod Honor Gain %',
+	282 => 'Mod Base Health %',
+	283 => 'Mod Healing Received',
+	284 => 'Linked',
+	285 => 'Mod Attack Power Of Armor',
+	286 => 'Ability Periodic Crit',
+	287 => 'Deflect Spells',
+	288 => 'Ignore Hit Direction',
+	290 => 'Mod Crit %',
+	291 => 'Mod Xp Quest %',
+	292 => 'Open Stable',
+	293 => 'Override Spells',
+	294 => 'Prevent Regenerate Power',
+	296 => 'Set Vehicle Id',
+	297 => 'Block Spell Family',
+	298 => 'Strangulate',
+	300 => 'Share Damage %',
+	301 => 'School Heal Absorb',
+	303 => 'Mod Creature Damage Done Aurastate',
+	304 => 'Mod Fake Inebriate',
+	305 => 'Mod Minimum Speed',
+	307 => 'Heal Absorb Test',
+	308 => 'Mod Crit Chance For Caster',
+	310 => 'Mod Creature Aoe Damage Avoidance',
+	314 => 'Prevent Resurrection',
+	315 => 'Underwater Walking',
+	316 => 'Periodic Haste'
 );
 
 // Названия эффектов спеллов
@@ -174,9 +321,9 @@ $spell_effect_names = array(
 	14 => 'Ritual Specialize',
 	15 => 'Ritual Activate Portal',
 	16 => 'Quest Complete',
-	17 => 'Weapon Damage + noschool',
+	17 => 'Weapon Damage + Noschool',
 	18 => 'Resurrect',
-	19 => 'Extra Attacks',
+	19 => 'Add Extra Attacks',
 	20 => 'Dodge',
 	21 => 'Evade',
 	22 => 'Parry',
@@ -184,27 +331,27 @@ $spell_effect_names = array(
 	24 => 'Create Item',
 	25 => 'Weapon',
 	26 => 'Defense',
-	27 =>'Persistent Area Aura',
+	27 => 'Persistent Area Aura',
 	28 => 'Summon',
 	29 => 'Leap',
 	30 => 'Energize',
-	31 => 'Weapon % Dmg',
+	31 => 'Weapon % Damage',
 	32 => 'Trigger Missile',
 	33 => 'Open Lock',
-	34 => 'Transform Item',
-	35 => 'Apply Area Aura',
+	34 => 'Summon Change Item',
+	35 => 'Apply Area Aura Party',
 	36 => 'Learn Spell',
 	37 => 'Spell Defense',
 	38 => 'Dispel',
 	39 => 'Language',
 	40 => 'Dual Wield',
-	41 => 'Summon Wild',
-	42 => 'Summon Guardian',
-	43 => 'Summon Enemy Player',
+	41 => 'Jump',
+	42 => 'Jump Dest',
+	43 => 'Teleport Units Face Caster',
 	44 => 'Skill Step',
 	45 => 'Add Honor',
 	46 => 'Spawn',
-	47 => 'Spell Cast UI',
+	47 => 'Trade Skill',
 	48 => 'Stealth',
 	49 => 'Detect',
 	50 => 'Summon Object',
@@ -215,23 +362,23 @@ $spell_effect_names = array(
 	55 => 'Tame Creature',
 	56 => 'Summon Pet',
 	57 => 'Learn Pet Spell',
-	58 => 'Weapon Damage +',
-	59 => 'Open Lock Item',
+	58 => 'Weapon Damage',
+	59 => 'Create Random Item',
 	60 => 'Proficiency',
 	61 => 'Send Event',
 	62 => 'Power Burn',
 	63 => 'Threat',
 	64 => 'Trigger Spell',
-	65 => 'Health Funnel',
-	66 => 'Power Funnel',
+	65 => 'Apply Area Aura Raid',
+	66 => 'Create Mana Gem',
 	67 => 'Heal Max Health',
 	68 => 'Interrupt Cast',
 	69 => 'Distract',
 	70 => 'Pull',
 	71 => 'Pickpocket',
 	72 => 'Add Farsight',
-	73 => 'Summon Possessed',
-	74 => 'Summon Totem',
+	73 => 'Untrain Talents',
+	74 => 'Apply Glyph',
 	75 => 'Heal Mechanical',
 	76 => 'Summon Object Wild',
 	77 => 'Script Effect',
@@ -244,51 +391,80 @@ $spell_effect_names = array(
 	84 => 'Stuck',
 	85 => 'Summon Player',
 	86 => 'Activate Object',
-	87 => 'Summon Totem slot 1',
-	88 => 'Summon Totem slot 2',
-	89 => 'Summon Totem slot 3',
-	90 => 'Summon Totem slot 4',
+	87 => 'Gameobject Damage',
+	88 => 'Gameobject Repair',
+	89 => 'Gameobject Set Destruction State',
+	90 => 'Kill Credit',
 	91 => 'Threat All',
 	92 => 'Enchant Held Item',
-	93 => 'Summon Phantasm',
+	93 => 'Force Deselect',
 	94 => 'Self Resurrect',
 	95 => 'Skinning',
 	96 => 'Charge',
-	97 => 'Summon Critter',
+	97 => 'Cast Button',
 	98 => 'Knock Back',
 	99 => 'Disenchant',
 	100 => 'Inebriate',
 	101 => 'Feed Pet',
 	102 => 'Dismiss Pet',
 	103 => 'Reputation',
-	104 => 'Summon Object slot 1',
-	105 => 'Summon Object slot 2',
-	106 => 'Summon Object slot 3',
-	107 => 'Summon Object slot 4',
+	104 => 'Summon Object Slot1',
+	105 => 'Summon Object Slot2',
+	106 => 'Summon Object Slot3',
+	107 => 'Summon Object Slot4',
 	108 => 'Dispel Mechanic',
 	109 => 'Summon Dead Pet',
 	110 => 'Destroy All Totems',
 	111 => 'Durability Damage',
 	112 => 'Summon Demon',
-	113 => 'Resurrect Flat',
+	113 => 'Resurrect New',
 	114 => 'Taunt',
-	115 => 'Durability Damage',
+	115 => 'Durability Damage %',
 	116 => 'Remove Insignia',
 	117 => 'Spirit Heal',
-	118 => 'Require Skill',
-	119 => 'Apply Pet Aura',
-	120 => 'Graveyard Teleport',
-	121 => 'Normalized Weapon Damage +',
-
-	123 => 'Scripted Event',
-	124 => 'Player Pull',
-	125 => 'Reduce Threat %',
-	126 => 'Steal Beneficial Buff Magic',
-	127 => 'Require Ore',
-	128 => 'Apply Stat Aura',
-	129 => 'Apply Stat Aura %',
-
-	133 => 'Unlearn Profession Specialization',
+	118 => 'Skill',
+	119 => 'Apply Area Aura Pet',
+	120 => 'Teleport Graveyard',
+	121 => 'Normalized Weapon Damage',
+	123 => 'Send Taxi',
+	124 => 'Pull Towards',
+	125 => 'Modify Threat %',
+	126 => 'Steal Beneficial Buff',
+	127 => 'Prospecting',
+	128 => 'Apply Area Aura Friend',
+	129 => 'Apply Area Aura Enemy',
+	130 => 'Redirect Threat',
+	132 => 'Play Music',
+	133 => 'Unlearn Specialization',
+	134 => 'Kill Credit2',
+	135 => 'Call Pet',
+	136 => 'Heal %',
+	137 => 'Energize %',
+	138 => 'Leap Back',
+	139 => 'Clear Quest',
+	140 => 'Force Cast',
+	141 => 'Force Cast With Value',
+	142 => 'Trigger Spell With Value',
+	143 => 'Apply Area Aura Owner',
+	144 => 'Knock Back Dest',
+	145 => 'Pull Towards Dest',
+	146 => 'Activate Rune',
+	147 => 'Quest Fail',
+	148 => 'Trigger Missile Spell With Value',
+	149 => 'Charge Dest',
+	150 => 'Quest Start',
+	151 => 'Trigger Spell 2',
+	152 => 'Summon Raf Friend',
+	153 => 'Create Tamed Pet',
+	154 => 'Discover Taxi',
+	155 => 'Titan Grip',
+	156 => 'Enchant Item Prismatic',
+	157 => 'Create Item 2',
+	158 => 'Milling',
+	159 => 'Allow Rename Pet',
+	161 => 'Talent Spec Count',
+	162 => 'Talent Spec Select',
+	164 => 'Remove Aura'
 );
 
 $pet_skill_categories = array(
@@ -296,12 +472,25 @@ $pet_skill_categories = array(
 );
 
 $spell_cols[0] = array('spellID', 'iconname', 'effect1itemtype', 'effect1Aura', 'spellname_loc'.$_SESSION['locale']);
-$spell_cols[1] = array('spellID', 'iconname', 'tooltip_loc'.$_SESSION['locale'], 'spellname_loc'.$_SESSION['locale'], 'rank_loc'.$_SESSION['locale'], 'rangeID', 'manacost', 'manacostpercent', 'spellcasttimesID', 'cooldown', 'tool1', 'tool2', 'reagent1', 'reagent2', 'reagent3', 'reagent4', 'reagent5', 'reagent6', 'reagent7', 'reagent8', 'effect1BasePoints', 'effect2BasePoints', 'effect3BasePoints', 'effect1Amplitude', 'effect2Amplitude', 'effect3Amplitude', 'effect1DieSides', 'effect2DieSides', 'effect3DieSides', 'effect1ChainTarget', 'effect2ChainTarget', 'effect3ChainTarget', 'reagentcount1', 'reagentcount2', 'reagentcount3', 'reagentcount4', 'reagentcount5', 'reagentcount6', 'reagentcount7', 'reagentcount8', 'effect1radius', 'effect2radius', 'effect3radius', 'effect1MiscValue', 'effect2MiscValue', 'effect3MiscValue', 'ChannelInterruptFlags', 'procChance', 'procCharges', 'effect_1_proc_chance', 'effect_2_proc_chance', 'effect_3_proc_chance', 'effect1itemtype', 'effect1Aura', 'spellTargets', 'dmg_multiplier1', 'durationID');
-$spell_cols[2] = array('spellname_loc'.$_SESSION['locale'], 'rank_loc'.$_SESSION['locale'], 'levelspell', 'resistancesID', 'effect1itemtype', 'effect2itemtype', 'effect3itemtype', 'effect1BasePoints', 'effect2BasePoints', 'effect3BasePoints', 'reagent1', 'reagent2', 'reagent3', 'reagent4', 'reagent5', 'reagent6', 'reagent7', 'reagent8', 'reagentcount1', 'reagentcount2', 'reagentcount3', 'reagentcount4', 'reagentcount5', 'reagentcount6', 'reagentcount7', 'reagentcount8', 'iconname', 'effect1Aura', 'effect2Aura', 'effect3Aura');
+$spell_cols[1] = array('spellID', 'iconname', 'tooltip_loc'.$_SESSION['locale'], 'spellname_loc'.$_SESSION['locale'], 'rank_loc'.$_SESSION['locale'], 'rangeID', 'manacost', 'manacostpercent', 'spellcasttimesID', 'cooldown', 'categoryCooldown', 'tool1', 'tool2', 'reagent1', 'reagent2', 'reagent3', 'reagent4', 'reagent5', 'reagent6', 'reagent7', 'reagent8', 'effect1BasePoints', 'effect2BasePoints', 'effect3BasePoints', 'effect1Amplitude', 'effect2Amplitude', 'effect3Amplitude', 'effect1DieSides', 'effect2DieSides', 'effect3DieSides', 'effect1ChainTarget', 'effect2ChainTarget', 'effect3ChainTarget', 'reagentcount1', 'reagentcount2', 'reagentcount3', 'reagentcount4', 'reagentcount5', 'reagentcount6', 'reagentcount7', 'reagentcount8', 'effect1radius', 'effect2radius', 'effect3radius', 'effect1MiscValue', 'effect2MiscValue', 'effect3MiscValue', 'ChannelInterruptFlags', 'procChance', 'procCharges', 'effect_1_proc_chance', 'effect_2_proc_chance', 'effect_3_proc_chance', 'effect1itemtype', 'effect1Aura', 'spellTargets', 'dmg_multiplier1', 'durationID');
+$spell_cols[2] = array('spellname_loc'.$_SESSION['locale'], 'rank_loc'.$_SESSION['locale'], 'levelspell', 'schoolMask', 'effect1itemtype', 'effect2itemtype', 'effect3itemtype', 'effect1BasePoints', 'effect2BasePoints', 'effect3BasePoints', 'reagent1', 'reagent2', 'reagent3', 'reagent4', 'reagent5', 'reagent6', 'reagent7', 'reagent8', 'reagentcount1', 'reagentcount2', 'reagentcount3', 'reagentcount4', 'reagentcount5', 'reagentcount6', 'reagentcount7', 'reagentcount8', 'iconname', 'effect1Aura', 'effect2Aura', 'effect3Aura');
 
 function spell_duration($base)
 {
 	return round($base/1000).' sec';
+}
+
+function spell_schoolmask($schoolMask)
+{
+	$result = array();
+	if ($schoolMask & 1) $result[] = LOCALE_SCHOOL_MASK_PHYSICAL;
+	if ($schoolMask & 2) $result[] = LOCALE_SCHOOL_MASK_HOLY;
+	if ($schoolMask & 4) $result[] = LOCALE_SCHOOL_MASK_FIRE;
+	if ($schoolMask & 8) $result[] = LOCALE_SCHOOL_MASK_NATURE;
+	if ($schoolMask & 16) $result[] = LOCALE_SCHOOL_MASK_FROST;
+	if ($schoolMask & 32) $result[] = LOCALE_SCHOOL_MASK_SHADOW;
+	if ($schoolMask & 64) $result[] = LOCALE_SCHOOL_MASK_ARCANE;
+	return implode(", ", $result);
 }
 
 function spell_desc($spellid, $type='tooltip')
@@ -768,16 +957,19 @@ function render_spell_tooltip(&$row)
 		$x .= $row['manacost'].' mana<br />';
 
 	if($row['manacostpercent']>0)
-		$x .= $row['manacostpercent']."".LOCALE_OF_MANA_BASE."</br>";
+		$x .= $row['manacostpercent']."% of base mana<br />";
 
 	if($range && (($row['manacost'] >0) || ($row['manacostpercent']>0)))
 		$x .= '</td><th>';
 
 	if($range)
-		$x .= sprintf(LOCALE_RANGE.'<br />',$range);
+		$x .= $range.' yd range<br />';
 
 	if($range && ($row['manacost'] > 0 || $row['manacostpercent'] > 0))
 		$x .= '</th></tr></table>';
+
+	if ($row['cooldown'] < $row['categoryCooldown'])
+		$row['cooldown'] = $row['categoryCooldown'];
 
 	if(($row['ChannelInterruptFlags'] || isset($casttime) || $row['spellcasttimesID']==1) && $row['cooldown'])
 		$x .= '<table width="100%"><tr><td>';
@@ -787,17 +979,16 @@ function render_spell_tooltip(&$row)
 	elseif(isset($casttime))
 		$x .= $casttime.' sec cast';
 	elseif($row['spellcasttimesID'] == 1)
-		$x .= LOCALE_INSTANT;
+		$x .= 'Instant';
+
+	if($row['procChance'] < 100.0)
+		$x .= ' <span title="spell proc chance" class="q0">'.$row['procChance'].'%</span>';
 
 	if(($row['ChannelInterruptFlags'] || isset($casttime) || $row['spellcasttimesID'] == 1) && $row['cooldown'])
 		$x .= '</td><th>';
 
-	if(($row['cooldown']/1000 < 60) and ($row['cooldown'] != 0))
-		$x.= ($row['cooldown']/1000).' '.LOCALE_SECONDS_CD;
-	elseif($row['cooldown']/1000 > 60)
-		$x.= ($row['cooldown']/1000/60).' '.LOCALE_MINUTES_CD;
-	
-		
+	if($row['cooldown'])
+		$x.= ($row['cooldown']/1000).' sec cooldown';
 
 	if(($row['ChannelInterruptFlags'] || isset($casttime) || $row['spellcasttimesID'] == 1) && $row['cooldown'])
 		$x .= '</th></tr></table>';
@@ -907,15 +1098,9 @@ function spell_buff_render($row)
 	
 	// Длительность баффа
 	$duration = $DB->selectCell("SELECT durationBase FROM ?_spellduration WHERE durationID=? LIMIT 1", $row['durationID']);
-	if(($duration/1000) < 60 && $duration > 1)
-		$x .= '<span class="q">'.($duration/1000).' '.LOCALE_SECONDS_REMAINING.'</span>';
-	elseif(($duration/1000) > 60)
-		$x .= '<span class="q">'.($duration/60000).' '.LOCALE_MINUTES_REMAINING.'</span>';
-	elseif(($duration/1000) == 60)
-		$x .= '<span class="q">'.($duration/60000).' '.LOCALE_MINUTE_REMAINING.'</span>';
-		elseif(($duration/1000) == 1)
-		$x .= '<span class="q">'.($duration/1000).' '.LOCALE_SECOND_REMAINING.'</span>';
-		
+	if($duration>0)
+		$x .= '<span class="q">'.($duration/1000).' seconds remaining</span>';
+	
 	$x .= '</td></tr></table>';
 	
 	return $x;
@@ -976,7 +1161,7 @@ function spellinfo2(&$row)
 		$spell['name'] = $row['spellname_loc'.$_SESSION['locale']];
 		$spell['rank'] = $row['rank_loc'.$_SESSION['locale']];
 		$spell['level'] = $row['levelspell'];
-		$spell['school'] = $row['resistancesID'];
+		$spell['school'] = spell_schoolmask($row['schoolMask']);
 		// TODO: Что за cat?
 		$spell['cat'] = 0;
 		// Скилл

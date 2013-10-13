@@ -1,10 +1,9 @@
 <?php
-require_once('includes/allreputation.php');
+
 require_once('includes/allspells.php');
 require_once('includes/allquests.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
-require_once('includes/allscreenshots.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
 
@@ -29,15 +28,8 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 				l.subname_loc'.$_SESSION['locale'].' as `subname_loc`,
 				?,
 			}
-			f.name_loc'.$_SESSION['locale'].' as `faction-name`, ft.factionID as `factionID`,
-			((CASE exp WHEN 0 THEN mincls.basehp0 WHEN 1 THEN mincls.basehp1 WHEN 2 THEN mincls.basehp2 END)*Health_mod) AS minhealth,
-			((CASE exp WHEN 0 THEN maxcls.basehp0 WHEN 1 THEN maxcls.basehp1 WHEN 2 THEN maxcls.basehp2 END)*Health_mod) AS maxhealth,
-			(mincls.basemana*Mana_mod) AS minmana,
-			(maxcls.basemana*Mana_mod) AS maxmana,
-			(maxcls.basearmor*Armor_mod) AS armor
+			f.name_loc'.$_SESSION['locale'].' as `faction-name`, ft.factionID as `factionID`
 		FROM ?_factiontemplate ft, ?_factions f, creature_template c
-		LEFT JOIN creature_classlevelstats mincls ON mincls.level=minlevel AND mincls.class=unit_class
-		LEFT JOIN creature_classlevelstats maxcls ON maxcls.level=maxlevel AND maxcls.class=unit_class
 		{
 			LEFT JOIN (locales_creature l)
 			ON l.entry = c.entry AND ?
@@ -59,95 +51,23 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 		$npc = $row;
 		$npc['name'] = localizedName($row);
 		$npc['subname'] = localizedName($row, 'subname');
-		
 		if($npc['rank'] == 3)
 		{
 			$npc['minlevel'] = '??';
 			$npc['maxlevel'] = '??';
-			$npc['dtype'] = '3';
 		}
 		$npc['mindmg'] = round(($row['mindmg'] + $row['attackpower']) * $row['dmg_multiplier']);
 		$npc['maxdmg'] = round(($row['maxdmg'] + $row['attackpower']) * $row['dmg_multiplier']);
-		
 		
 		$toDiv = array('minhealth', 'maxmana', 'minmana', 'maxhealth', 'armor', 'mindmg', 'maxdmg');
 		// Разделяем на тысячи (ххххххххх => ххх,ххх,ххх)
 		foreach($toDiv as $e)
 			$npc[$e] = number_format($npc[$e]);
 
-		// HP Normal 25 ppl
-		if($npc['difficulty_entry_1'] != 0)
-		{
-			$n25ppl = $DB->selectRow('
-						SELECT
-						((CASE exp WHEN 0 THEN maxcls.basehp0 WHEN 1 THEN maxcls.basehp1 WHEN 2 THEN maxcls.basehp2 END)*Health_mod) AS maxhealth
-						FROM creature_template
-						LEFT JOIN creature_classlevelstats maxcls ON maxcls.level=maxlevel AND maxcls.class=unit_class
-						WHERE
-							entry = ?d',
-						$npc['difficulty_entry_1']
-			);
-			$n25ppl = $n25ppl['maxhealth'];
-			$npc['25ppln'] = number_format($n25ppl);
-		}
-		
-		// HP Heroic 10 ppl
-		if($npc['difficulty_entry_2'] != 0)
-		{
-			$h10ppl = $DB->selectRow('
-						SELECT
-						((CASE exp WHEN 0 THEN maxcls.basehp0 WHEN 1 THEN maxcls.basehp1 WHEN 2 THEN maxcls.basehp2 END)*Health_mod) AS maxhealth
-						FROM creature_template
-						LEFT JOIN creature_classlevelstats maxcls ON maxcls.level=maxlevel AND maxcls.class=unit_class
-						WHERE
-							entry = ?d',
-						$npc['difficulty_entry_2']
-			);
-			$h10ppl = $h10ppl['maxhealth'];
-			$npc['10pplh'] = number_format($h10ppl);
-		}
-				
-		// HP Heroic 25 ppl
-		if($npc['difficulty_entry_3'] != 0)
-		{
-			$h25ppl = $DB->selectRow('
-						SELECT
-						((CASE exp WHEN 0 THEN maxcls.basehp0 WHEN 1 THEN maxcls.basehp1 WHEN 2 THEN maxcls.basehp2 END)*Health_mod) AS maxhealth
-						FROM creature_template
-						LEFT JOIN creature_classlevelstats maxcls ON maxcls.level=maxlevel AND maxcls.class=unit_class
-						WHERE
-							entry = ?d',
-						$npc['difficulty_entry_3']
-			);
-			$h25ppl = $h25ppl['maxhealth'];
-			$npc['25pplh'] = number_format($h25ppl);
-		}			
-			
 		$npc['rank'] = $smarty->get_config_vars('rank'.$npc['rank']);
 		// faction_A = faction_H
 		$npc['faction_num'] = $row['factionID'];
 		$npc['faction'] = $row['faction-name'];
-		$npc['quotes'] = $DB->select('SELECT * FROM creature_text WHERE entry=?d', $id);
-		$npc['model'] = $DB->selectCell('SELECT modelid1 FROM creature_template WHERE entry=?d', $id);
-		$npc['quotes_count'] = $DB->selectCell('SELECT COUNT(*) FROM creature_text WHERE entry=?d', $id);
-		$npc['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
-		$repdata = $DB->selectRow('
-					SELECT *
-					FROM creature_onkill_reputation
-					WHERE creature_id=?d
-					LIMIT 1
-					',
-					$id
-		);
-		for($j=1;$j<=2;$j++)
-			if($repdata['RewOnKillRepValue'.$j] !=0)
-				{
-					$id = $repdata['RewOnKillRepFaction'.$j];
-					$value = $repdata['RewOnKillRepValue'.$j];
-					if($value)
-						$npc['onkillrep'] = factioninfo($id);
-						$npc['killrep'][] = @array_merge(factioninfo($repdata['RewOnKillRepFaction'.$j]), array('value' => $value));
-				}
 		// Деньги
 		$money = ($row['mingold']+$row['maxgold']) / 2;
 		$npc = array_merge($npc, money2coins($money));
@@ -162,7 +82,7 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 					'entry'	=> $tmp['entry'],
 					'name'	=> str_replace(LOCALE_HEROIC, '', $tmp['name'])
 				);
-
+				
 				unset($tmp);
 			}
 		}
@@ -291,15 +211,11 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 			SELECT ?#, spellID
 			FROM npc_trainer, ?_spell, ?_spellicons
 			WHERE
-			(
-			-entry IN (SELECT spell FROM npc_trainer WHERE entry = ?)
-			OR (entry = ? AND npc_trainer.spell > 0)
-			)
-			AND spellID = npc_trainer.spell
-			AND id=spellicon
+				entry=?d
+				AND spellID=Spell
+				AND id=spellicon
 			',
 			$spell_cols[2],
-			$npc['entry'],
 			$npc['entry']
 		);
 		if($teachspells)
@@ -378,15 +294,15 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 
 		// Начиниают квесты...
 		$rows_qs = $DB->select('
-                	SELECT q.?#
-                FROM quest_template q
-                LEFT JOIN creature_questrelation c on q.id = c.quest
-                WHERE
-                    c.id=?
-             	',
-            	$quest_cols[2],
-            	$id
-        	);
+			SELECT ?#
+			FROM creature_questrelation c, quest_template q
+			WHERE
+				c.id=?
+				AND q.entry=c.quest
+			',
+			$quest_cols[2],
+			$id
+		);
 		if($rows_qs)
 		{
 			$npc['starts'] = array();
@@ -409,16 +325,16 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 		unset ($rows_qse);
 
 		// Заканчивают квесты...
-$rows_qe = $DB->select('
-        SELECT q.?#
-        FROM quest_template q
-        LEFT JOIN creature_involvedrelation c on q.id = c.quest
-        WHERE
-                c.id=?
-        ',
-        $quest_cols[2],
-        $id
-        );
+		$rows_qe = $DB->select('
+			SELECT ?#
+			FROM creature_involvedrelation c, quest_template q
+			WHERE
+				c.id=?
+				AND q.entry=c.quest
+			',
+			$quest_cols[2],
+			$id
+		);
 		if($rows_qe)
 		{
 			$npc['ends'] = array();
@@ -433,10 +349,10 @@ $rows_qe = $DB->select('
 			SELECT ?#
 			FROM quest_template
 			WHERE
-				RequiredNpcOrGo1=?
-				OR RequiredNpcOrGo2=?
-				OR RequiredNpcOrGo3=?
-				OR RequiredNpcOrGo4=?
+				ReqCreatureOrGOId1=?
+				OR ReqCreatureOrGOId2=?
+				OR ReqCreatureOrGOId3=?
+				OR ReqCreatureOrGOId4=?
 			',
 			$quest_cols[2],
 			$id, $id, $id, $id
@@ -478,6 +394,30 @@ $rows_qe = $DB->select('
 			}
 		}
 
+		// Репутация за убийство
+		$row = $DB->selectRow('
+			SELECT RewOnKillRepFaction1, RewOnKillRepValue1, MaxStanding1, RewOnKillRepFaction2, RewOnKillRepValue2, MaxStanding2
+			FROM creature_onkill_reputation
+			WHERE creature_id=?d',
+			$npc['entry']
+		);
+		if ($row)
+		{
+			$replevel = array(LOCALE_HATED, LOCALE_HOSTILE, LOCALE_UNFRIENDLY, LOCALE_NEUTRAL,
+			                  LOCALE_FRIENDLY, LOCALE_HONORED, LOCALE_REVERED, LOCALE_EXALTED);
+			for ($i=1; $i<=2; $i++)
+				if ($row['RewOnKillRepValue'.$i])
+				{
+					$npc['kill_rep_value'.$i] = $row['RewOnKillRepValue'.$i];
+					$npc['kill_rep_faction'.$i] = $DB->selectCell(
+						'SELECT name_loc'.$_SESSION['locale'].' FROM ?_factions WHERE factionID=?d',
+						$row['RewOnKillRepFaction'.$i]
+					);
+					$u = $row['MaxStanding'.$i];
+					$npc['kill_rep_until'.$i] = isset($replevel[$u]) ? $replevel[$u] : $u;
+				}
+		}
+
 		// Положения созданий божих (для героик НПС не задана карта, юзаем из нормала):
 		if($normal_entry)
 			// мы - героик НПС, определяем позицию по нормалу
@@ -509,7 +449,6 @@ $page = array(
 	'tab' => 0,
 	'type' => 1,
 	'typeid' => $npc['entry'],
-	'username' => $_SESSION['username'],
 	'path' => path(0, 4, $npc['type'])
 );
 
@@ -517,17 +456,12 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
-$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
-$smarty->assign('wh_ss', get_wowhead_screenshots($page['type'], $page['typeid'], 'page'));
 
-if($_GET['error']==2){
-$smarty->assign('screenshot_error', $smarty->get_config_vars('Error2'));
-};
 $smarty->assign('npc', $npc);
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
-$smarty->assign('reputation', getreputation($page['username']));
+
 // Запускаем шаблонизатор
 $smarty->display('npc.tpl');
 

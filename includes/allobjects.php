@@ -10,7 +10,6 @@
 * 
 * allobjects.php - All functions, constants, etc, which deals with game objects
 */
-require_once ( 'includes/allquests.php' );
 
 // Types of Game Objects
 define('GAMEOBJECT_TYPE_DOOR', 0);
@@ -45,7 +44,7 @@ define('GAMEOBJECT_TYPE_LOTTERY_KIOSK', 28);
 define('GAMEOBJECT_TYPE_CAPTURE_POINT', 29);
 define('GAMEOBJECT_TYPE_AURA_GENERATOR', 30);
 define('GAMEOBJECT_TYPE_DUNGEON_DIFFICULTY', 31);
-define('GAMEOBJECT_TYPE_BARBER_CHAIR', 32);
+define('GAMEOBJECT_TYPE_UNK', 32);
 define('GAMEOBJECT_TYPE_DESTRUCTIBLE_BUILDING', 33);
 define('GAMEOBJECT_TYPE_GUILD_BANK', 34);
 
@@ -144,7 +143,7 @@ function objectinfo2(&$Row, $level=0)
 						* data5: maxRestock (Max successful loot attempts for Mining, Herbalism etc)
 						* data6: lootedEvent (unknown ID)
 						* data7: linkedTrap (gameobject_template.entry (Spawned GO type 6))
-						* data8: questID (quest_template.Id of completed quest)
+						* data8: questID (quest_template.entry of completed quest)
 						* data9: level (minimal level required to open this gameobject)
 						* data10: losOK (Boolean flag)
 						* data11: leaveLoot (Boolean flag)
@@ -166,7 +165,7 @@ function objectinfo2(&$Row, $level=0)
 						* data2: serverOnly? (Always 0)
 						* data3: large? (Boolean flag)
 						* data4: floatOnWater (Boolean flag)
-						* data5: questID (Required active quest_template.Id to work)
+						* data5: questID (Required active quest_template.entry to work)
 				*/
 				break;
 			case GAMEOBJECT_TYPE_TRAP:
@@ -211,7 +210,7 @@ function objectinfo2(&$Row, $level=0)
 			case GAMEOBJECT_TYPE_GOOBER:
 				/*
 						* data0: open (LockId from Lock.dbc)
-						* data1: questID (Required active quest_template.Id to work)
+						* data1: questID (Required active quest_template.entry to work)
 						* data2: eventID (Unknown Event ID)
 						* data3:  ? (unknown flag)
 						* data4: customAnim (unknown)
@@ -371,7 +370,7 @@ function objectinfo2(&$Row, $level=0)
 						* data1: difficulty (0 or 1)
 				*/
 				break;
-			case GAMEOBJECT_TYPE_BARBER_CHAIR:
+			case GAMEOBJECT_TYPE_UNK:
 				/*	Object type not used */
 				break;
 			case GAMEOBJECT_TYPE_DESTRUCTIBLE_BUILDING:
@@ -476,38 +475,6 @@ function objectinfo2(&$Row, $level=0)
 				unset($object['drop']);
 		}
 	}
-    
-    switch ( $object ['type'] )
-    {
-        case 9:
-            $type = LOCALE_OBJECTYPE_BOOK;
-            break;
-        case 3:
-            $type = LOCALE_OBJECTYPE_CONTAINER;
-            break;
-        case 5:
-            $type = LOCALE_OBJECTYPE_COFFER;
-            break;
-        case 3:
-            $type = LOCALE_OBJECTYPE_HERB;
-            break;
-        case 4:
-            $type = LOCALE_OBJECTYPE_ORE;
-            break;
-        case 2:
-            $type = LOCALE_OBJECTYPE_QUEST;
-            break;
-        default:
-            $type = '';
-            break;
-    }
-
-	$x = '';
-    $x .= "<table><tr><td><b class=\"q\">{$object['name']}</b></td></tr></table><table><tr><td>";
-	$x .= "{$type}";
-    $x .= "</td></tr></table>";
-    
-    $object ['tooltip'] = $x;
 	return $object;
 }
 

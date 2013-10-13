@@ -1,24 +1,8 @@
 <?php
-require('includes/game.php');
-set_time_limit(0);
-$filename = "GathererDB_DataBase.zip";
-$addon_site = $_SERVER['SERVER_NAME'];
-$addon_link = $addon_site."/".$filename;
-$queryx = $_SERVER['QUERY_STRING'];
-list($str, $trash) = explode('&', $queryx, 2);
-list($razdel, $podrazdel) = explode('=', $str, 2);
- switch($podrazdel)
-	{
-		case 'renew';
-			
-		break;
-		default;
-			echo "<b>Файл:</b> $filename</br><b>Последние изменения:  </b>" . date ("d F Y H:i:s.", filemtime($filename));
-			echo"<br><b>Сегодня:  </b>".date("d F Y H:i:s.")."<br><a href='/?gdb=renew'>Renew Addon Data</a><br />";
-			echo "<br><br> Скачать <a href='http://".$addon_link."'>GathererDB_DataBase.zip</a>";
-			die;
-		break;
-	}
+  require('includes/kernel.php');
+  require('includes/game.php');
+  set_time_limit(0);
+
   $gatherer_objects = array(
     // MINE
     324, 1610, 1731, 1732, 1733, 1734, 1735, 2040, 2047, 2653, 19903, 73940,
@@ -120,15 +104,15 @@ list($razdel, $podrazdel) = explode('=', $str, 2);
   if (!$version)
     $version = @$DB->selectCell('SELECT version FROM db_version');
   if (!$version)
-    $version = "DataBase";
+    $version = "AoWoW database";
 
-  echo "Scroll down to download link<br>Generating positions...";  
+  print("Generating positions...\n");
   $gathererdb = array();
   $current = 0;
   $total = count($gatherer_objects);
   foreach($gatherer_objects as $object)
   {
-	echo "$current/$total <br>"; $current++;
+    print("$current/$total  \r"); $current++;
     $positions = position($object, 'gameobject');
     foreach($positions as $area)
       if (isset($gatherer_areas[$area['atid']]))
@@ -151,14 +135,14 @@ list($razdel, $podrazdel) = explode('=', $str, 2);
     global $cached_images;
     $cached_images = array();
   }
-  echo "<br>Done";
+  print("done.    \n");
 
 //  print_r($gathererdb);
   $gathererdata = "-- Generated from {$version}
 
-if not GathererDB.FreedomHead.isLoading then return end
+if not GathererDB.AoWoW.isLoading then return end
 
-GathererDB.FreedomHead.data = {
+GathererDB.AoWoW.data = {
 ";
   foreach($gathererdb as $areaname => $areainfo)
   {
@@ -182,15 +166,14 @@ GathererDB.FreedomHead.data = {
   }
   $gathererdata .= "}\n";
   unset($gathererdb);
-  
 //  print($gathererdata);
 
-  echo "<br>Generating addon archive...";
+  print("Generating addon archive...\n");
   // Fallback code for users without zip support
   if (class_exists('ZipArchive'))
   {
     $zip = new ZipArchive();
-    if ($zip->open('GathererDB_DataBase.zip', ZIPARCHIVE::OVERWRITE) !== TRUE)
+    if ($zip->open('GathererDB_AoWoW.zip', ZIPARCHIVE::OVERWRITE) !== TRUE)
       die ("Error creating archive");
   }
   else
@@ -207,10 +190,10 @@ GathererDB.FreedomHead.data = {
     $zip = new ZipFallback();
   }
 
-  $zip->addFromString("GathererDB_FreedomHead/Data.lua", $gathererdata);
+  $zip->addFromString("GathererDB_AoWoW/Data.lua", $gathererdata);
 
   ///////////////////////////////////////////////////////////////////////////
-  $zip->addFromString("GathererDB_FreedomHead/Main.lua", <<<THEEND
+  $zip->addFromString("GathererDB_AoWoW/Main.lua", <<<THEEND
 --[[
 	Portions of data included here may belong to either Wowhead or Blizzard.
 	Code in this file is hereby released into the Public Domain.
@@ -221,7 +204,7 @@ GathererDB.FreedomHead.data = {
 if not GathererDB then GathererDB = {} end
 
 local lib = {}
-GathererDB.FreedomHead = lib
+GathererDB.AoWoW = lib
 
 lib.isLoading = true
 if not Gatherer then lib.isLoading = false
@@ -229,12 +212,12 @@ elseif not Gatherer.Api then lib.isLoading = false
 elseif not Gatherer.Api.AddGather then lib.isLoading = false
 elseif not Gatherer.ZoneTokens then lib.isLoading = false
 elseif not Gatherer.Config.AddCallback then
-	DEFAULT_CHAT_FRAME:AddMessage("GathererDB_FreedomHead: Please upgrade to the latest version of Gatherer.")
+	DEFAULT_CHAT_FRAME:AddMessage("GathererDB_AoWoW: Please upgrade to the latest version of Gatherer.")
 	lib.isLoading = false
 end
 
 if not lib.isLoading then
-	DEFAULT_CHAT_FRAME:AddMessage("GathererDB_FreedomHead: Not loading due to missing or old Gatherer.")
+	DEFAULT_CHAT_FRAME:AddMessage("GathererDB_AoWoW: Not loading due to missing or old Gatherer.")
 	return
 end
 
@@ -262,7 +245,7 @@ local function beginImport()
 	for zone, zonedef in pairs(zonelut) do
 		local c,z = unpack(zonedef)
 		for node, ntype in pairs(Gatherer.Nodes.Objects) do
-			Gatherer.Storage.RemoveGather(c, z, node, "DB:FreedomHead")
+			Gatherer.Storage.RemoveGather(c, z, node, "DB:AoWoW")
 		end
 		counter = counter + 1
 		if counter > YIELD_AT then
@@ -280,7 +263,7 @@ local function beginImport()
 				for pos, coord in ipairs(ndata) do
 					local x = math.floor(coord/1000)/1000
 					local y = (coord%1000)/1000
-					local success = Gatherer.Api.AddGather(node, nil, nil, 'DB:FreedomHead', nil, nil, false, c, z, x, y)
+					local success = Gatherer.Api.AddGather(node, nil, nil, 'DB:AoWoW', nil, nil, false, c, z, x, y)
 					position = position + 1
 					counter = counter + 1
 					if counter > YIELD_AT then
@@ -325,7 +308,7 @@ function lib:PerformImport()
 		updateFrame.text:SetHeight(16)
 		updateFrame.text:SetJustifyH("LEFT")
 		updateFrame.text:SetJustifyV("TOP")
-		updateFrame.text:SetText("Importing FreedomHead database:")
+		updateFrame.text:SetText("Importing AoWoW database:")
 
 		updateFrame.back = updateFrame:CreateTexture(nil, "BACKGROUND")
 		updateFrame.back:SetPoint("TOPLEFT")
@@ -377,8 +360,8 @@ local function setupGui(gui)
 		GathererDB.guiId = id
 	end
 
-	local version = GetAddOnMetadata("GathererDB_FreedomHead", "Version")
-	gui:AddControl(id, "Subhead",    0,    "Perform import of FreedomHead "..version.." DB:")
+	local version = GetAddOnMetadata("GathererDB_AoWoW", "Version")
+	gui:AddControl(id, "Subhead",    0,    "Perform import of AoWoW "..version.." DB:")
 
 	local buttonFrame = CreateFrame("Frame", nil, gui.tabs[id][3])
 	buttonFrame:SetHeight(24)
@@ -393,9 +376,9 @@ local function setupGui(gui)
 	button.text:SetPoint("LEFT", button, "RIGHT", 5, 0)
 	button.text:SetPoint("RIGHT", buttonFrame, "RIGHT", 0, 0)
 	button.text:SetJustifyH("LEFT")
-	button.text:SetText("Data generated from FreedomHead database")
+	button.text:SetText("Data generated from AoWoW database")
 end
-Gatherer.Config.AddCallback("GathererDB_FreedomHead", setupGui)
+Gatherer.Config.AddCallback("GathererDB_AoWoW", setupGui)
 
 local nodeBasics = {
 	[324]    = { "MINE", "Small Thorium Vein" },
@@ -570,14 +553,14 @@ THEEND
 
   ///////////////////////////////////////////////////////////////////////////
   $date = date("Y-m-d");
-  $zip->addFromString("GathererDB_FreedomHead/GathererDB_FreedomHead.toc", <<<THEEND
+  $zip->addFromString("GathererDB_AoWoW/GathererDB_AoWoW.toc", <<<THEEND
 ## Interface: 30000
 ##
-## Title: GathererDB: |cffce0a11FreedomHead|r
-## Notes: Gatherer preloaded database, based on GathererDB_FreedomHead
+## Title: GathererDB: |cffce0a11AoWoW|r
+## Notes: Gatherer preloaded database, based on GathererDB_Wowhead
 ## Version: 1.0.{$date}
 ##
-## X-Website: http://db.freedomcore.ru
+## X-Website: http://www.gathereraddon.com
 ## X-CompatibleLocales: enUS, enGB, deDE, frFR, koKR, zhCN, zhTW, esES
 ## X-Category: Tradeskill
 ## X-Date: {$date}
@@ -593,7 +576,6 @@ THEEND
   ///////////////////////////////////////////////////////////////////////////
 
   $zip->close();
-  
-  echo "<br>Job done";
-  echo "<br><br> Download <a href='http://".$addon_link."'>GathererDB_DataBase.zip</a>";
+
+  print("done.\n");
 ?>
