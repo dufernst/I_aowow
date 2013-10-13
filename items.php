@@ -3,7 +3,7 @@
 // Необходима функция iteminfo
 require_once('includes/allitems.php');
 
-$smarty->config_load($conf_file, 'items');
+$smarty->config_load($conf_file, 'item');
 
 // Разделяем из запроса класс, подкласс и тип вещей
 @list($class, $subclass, $type) = extract_values($podrazdel);

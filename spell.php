@@ -20,17 +20,19 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 	// Данные об спелле:
 	$row = $DB->selectRow('
 		SELECT s.*, i.iconname,
-			sct.base AS basecasttime, sd.durationBase,
+			sct.base AS basecasttime, sd.durationBase, r.name_loc?d AS school,
 			sdt.name_loc?d AS dispel, sm.name_loc?d AS mechanic
 		FROM ?_spellicons i, ?_spell s
 		LEFT JOIN (?_spellcasttimes sct) ON sct.id = s.spellcasttimesID
 		LEFT JOIN (?_spellduration sd) ON sd.durationID = s.durationID
+		LEFT JOIN (?_resistances r) ON r.id = s.resistancesID
 		LEFT JOIN (?_spelldispeltype sdt) ON s.dispeltypeID > 0 AND sdt.id = s.dispeltypeID
 		LEFT JOIN (?_spellmechanic sm) ON s.mechanicID > 0 AND sm.id = s.mechanicID
 		WHERE
 			s.spellID = ?
 			AND i.id = s.spellicon
 		',
+        $_SESSION['locale'], // school
 		$_SESSION['locale'], // dispel
 		$_SESSION['locale'], // mechanic
 		$id
@@ -79,7 +81,7 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 			$spell['duration'] ='<span class="q0">n/a</span>';
 
 		// Школа
-		$spell['school'] = spell_schoolmask($row['schoolMask']);
+		$spell['school'] = $row['school'];
 		// Диспелл
 		$spell['dispel'] = $row['dispel'];
 		// Механика
@@ -183,8 +185,8 @@ if(!$spell = load_cache(SPELL_PAGE, $cache_key))
 					}
 				}
 				// Если просто урон школой - добавляем подпись школы
-				if($row['effect'.$j.'id'] == 2 && $spell['schoolMask'])
-					$spell['effect'][$i]['name'] .= ' ('.spell_schoolmask($spell['schoolMask']).')';
+				if($row['effect'.$j.'id'] == 2 && $spell['school'])
+					$spell['effect'][$i]['name'] .= ' ('.$spell['school'].')';
 				// Радиус действия эффекта
 				if($row['effect'.$j.'radius'])
 					$spell['effect'][$i]['radius'] = $DB->selectCell("SELECT radiusbase FROM ?_spellradius WHERE radiusID = ? LIMIT 1", $row['effect'.$j.'radius']);

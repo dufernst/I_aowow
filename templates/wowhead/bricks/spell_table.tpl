@@ -27,7 +27,7 @@
 				{ldelim}
 					name:'{$data[i].quality}{$data[i].name|escape:"javascript"}',
 					{if $level}level:{$data[i].level},{/if}
-					school:'{$data[i].school|escape:"javascript"}',
+					school:{$data[i].school},
 					{if isset($data[i].rank)}
 						rank:'{$data[i].rank|escape:"javascript"}',
 					{/if}
