@@ -1,12 +1,12 @@
 <?php
-
+require_once('includes/allreputation.php');
 require_once('includes/allspells.php');
 require_once('includes/allquests.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
-
+require_once('includes/allscreenshots.php');
 // Настраиваем Smarty ;)
 $smarty->config_load($conf_file, 'npc');
 
@@ -449,6 +449,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 1,
 	'typeid' => $npc['entry'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 4, $npc['type'])
 );
 
@@ -456,11 +457,17 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
+$smarty->assign('wh_ss', get_wowhead_screenshots($page['type'], $page['typeid'], 'page'));
 
+if($_GET['error']==2){
+$smarty->assign('screenshot_error', $smarty->get_config_vars('Error2'));
+};
 $smarty->assign('npc', $npc);
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 
 // Запускаем шаблонизатор
 $smarty->display('npc.tpl');

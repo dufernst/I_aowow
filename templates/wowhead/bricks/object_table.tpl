@@ -19,6 +19,7 @@ new Listview({ldelim}
 	hiddenCols:[],
 	data:[
 		{section name=i loop=$data}
+		{if $data[i].name != ''}
 			{ldelim}
 				{* Название обекта, обязательно *}
 				name:'{$data[i].name|escape:"quotes"}',
@@ -36,6 +37,7 @@ new Listview({ldelim}
 					id:{$data[i].entry}
 				{rdelim}
 				{if $smarty.section.i.last}{else},{/if}
+				{/if}
 		{/section}
 	]{rdelim}
 );

@@ -9,6 +9,7 @@ session_start();
 
 // Префикс
 $tableprefix = $AoWoWconf['mangos']['aowow'];
+$items_to_be_displayed = $AoWoWconf['limit'];
 
 $locales = array(
 	0 => 'enus',
@@ -54,6 +55,7 @@ define('CLASS_PALADIN', 2);
 define('CLASS_HUNTER', 4);
 define('CLASS_ROGUE', 8);
 define('CLASS_PRIEST', 16);
+define('CLASS_DEATH_KNIGHT', 32);
 define('CLASS_SHAMAN', 64);
 define('CLASS_MAGE', 128);
 define('CLASS_WARLOCK', 256);
@@ -63,14 +65,14 @@ define('CLASS_DRUID', 1024);
 $classes = array(
 	1 => LOCALE_WARRIOR,
 	2 => LOCALE_PALADIN,
-	3 => LOCALE_HUNTER,
-	4 => LOCALE_ROGUE,
-	5 => LOCALE_PRIEST,
-	6 => LOCALE_DEATH_KNIGHT,
-	7 => LOCALE_SHAMAN,
-	8 => LOCALE_MAGE,
-	9 => LOCALE_WARLOCK,
-	11 => LOCALE_DRUID
+	4 => LOCALE_HUNTER,
+	8 => LOCALE_ROGUE,
+	16 => LOCALE_PRIEST,
+	32 => LOCALE_DEATH_KNIGHT,
+	64 => LOCALE_SHAMAN,
+	128 => LOCALE_MAGE,
+	256 => LOCALE_WARLOCK,
+	1024 => LOCALE_DRUID
 );
 
 define('RACE_HUMAN', 1);
@@ -94,6 +96,8 @@ $types = array(
 	6 => array('spell',		$tableprefix.'spell',	'spellID'		),
 	7 => array('zone',		$tableprefix.'zones',	'areatableID'	),
 	8 => array('faction',	$tableprefix.'factions','factionID'		),
+    9 => array('zone',		$tableprefix.'zones','entry'			),
+	10 => array('title',	$tableprefix.'char_titles',	'id'	),
 );
 
 // Отношения со фракциями
@@ -195,7 +199,7 @@ function classes($class)
 	if($class & CLASS_DRUID)
 		if($tmp) $tmp = $tmp.', '.LOCALE_DRUID; else $tmp = LOCALE_DRUID;
 	if($tmp == LOCALE_WARRIOR.', '.LOCALE_PALADIN.', '.LOCALE_HUNTER.', '.LOCALE_ROGUE
-		.', '.LOCALE_PRIEST.', '.LOCALE_SHAMAN.', '.LOCALE_MAGE.', '.LOCALE_WARLOCK.', '.LOCALE_DRUID)
+		.', '.LOCALE_PRIEST.', '.LOCALE_SHAMAN.', '.LOCALE_DEATH_KNIGHT.', '.LOCALE_MAGE.', '.LOCALE_WARLOCK.', '.LOCALE_DRUID)
 		return;
 	else
 		return $tmp;
@@ -446,6 +450,7 @@ $cache_types = array(
 
 	array('object_page',		false			),
 	array('object_listing',		false			),
+    array('object_tot',		    false			),
 
 	array('item_page',			false			),
 	array('item_tooltip',		false			),
@@ -457,6 +462,7 @@ $cache_types = array(
 	array('quest_page',			false			),
 	array('quest_tooltip',		false			),
 	array('quest_listing',		false			),
+    array('quest_tot',		    false			),
 
 	array('spell_page',			false			),
 	array('spell_tooltip',		false			),
@@ -476,6 +482,8 @@ $cache_types = array(
 	array('achievement_listing',false			),
 
 	array('glyphs',				false			),
+
+    array('search',				false			),
 );
 foreach($cache_types as $id => $cType)
 {

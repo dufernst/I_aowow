@@ -131,6 +131,8 @@ switch($_GET['data'])
 			foreach($glyphs as $glyph)
 			{
 				$name = localizedName($glyph);
+				if($_SESSION['locale'] == 0)
+					$name = str_replace(LOCALE_GLYPH_OF, '', $name);
 				$g_glyphs[$glyph['entry']] = array(
 					'name'			=> (string)$name,
 					'description'	=> (string)spell_desc($glyph['spellid']),

@@ -3,6 +3,7 @@
 // Необходима функция iteminfo
 require_once('includes/game.php');
 require_once('includes/allspells.php');
+require_once('includes/allachievements.php');
 require_once('includes/allquests.php');
 require_once('includes/allitems.php');
 require_once('includes/allnpcs.php');

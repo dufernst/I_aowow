@@ -30,8 +30,13 @@ function itemsetinfo2(&$row)
 	} else {
 		$itemset['quality2'] = 7;
 	}
-	// TODO: classes
-	$itemset['classes'][] = 0;
+	$rclass = array(1 => '1', 2 => '2', 4 => '3', 8 => '4', 16 => '5', 32 => '6', 64 => '7', 128 => '8', 256 => '9', 1024 => '11');
+
+        if ($item['rclass'] > 0){
+
+        $itemset['classes'] = $rclass[$item['rclass']];
+
+        }
 	return $itemset;
 }
 

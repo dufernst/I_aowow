@@ -1,10 +1,11 @@
 <?php
-
+require_once('includes/allreputation.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allitems.php');
 require_once('includes/allquests.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
+require_once('includes/allscreenshots.php');
 
 $smarty->config_load($conf_file, 'faction');
 
@@ -157,18 +158,21 @@ $page = array(
 	'tab' => 0,
 	'type' => 8,
 	'typeid' => $faction['entry'],
+    'username' => $_SESSION['username'],
 	'path' => path(0, 7, $faction['category'], $faction['category2'])
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
 
 // Данные о квесте
 $smarty->assign('faction', $faction);
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 // Загружаем страницу
 $smarty->display('faction.tpl');
 ?>

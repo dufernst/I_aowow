@@ -24,6 +24,7 @@ function loot($table, $lootid, $group = 0)
 			{LEFT JOIN (locales_item loc) ON loc.entry=i.entry AND ?d}
 		WHERE
 			l.entry=?d
+			AND l.entry <> 0
 			{ AND l.groupid = ?d }
 		{LIMIT ?d}
 		',
@@ -63,7 +64,7 @@ function loot($table, $lootid, $group = 0)
 	// Cохраняем весь нессылочный лут
 	$loot = array();
 	foreach ($rows as $row)
-		if ($row['mincountOrRef'] >= 0)
+		if ($row['mincountOrRef'] > 0)
 		{
 			$chance = $row['ChanceOrQuestChance'];
 			if($chance == 0) // Запись из группы с равным шансом дропа, считаем реальную вероятность

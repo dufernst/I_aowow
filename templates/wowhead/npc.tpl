@@ -7,6 +7,7 @@
 
 			<script type="text/javascript">
 				{include file='bricks/allcomments.tpl'}
+				{include file='bricks/allscreenshots.tpl'}
 				var g_pageInfo = {ldelim}type: 1, typeId: {$npc.entry}, name: '{$npc.name|escape:"quotes"}'{rdelim};
 				g_initPath([0,4,{$npc.type}]);
 			</script>
@@ -45,14 +46,17 @@
 							{if $npc.kill_rep_value2}{$npc.kill_rep_value2|string_format:"%+d"} {#reputationwith#} {$npc.kill_rep_faction2} {#until#} {$npc.kill_rep_until2}{/if}
                                                 {/strip}</div></li>
 {/if} 
+<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
+<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
 					</ul>
 				</td></tr>
 			</table>
 
 			<div class="text">
 				<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
+				<a href="javascript:;" id="dsgndslgn464d" class="button-red" onclick="this.blur(); ModelViewer.show({ldelim} type: {$page.type}, typeId: {$npc.entry}, displayId: {$npc.model}{rdelim})"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
 				<h1>{$npc.name}{if $npc.subname} &lt;{$npc.subname}&gt;{/if}</h1>
-
+			
 {if $npc.heroic}
 				<div>{if $npc.heroic.type == 1}{#This_is_heroic_NPC#}{else}{#This_is_normal_NPC#}{/if} <a href="?npc={$npc.heroic.entry}">{$npc.heroic.name}</a>.</div>
 				<div class="pad"></div>
@@ -134,7 +138,9 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if isset($npc.teaches)}{include		file='bricks/spell_table.tpl'			id='teaches-ability'	name='teaches'			tabsid='tabsRelated' data=$npc.teaches			}{/if}
 {if isset($npc.criteria_of)}{include 	file='bricks/achievement_table.tpl' 	id='criteria-of'		name='criteriaof'		tabsid='tabsRelated' data=$npc.criteria_of		}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
+new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
+ss_appendSticky();
 </script>
 
 			{include file='bricks/contribute.tpl'}

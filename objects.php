@@ -1,4 +1,5 @@
 <?php
+require_once('includes/allreputation.php');
 
 $smarty->config_load($conf_file, 'object');
 
@@ -64,6 +65,22 @@ if(!$data = load_cache(OBJECT_LISTING, $cache_key))
 	}
 	save_cache(OBJECT_LISTING, $cache_key, $data);
 }
+
+if(!$object_tot = load_cache(OBJECT_TOT, 'object_tot'))
+{
+	unset($object_tot);
+
+	// Получаем данные по этому типу объектов
+	$object_tot = $DB->select('
+			SELECT COUNT(g.entry) as num_objects
+			FROM gameobject_template g
+			WHERE 
+				g.name <> ""
+		'
+	);
+	save_cache(OBJECT_TOT, 'object_tot', $object_tot[0]['num_objects']);
+}
+
 global $page;
 $page = array(
 	'Mapper' => false,
@@ -72,14 +89,17 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
+	'username' => $_SESSION['username'],
 	'path' => path(0, 5, $type)
 );
 $smarty->assign('page', $page);
 
 // Передаем массив данных шаблонизатору
 $smarty->assign('data', $data);
+$smarty->assign('objects_tot',(is_array($object_tot) ? $object_tot[0]['num_objects'] : $object_tot));
 // Статистика выполнения mysql запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 
 $smarty->display('objects.tpl');
 

@@ -7,6 +7,7 @@
 
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
+					{include file='bricks/allscreenshots.tpl'}
 					var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$item.name|escape:"quotes"}'{rdelim};
 					g_initPath({$page.path});
 				</script>
@@ -38,6 +39,8 @@
 							{if isset($item.disenchantskill)}<li><div>{#Disenchantable#} (<span class="tip" onmouseover="Tooltip.showAtCursor(event, LANG.tooltip_reqenchanting, 0, 0, 'q')" onmousemove="Tooltip.cursorUpdate(event)" onmouseout="Tooltip.hide()">{$item.disenchantskill}</span>)</div></li>{/if}
 							{if isset($item.key)}<li><div>{#Can_be_placed_in_the_keyring#}</div></li>{/if}
 						</ul>
+						<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
+<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
 					</td></tr>
 				</table>
 
@@ -55,11 +58,44 @@
 							'ff0070dd',
 						{elseif $item.quality==4}
 							'ffa335ee',
-						{else}
+						{elseif $item.quality==5}
 							'ffff8000',
+						{elseif $item.quality==6}
+							'ffe5cc80',
+						{elseif $item.quality==7}
+							'ffe5cc80',
+						{elseif $item.quality==8}
+							'ffffff98',
+						{else}
+							'ff71d5ff',
 						{/if}
-						'item:{$item.entry}:0:0:0:0:0:0:0:0', '{$item.name|escape:"javascript"}')">
-					<em><b><i>Link</i></b><span>Link</span></em></a>
+						'item:{$item.entry}:0:0:0:0:0:0:0:0', '{$item.name|replace:'"':'\\\\&quot;'}')">
+					<em><b><i>Link</i></b><span>{#Game_link#}</span></em></a>
+					<a href="javascript:;" class="button-red" onclick="this.blur(); g_getBBCodeLink(
+						{if $item.quality==0}
+							'#9d9d9d',
+						{elseif $item.quality==1}
+							'#ffffff',
+						{elseif $item.quality==2}
+							'#1eff00',
+						{elseif $item.quality==3}
+							'#0070dd',
+						{elseif $item.quality==4}
+							'#a335ee',
+						{elseif $item.quality==5}
+							'#FF8000',
+						{elseif $item.quality==6}
+							'#e5cc80',
+						{elseif $item.quality==7}
+							'#e5cc80',
+						{elseif $item.quality==8}
+							'#ffff98',
+						{else}
+							'#71d5ff',
+						{/if}
+						'{$item.entry}', '{$item.name|replace:'"':'\\&quot;'}')">
+					<em><b><i>Link</i></b><span>{#Forum_link#}</span></em></a>
+					<a href="javascript:;" id="dsgndslgn464d" class="button-red" onclick="this.blur(); ModelViewer.show({ldelim} type: {$page.type}, typeId: {$item.entry}, displayId: {$item.displayid}, slot: {$item.type}{rdelim})"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
 					{/strip}
 					<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
 					<h1>{$item.name}</h1>
@@ -127,7 +163,9 @@ var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 {if isset($item.containedinspell)}{include		file='bricks/spell_table.tpl'			id='contained-in-spell'		tabsid='tabsRelated' data=$item.containedinspell		name='containedin'		}{/if}
 {if isset($item.criteria_of)}{include 			file='bricks/achievement_table.tpl' 	id='criteria-of'			tabsid='tabsRelated' data=$item.criteria_of			name='criteriaof'		}{/if}
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
+new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
+ss_appendSticky();
 </script>
 
 				{include file='bricks/contribute.tpl'}

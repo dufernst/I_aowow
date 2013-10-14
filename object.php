@@ -1,11 +1,12 @@
 <?php
-
+require_once('includes/allreputation.php');
 require_once('includes/allobjects.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
 require_once('includes/allquests.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
+require_once('includes/allscreenshots.php');
 
 $smarty->config_load($conf_file, 'object');
 
@@ -59,6 +60,7 @@ if(!$object = load_cache(OBJECT_PAGE, $cache_key))
 			$object['ends'][] = GetQuestInfo($row, 0xFFFFFF);
 	}
 	unset($rows_qe);
+	$obj['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
 
 	// Цель критерии
 	$rows = $DB->select('
@@ -114,6 +116,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 2,
 	'typeid' => $object['entry'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 5, $object['type'])
 );
 
@@ -121,9 +124,12 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
+$smarty->assign('wh_ss', get_wowhead_screenshots($page['type'], $page['typeid'], 'page'));
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 
 $smarty->assign('object', $object);
 $smarty->display('object.tpl');

@@ -78,6 +78,27 @@ switch($what)
 		$x .= 'name_'.$locales[$_SESSION['locale']].': \''.ajax_str_normalize($achievement['name']).'\',';
 		$x .= 'icon:\''.$achievement['icon'].'\',';
 		$x .= 'tooltip_'.$locales[$_SESSION['locale']].':\''.ajax_str_normalize($achievement['tooltip']).'\'';
+        break;
+    case 'npc':
+		if ( ! $npc = load_cache ( NPC_TOOLTIP, $id ) ) {
+			require_once ( 'includes/allnpcs.php' );
+			$npc = creatureinfo ( $id );
+			save_cache ( NPC_TOOLTIP, $id, $npc );
+		}
+		$x .= '$WowheadPower.registerNpc(' . $id . ', ' . $_SESSION ['locale'] . ',{';
+		$x .= 'name_' . $locales [$_SESSION ['locale']] . ': \'' . ajax_str_normalize ( $npc ['name'] ) . '\',';
+		$x .= 'tooltip_' . $locales [$_SESSION ['locale']] . ':\'' . ajax_str_normalize ( $npc ['tooltip'] ) . '\'';
+		$x .= '});';
+		break;
+	case 'object':
+		if ( ! $object = load_cache ( OBJECT_TOOLTIP, $id ) ) {
+			require_once ( 'includes/allobjects.php' );
+			$object = objectinfo ( $id, 1 );
+			save_cache ( OBJECT_TOOLTIP, $id, $object );
+		}
+		$x .= '$WowheadPower.registerObject(' . $id . ', ' . $_SESSION ['locale'] . ',{';
+		$x .= 'name_' . $locales [$_SESSION ['locale']] . ': \'' . ajax_str_normalize ( $object ['name'] ) . '\',';
+		$x .= 'tooltip_' . $locales [$_SESSION ['locale']] . ':\'' . ajax_str_normalize ( $object ['tooltip'] ) . '\'';
 		$x .= '});';
 		break;
 	default:

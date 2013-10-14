@@ -33,8 +33,8 @@
 					{if isset($data[i].xp)}
 						,xp:{$data[i].xp}
 					{/if}
-					{if isset($data[i].money)}
-						,money:{$data[i].money}
+					{if isset($data[i].RewOrReqMoney)}
+						,money:{$data[i].RewOrReqMoney}
 					{/if}
 					{if isset($data[i].category)}
 						,category:{$data[i].category}

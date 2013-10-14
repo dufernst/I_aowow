@@ -7,6 +7,7 @@
 			<div id="main-contents" class="main-contents">
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
+					{include file='bricks/allscreenshots.tpl'}
 					var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$itemset.name|escape:"quotes"}'{rdelim};
 					g_initPath({$page.path});
 				</script>
@@ -18,6 +19,8 @@
 							<li><div>{#Level#}: {$itemset.minlevel}{if $itemset.minlevel!=$itemset.maxlevel - {$itemset.maxlevel}{/if}</div></li>{if $user.roles == 2}<li><div><a href="?admin.editarticle=5.{$itemset.entry}">{#Write_article#}</a></div></li>{/if}{if $itemset.Aflags & 2}<li><div>{#Not_Available_to_Players#}</div></li>{/if}{if $itemset.Aflags & 8}<li><div>{#No_Longer_Available_to_Players#}</div></li>{/if} {if $itemset.Aflags & 16}<li><div>{#Added_in_patch_24#}</div></li>{/if} 
 						</ul>
 					</td></tr>
+					<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
+<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
 				</table>
 
 				<div class="text">
@@ -47,6 +50,7 @@
 <script type="text/javascript">
 var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
 new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
+new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
 </script>
 

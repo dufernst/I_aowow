@@ -133,6 +133,27 @@ switch($razdel)
 	case 'data':
 		include 'data.php';
 		break;
+	case 'screenshot':
+		include 'screenshot.php';
+		 break;
+	case 'powered':
+		include 'powered.php';
+		break;
+	case 'searchbox':
+		include 'searchbox.php';
+		break;
+	case 'titles':
+		include 'titles.php';
+		break;
+	case 'reputation':
+		include 'reputation.php';
+		break;
+	case 'gdb':
+		include 'gathererdb.php';
+		break;
+	case 'user':
+		include 'user.php';
+		break;
 	default:
 		include 'main.php';
 		break;

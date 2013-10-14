@@ -7,6 +7,8 @@ require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
+require_once('includes/allscreenshots.php');
+require_once('includes/allreputation.php');
 
 $smarty->config_load($conf_file, 'quest');
 
@@ -253,6 +255,7 @@ if(!$quest = load_cache(QUEST_PAGE, $cache_key))
 
 	// Спеллы не требуют локализации, их инфа берется из базы
 	// Хранить в базе все локализации - задачка на будующее
+	$quest['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
 
 	// Спелл, кастуемый на игрока в начале квеста
 	if($quest['SrcSpell'])
@@ -574,12 +577,15 @@ $page = array(
 	'tab' => 0,
 	'type' => 5,
 	'typeid' => $quest['entry'],
-	'path' => path(0, 5) // TODO
+    'username' => $_SESSION['username'],
+	'path' => path(0, 3, $quest['maincat'], $quest['category']) // TODO
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
+$smarty->assign('reputation', getreputation($page['username']));
 
 // Данные о квесте
 $smarty->assign('quest', $quest);

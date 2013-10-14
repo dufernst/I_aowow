@@ -7,6 +7,7 @@
 			<div id="main-contents" class="main-contents">
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
+					{include file='bricks/allscreenshots.tpl'}
 					var g_pageInfo = {ldelim}type: 5, typeId: {$quest.entry}, name: '{$quest.Title|escape:"quotes"}'{rdelim};
 					g_initPath([0,3,{$quest.maincat},{$quest.category}]);
 				</script>
@@ -201,6 +202,8 @@
 							onmouseout="Tooltip.hide()">{#Related#}</span>
 					</td></tr>
 {/if}
+<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
+<tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
 				</table>
 
 				<div class="text">
@@ -510,8 +513,9 @@
 				{if isset($quest.mailrewards)}{include file='bricks/item_table.tpl' id='mail-rewards' tabsid='tabsRelated' data=$quest.mailrewards name='questrewards'}{/if}
 				{if isset($quest.criteria_of)}{include	file='bricks/achievement_table.tpl'	id='criteria-of'	tabsid='tabsRelated'	data=$quest.criteria_of	name='criteriaof'}{/if}
 				new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
-				tabsRelated.flush();
-			</script>
+new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
+tabsRelated.flush();
+</script>
 
 			{include file='bricks/contribute.tpl'}
 

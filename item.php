@@ -8,6 +8,9 @@ require_once('includes/allnpcs.php');
 require_once('includes/allobjects.php');
 require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
+require_once('includes/allscreenshots.php');
+require_once('includes/allreputation.php');
+
 
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file, 'item');
@@ -498,7 +501,7 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 			$item['reagentfor'][$i] = array();
 			$item['reagentfor'][$i]['entry'] = $row['spellID'];
 			$item['reagentfor'][$i]['name'] = $row['spellname_loc'.$_SESSION['locale']];
-			$item['reagentfor'][$i]['school'] = spell_schoolmask($row['schoolMask']);
+			$item['reagentfor'][$i]['school'] = $row['resistancesID'];
 			$item['reagentfor'][$i]['level'] = $row['levelspell'];
 			$item['reagentfor'][$i]['quality'] = '@';
 			for ($j=1;$j<=8;$j++)
@@ -751,15 +754,22 @@ $page = array(
 	'tab' => 0,
 	'type' => 3,
 	'typeid' => $item['entry'],
+    'username' => $_SESSION['username'],
 	'path' => path(0, 0, $item['classs'], $item['subclass'], $item['type'])
 );
 $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('screenshots', getscreenshots($page['type'], $page['typeid']));
+$smarty->assign('wh_ss', get_wowhead_screenshots($page['type'], $page['typeid'], 'page'));
 
+if($_GET['error']==2){
+$smarty->assign('screenshot_error', $smarty->get_config_vars('Error2'));
+};
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 $smarty->assign('item', $item);
 $smarty->display('item.tpl');
 ?>

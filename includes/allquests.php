@@ -67,16 +67,24 @@ define('QUEST_FLAGS_NONE2',				16);
 define('QUEST_FLAGS_EPIC',				32);
 define('QUEST_FLAGS_RAID',				64);
 define('QUEST_FLAGS_TBC',				128);
-define('QUEST_FLAGS_UNK2',				256);
+define('QUEST_FLAGS_DELIVER_MORE',        256);
 define('QUEST_FLAGS_HIDDEN_REWARDS',	512);
 define('QUEST_FLAGS_AUTO_REWARDED',	1024);
 define('QUEST_FLAGS_TBC_RACES',			2048);
 define('QUEST_FLAGS_DAILY',				4096);
-define('QUEST_FLAGS_UNK5',				8192);
-
+define('QUEST_FLAGS_REPEATABLE',          8192);
+define('QUEST_FLAGS_UNAVAILABLE',         16384);
+define('QUEST_FLAGS_WEEKLY',              32768);
+define('QUEST_FLAGS_AUTOCOMPLETE',        65536);
+define('QUEST_FLAGS_SPECIAL_ITEM',        131072);
+define('QUEST_FLAGS_OBJ_TEXT',            262144);
+define('QUEST_FLAGS_AUTO_ACCEPT',         524288);
+// Special flags
 define('QUEST_SPECIALFLAGS_NONE',		0);
 define('QUEST_SPECIALFLAGS_REPEATABLE',	1);
 define('QUEST_SPECIALFLAGS_SCRIPTED',	2);
+define('QUEST_SPECIALFLAGS_AUTO_ACCEPT',  4);
+define('QUEST_SPECIALFLAGS_DUNGEONFINDER',8);
 
 // Флаги для GetQuestInfo
 define('QUEST_DATAFLAG_MINIMUM',	1);
@@ -214,6 +222,28 @@ function GetQuestXpOrMoney($data)
 		return ($fullxp * 0.1);
 }
 
+function GetQuestHonor($data)
+{
+	$l80h = 124;
+	$RewardHonor = $data['RewardHonor'];
+	$RewardMultiplier = $data['RewardHonorMultiplier'];
+	if($RewardHonor == 0)
+		{
+			$reward = $RewardMultiplier * $l80h;
+			return $reward;
+		}
+	elseif($RewardMultiplier == 0)
+		{
+			return $RewardHonor;
+		}
+	else
+        {
+			$reward = $RewardHonor * $RewardMultiplier;
+			if ($reward == 0)
+			return $reward;
+		}
+}
+	    
 // ????
 function GetQuestTitle(&$data)
 {
@@ -279,7 +309,6 @@ function GetQuestReq($id, $count, $type)
 
 function GetQuestTooltip($row)
 {
-	global $DB;
 	$x = '';
 	
 	// Название квеста

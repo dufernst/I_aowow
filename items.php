@@ -2,6 +2,7 @@
 
 // Необходима функция iteminfo
 require_once('includes/allitems.php');
+require_once('includes/allreputation.php');
 
 $smarty->config_load($conf_file, 'item');
 
@@ -44,6 +45,19 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
 	save_cache(ITEM_LISTING, $cache_key, $items);
 }
 
+if(!$item_tot = load_cache(ITEM_TOT, 'item_tot'))
+{
+	unset($item_tot);
+
+	// Составляем запрос к БД, выполняющий поиск по заданным классу и подклассу
+	$item_tot = $DB->select('
+		SELECT COUNT(i.entry) as item_tot
+		FROM item_template i
+		'
+	);
+	save_cache(ITEM_TOT, 'item_tot', $item_tot[0]['item_tot']);
+}
+
 global $page;
 $page = array(
 	'Mapper' => false,
@@ -52,13 +66,16 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
+    'username' => $_SESSION['username'],
 	'path' => path(0, 0, $class, $subclass, $type)
 );
 $smarty->assign('page', $page);
 
 // Статистика выполнения mysql запросов
 $smarty->assign('mysql', $DB->getStatistics());
+$smarty->assign('reputation', getreputation($page['username']));
 $smarty->assign('items', $items);
+$smarty->assign('item_tot',(is_array($item_tot) ? $item_tot[0]['item_tot'] : $item_tot));
 // Загружаем страницу
 $smarty->display('items.tpl');
 ?>
