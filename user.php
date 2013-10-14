@@ -13,7 +13,9 @@ foreach ($rows as $row)
 
 $user['reputation'] = $rDB->select('SELECT * FROM account_reputation WHERE username=? ORDER BY id', $uquery);
 $user['id'] = $rDB->selectCell('SELECT id FROM account WHERE username=?',$uquery);
-$user['characters'] = $cDB->select('SELECT name, level, guid, class, race, latency, online FROM characters WHERE account=?d ORDER BY guid', $user['id']);
+// $user['characters'] = $cDB->select('SELECT name, level, guid, class, race, latency, online FROM characters WHERE account=?d ORDER BY guid', $user['id']);
+$user['characters'] = $cDB->select('SELECT name, level, guid, class, race, online FROM characters WHERE account=?d ORDER BY guid', $user['id']);
+
 global $page;
 $page = array(
 	'Mapper' => false,
