@@ -13,7 +13,7 @@
 {/literal}
 	</style>
 </head>
-<body>
+<body center background="images/background.jpg">
 	<div id="layers"></div>
 	<div id="home">
 		<h1>{$title}</h1>
@@ -30,17 +30,8 @@
 		
 		<script type="text/javascript">var _ = ge('kghjklvhj43v6'); LiveSearch.attach(_); _.focus();</script>
 
-{if $news}
-		<div class="news">
-			<div class="news-list text">
-				<ul>
-{foreach from=$news item=item}
-					<li><div>{$item.text}</div></li>
-{/foreach}
-				</ul>
-			</div>
+{include file="newsbox.tpl"}		
 		</div>
-{/if}
 		
 		<div id="toplinks" class="toplinks">
 			{if $user}<a href="?user={$user.name}">{$user.name}</a>|<a href="?account=signout">{#Sign_out#}</a>{else}<a href="?account=signin">{#Sign_in#}</a>{/if}

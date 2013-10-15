@@ -27,7 +27,6 @@ switch($_GET['latest'])
 					break;
 				case 2: // GO
 					$comments[$i]['subject'] = $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM locales_gameobject WHERE entry=?d LIMIT 1', $row['typeID']);
-					$comments[$i]['subject'] = $DB->selectCell('SELECT name FROM gameobject_template WHERE entry=?d LIMIT 1', $row['typeID']);
 					break;
 				case 3: // Item
 					$comments[$i]['subject'] = $DB->selectCell('SELECT name_loc'.$_SESSION['locale'].' FROM locales_item WHERE entry=?d LIMIT 1', $row['typeID']);
@@ -129,7 +128,7 @@ $page = array(
 	'Book' => false,
 	'Title' => '',
 	'tab' => 0,
-    'type' => 0,
+	'type' => 0,
 	'typeid' => 0,
 	'username' => $_SESSION['username'],
 	'path' => '[0, 30]'

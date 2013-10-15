@@ -681,151 +681,145 @@ function g_createReverseLookupJson(b) {
 	return c
 }
 function g_initHeader(c) {
-	var l = ce("dl"),
-	p = (c == 5);
-	for (var k = 0, m = mn_path.length; k < m; ++k) {
-		var g = ce("dt");
-		var q = ce("a");
-		var n = ce("ins");
-		var h = ce("big");
-		var f = ce("span");
-		var o = mn_path[k][0];
-		var j = (o == c);
-		var e = (!j && mn_path[k][3]);
-		if (p && o == 5) {
-			e = true;
-			mn_path[k][3] = mn_profiles
-		}
-		if (e) {
-			q.menu = mn_path[k][3];
-			q.onmouseover = Menu.show;
-			q.onmouseout = Menu.hide
-		} else {
-			q.onmouseover = Menu._hide
-		}
-		if (mn_path[k][2]) {
-			q.href = mn_path[k][2]
-		} else {
-			q.href = "javascript:;";
-			ns(q);
-			q.style.cursor = "default"
-		}
-		if (j) {
-			q.className = "selected"
-		}
-		ae(h, ct(mn_path[k][1].charAt(0)));
-		ae(n, h);
-		ae(n, ct(mn_path[k][1].substr(1)));
-		ae(q, n);
-		ae(q, f);
-		ae(g, q);
-		ae(l, g)
-	}
-	ae(ge("ptewhjkst46"), l);
-	var b = ge("kbl34h6b43");
-	if (c != null && c >= 0 && c < mn_path.length) {
-		switch (c) {
-		case 0:
-			Menu.addButtons(b, Menu.explode(mn_database));
-			break;
-		case 1:
-			Menu.addButtons(b, mn_tools);
-			break;
-		case 2:
-			Menu.addButtons(b, Menu.explode(mn_more));
-			break;
-		case 3:
-			Menu.addButtons(b, Menu.explode(mn_forums));
-			break;
-		case 5:
-			pr_initTopBarSearch();
-			break
-		}
-	} else {
-		ae(b, ct(String.fromCharCode(160)))
-	}
-	var r = ge("oh2345v5ks");
-	var s = r.previousSibling;
-	var d = r.parentNode;
-	ns(s);
-	s.onclick = function () {
-		this.parentNode.onsubmit()
-	};
-	if (Browser.ie) {
-		setTimeout(function () {
-			r.value = ""
-		},
-		1)
-	}
-	if (r.value == "") {
-		r.className = "search-database"
-	}
-	r.onmouseover = function () {
-		if (trim(this.value) != "") {
-			this.className = ""
-		}
-	};
-	r.onfocus = function () {
-		this.className = ""
-	};
-	r.onblur = function () {
-		if (trim(this.value) == "") {
-			this.className = "search-database";
-			this.value = ""
-		}
-	};
-	d.onsubmit = function () {
-		var a = this.elements[0].value;
-		if (trim(a) == "") {
-			return false
-		}
-		this.submit()
-	}
-}
-function g_initHeaderMenus() {
-	var c = ge("toptabs-menu-user");
-	if (c) {
-		c.menu = [[0, LANG.userpage, "?user=" + g_user.name], [0, LANG.settings, "?account"], [0, LANG.signout, "?account=signout"]];
-		if (location.href.match(new RegExp("?user=" + g_user.name + "$", "i"))) {
-			c.menu[0].checked = 1
-		} else {
-			if (location.href.indexOf("?account") != -1) {
-				c.menu[1].checked = 1
-			}
-		}
-		c.onmouseover = Menu.show;
-		c.onmouseout = Menu.hide;
-		c.href = "?user=" + g_user.name
-	}
-	c = ge("toptabs-menu-profiles");
-	if (c) {
-		c.menu = [];
-		if (g_user.characters) {
-			c.menu.push([, LANG.tab_characters]);
-			for (var f = 0, b = g_user.characters.length; f < b; ++f) {
-				var h = g_user.characters[f],
-				e = [0, h.name + " (" + h.realmname + LANG.hyphen + h.region.toUpperCase() + ")", "?profile=" + h.region + "." + h.realm + "." + g_cleanCharacterName(h.name)];
-				e.smallIcon = h.icon ? h.icon: "chr_" + g_file_races[h.race] + "_" + g_file_genders[h.gender] + "_" + g_file_classes[h.classs] + "0" + (h.level > 59 ? (Math.floor((h.level - 60) / 10) + 2) : 1);
-				c.menu.push(e)
-			}
-		}
-		c.menu.push([, LANG.tab_profiles]);
-		if (g_user.profiles) {
-			for (var f = 0, b = g_user.profiles.length; f < b; ++f) {
-				var h = g_user.profiles[f],
-				e = [0, h.name, "?profile=" + h.id];
-				e.smallIcon = h.icon ? h.icon: "chr_" + g_file_races[h.race] + "_" + g_file_genders[h.gender] + "_" + g_file_classes[h.classs] + "0" + (h.level > 59 ? (Math.floor((h.level - 60) / 10) + 2) : 1);
-				c.menu.push(e)
-			}
-		}
-		var e = [0, "(" + LANG.button_new + ")", "?profile&new"];
-		e.smallIcon = "inv_misc_questionmark";
-		c.menu.push(e);
-		c.menu.rightAligned = 1;
-		c.onmouseover = Menu.show;
-		c.onmouseout = Menu.hide;
-		c.href = "?user=" + g_user.name + "#profiles"
-	}
+	var l = ce("dl"), p = (c == 5);
+    for (var k = 0, m = mn_path.length; k < m; ++k) {
+        var g = ce("dt");
+        var q = ce("a");
+        var n = ce("ins");
+        var h = ce("big");
+        var f = ce("span");
+        var o = mn_path[k][0];
+        var j = (o == c);
+        var e = (!j && mn_path[k][3]);
+        if (p && o == 5) {
+            e = true;
+            mn_path[k][3] = mn_profiles
+        }
+        if (e) {
+            q.menu = mn_path[k][3];
+            q.onmouseover = Menu.show;
+            q.onmouseout = Menu.hide
+        } else {
+            q.onmouseover = Menu._hide
+        }
+        if (mn_path[k][2]) {
+            q.href = mn_path[k][2]
+        } else {
+            q.href = "javascript:;";
+            ns(q);
+            q.style.cursor = "default"
+        }
+        if (j) {
+            q.className = "selected"
+        }
+        ae(h, ct(mn_path[k][1].charAt(0)));
+        ae(n, h);
+        ae(n, ct(mn_path[k][1].substr(1)));
+        ae(q, n);
+        ae(q, f);
+        ae(g, q);
+        ae(l, g)
+    }
+    ae(ge("ptewhjkst46"), l);
+    var b = ge("kbl34h6b43");
+    if (c != null && c >= 0 && c < mn_path.length) {
+        switch (c) {
+            case 0:
+                Menu.addButtons(b, Menu.explode(mn_database));
+                break;
+            case 1:
+                Menu.addButtons(b, mn_tools);
+                break;
+            case 2:
+                Menu.addButtons(b, Menu.explode(mn_more));
+                break;
+            case 3:
+                Menu.addButtons(b, Menu.explode(mn_forums));
+                break;
+            case 5:
+                pr_initTopBarSearch();
+                break
+        }
+    } else {
+        ae(b, ct(String.fromCharCode(160)))
+    }
+    var r = ge("oh2345v5ks");
+    var s = r.previousSibling;
+    var d = r.parentNode;
+    ns(s);
+    s.onclick = function() {
+        this.parentNode.onsubmit()
+    };
+    if (Browser.ie) {
+        setTimeout(function() {
+            r.value = ""
+        }, 1)
+    }
+    if (r.value == "") {
+        r.className = "search-database"
+    }
+    r.onmouseover = function() {
+        if (trim(this.value) != "") {
+            this.className = ""
+        }
+    };
+    r.onfocus = function() {
+        this.className = ""
+    };
+    r.onblur = function() {
+        if (trim(this.value) == "") {
+            this.className = "search-database";
+            this.value = ""
+        }
+    };
+    d.onsubmit = function() {
+        var a = this.elements[0].value;
+        if (trim(a) == "") {
+            return false
+        }
+        this.submit()
+    }
+    var c = ge("toptabs-menu-user");
+    if (c) {
+        c.menu = [[0, LANG.userpage, "?user=" + g_user.name], [0, LANG.settings, "?account"], [0, LANG.signout, "?account=signout"]];
+        if (location.href.match(new RegExp("?user=" + g_user.name + "$", "i"))) {
+            c.menu[0].checked = 1
+        } else {
+            if (location.href.indexOf("?account") != -1) {
+                c.menu[1].checked = 1
+            }
+        }
+        c.onmouseover = Menu.show;
+        c.onmouseout = Menu.hide;
+        c.href = "?user=" + g_user.name
+    }
+    c = ge("toptabs-menu-profiles");
+    if (c) {
+        c.menu = [];
+        if (g_user.characters) {
+            c.menu.push([, LANG.tab_characters]);
+            for (var f = 0, b = g_user.characters.length; f < b; ++f) {
+                var h = g_user.characters[f], e = [0, h.name + " (" + h.realmname + LANG.hyphen + h.region.toUpperCase() + ")", "?profile=" + h.region + "." + h.realm + "." + g_cleanCharacterName(h.name)];
+                e.smallIcon = h.icon ? h.icon : "chr_" + g_file_races[h.race] + "_" + g_file_genders[h.gender] + "_" + g_file_classes[h.classs] + "0" + (h.level > 59 ? (Math.floor((h.level - 60) / 10) + 2) : 1);
+                c.menu.push(e)
+            }
+        }
+        c.menu.push([, LANG.tab_profiles]);
+        if (g_user.profiles) {
+            for (var f = 0, b = g_user.profiles.length; f < b; ++f) {
+                var h = g_user.profiles[f], e = [0, h.name, "?profile=" + h.id];
+                e.smallIcon = h.icon ? h.icon : "chr_" + g_file_races[h.race] + "_" + g_file_genders[h.gender] + "_" + g_file_classes[h.classs] + "0" + (h.level > 59 ? (Math.floor((h.level - 60) / 10) + 2) : 1);
+                c.menu.push(e)
+            }
+        }
+        var e = [0, "(" + LANG.button_new + ")", "?profile&new"];
+        e.smallIcon = "inv_misc_questionmark";
+        c.menu.push(e);
+        c.menu.rightAligned = 1;
+        c.onmouseover = Menu.show;
+        c.onmouseout = Menu.hide;
+        c.href = "?user=" + g_user.name + "#profiles"
+    }
 	c = ge("toptabs-menu-language");
 	if (c) {
 		var g = "www",
@@ -839,14 +833,12 @@ function g_initHeaderMenus() {
 			d = d.substr(0, j)
 		}
 		//c.menu = [[0, "Deutsch", (g_locale.id != 3 ? d.replace(g, "de") : null)], [0, "English", (g_locale.id != 0 ? d.replace(g, "www") : null)], [0, "Espa" + String.fromCharCode(241) + "ol", (g_locale.id != 6 ? d.replace(g, "es") : null)], [0, "Fran" + String.fromCharCode(231) + "ais", (g_locale.id != 2 ? d.replace(g, "fr") : null)], [0, String.fromCharCode(1056, 1091, 1089, 1089, 1082, 1080, 1081), (g_locale.id != 7 ? d.replace(g, "ru") : null)]];
-		c.menu = [[0, "Deutsch", (g_locale.id != 3 ? "?locale=3" : null)], [0, "English", (g_locale.id != 0 ? "?locale=0" : null)], [0, "Fran" + String.fromCharCode(231) + "ais", (g_locale.id != 2 ? "?locale=2" : null)], [0, String.fromCharCode(1056, 1091, 1089, 1089, 1082, 1080, 1081), (g_locale.id != 8 ? "?locale=8" : null)]];
+		c.menu = [[0, "English", (g_locale.id != 0 ? "?locale=0" : null)], [0, String.fromCharCode(1056, 1091, 1089, 1089, 1082, 1080, 1081), (g_locale.id != 8 ? "?locale=8" : null)]];
 		c.menu.rightAligned = 1;
 		if (g_locale.id != 25) {
 			c.menu[{
-				3 : 0,
-				0 : 1,
-				2 : 2,
-				8 : 3
+				0 : 0,
+				8 : 1
 			} [g_locale.id]].checked = 1
 		}
 		c.onmouseover = Menu.show;
@@ -854,107 +846,102 @@ function g_initHeaderMenus() {
 	}
 }
 function g_initPath(p, f) {
-	var h = mn_path,
-	c = null,
-	k = null,
-	o = 0,
-	l = ge("main-precontents"),
-	n = ce("div");
-	ee(l);
-	if (g_initPath.lastIt) {
-		g_initPath.lastIt.checked = null
-	}
-	n.className = "path";
-	if (f != null) {
-		var m = ce("div");
-		m.className = "path-right";
-		var q = ce("a");
-		q.href = "javascript:;";
-		q.id = "fi_toggle";
-		ns(q);
-		q.onclick = fi_toggle;
-		if (f) {
-			q.className = "disclosure-on";
-			ae(q, ct(LANG.fihide))
-		} else {
-			q.className = "disclosure-off";
-			ae(q, ct(LANG.fishow))
-		}
-		ae(m, q);
-		ae(l, m)
-	}
-	for (var g = 0; g < p.length; ++g) {
-		var q, b, r = 0;
-		for (var e = 0; e < h.length; ++e) {
-			if (h[e][0] == p[g]) {
-				r = 1;
-				h = h[e];
-				h.checked = 1;
-				break
-			}
-		}
-		if (!r) {
-			o = 1;
-			break
-		}
-		q = ce("a");
-		b = ce("span");
-		if (h[2]) {
-			q.href = h[2]
-		} else {
-			q.href = "javascript:;";
-			ns(q);
-			q.style.textDecoration = "none";
-			q.style.color = "white";
-			q.style.cursor = "default"
-		}
-		if (g < p.length - 1 && h[3]) {
-			b.className = "menuarrow"
-		}
-		ae(q, ct(h[4] == null ? h[1] : h[4]));
-		if (g == 0) {
-			q.menu = mn_path
-		} else {
-			q.menu = c[3]
-		}
-		q.onmouseover = Menu.show;
-		q.onmouseout = Menu.hide;
-		ae(b, q);
-		ae(n, b);
-		k = b;
-		c = h;
-		h = h[3];
-		if (!h) {
-			o = 1;
-			break
-		}
-	}
-	if (o && k) {
-		k.className = ""
-	} else {
-		if (c && c[3]) {
-			k.className = "menuarrow";
-			q = ce("a");
-			b = ce("span");
-			q.href = "javascript:;";
-			ns(q);
-			q.style.textDecoration = "none";
-			q.style.paddingRight = "16px";
-			q.style.color = "white";
-			q.style.cursor = "default";
-			ae(q, ct("..."));
-			q.menu = c[3];
-			q.onmouseover = Menu.show;
-			q.onmouseout = Menu.hide;
-			ae(b, q);
-			ae(n, b)
-		}
-	}
-	var m = ce("div");
-	m.className = "clear";
-	ae(n, m);
-	ae(l, n);
-	g_initPath.lastIt = c
+	var h = mn_path, c = null, k = null, o = 0, l = ge("main-precontents"), n = ce("div");
+    ee(l);
+    if (g_initPath.lastIt) {
+        g_initPath.lastIt.checked = null
+    }
+    n.className = "path";
+    if (f != null) {
+        var m = ce("div");
+        m.className = "path-right";
+        var q = ce("a");
+        q.href = "javascript:;";
+        q.id = "fi_toggle";
+        ns(q);
+        q.onclick = fi_toggle;
+        if (f) {
+            q.className = "disclosure-on";
+            ae(q, ct(LANG.fihide))
+        } else {
+            q.className = "disclosure-off";
+            ae(q, ct(LANG.fishow))
+        }
+        ae(m, q);
+        ae(l, m)
+    }
+    for (var g = 0; g < p.length; ++g) {
+        var q, b, r = 0;
+        for (var e = 0; e < h.length; ++e) {
+            if (h[e][0] == p[g]) {
+                r = 1;
+                h = h[e];
+                h.checked = 1;
+                break
+            }
+        }
+        if (!r) {
+            o = 1;
+            break
+        }
+        q = ce("a");
+        b = ce("span");
+        if (h[2]) {
+            q.href = h[2]
+        } else {
+            q.href = "javascript:;";
+            ns(q);
+            q.style.textDecoration = "none";
+            q.style.color = "white";
+            q.style.cursor = "default"
+        }
+        if (g < p.length - 1 && h[3]) {
+            b.className = "menuarrow"
+        }
+        ae(q, ct(h[4] == null ? h[1] : h[4]));
+        if (g == 0) {
+            q.menu = mn_path
+        } else {
+            q.menu = c[3]
+        }
+        q.onmouseover = Menu.show;
+        q.onmouseout = Menu.hide;
+        ae(b, q);
+        ae(n, b);
+        k = b;
+        c = h;
+        h = h[3];
+        if (!h) {
+            o = 1;
+            break
+        }
+    }
+    if (o && k) {
+        k.className = ""
+    } else {
+        if (c && c[3]) {
+            k.className = "menuarrow";
+            q = ce("a");
+            b = ce("span");
+            q.href = "javascript:;";
+            ns(q);
+            q.style.textDecoration = "none";
+            q.style.paddingRight = "16px";
+            q.style.color = "white";
+            q.style.cursor = "default";
+            ae(q, ct("..."));
+            q.menu = c[3];
+            q.onmouseover = Menu.show;
+            q.onmouseout = Menu.hide;
+            ae(b, q);
+            ae(n, b)
+        }
+    }
+    var m = ce("div");
+    m.className = "clear";
+    ae(n, m);
+    ae(l, n);
+    g_initPath.lastIt = c
 }
 function g_formatTimeElapsed(e) {
 	function c(m, l, i) {
@@ -1297,7 +1284,7 @@ function g_getPatchVersion(e) {
 	a = Math.ceil((c + b) / 2);
 	return d.V[a]
 }
-g_getPatchVersion.V = ["1.12.0", "1.12.1", "1.12.2", "2.0.1", "2.0.3", "2.0.4", "2.0.5", "2.0.6", "2.0.7", "2.0.8", "2.0.10", "2.0.12", "2.1.0", "2.1.1", "2.1.2", "2.1.3", "2.2.0", "2.2.2", "2.2.3", "2.3.0", "2.3.2", "2.3.3", "2.4.0", "2.4.1", "2.4.2", "2.4.3", "3.0.2", "3.0.3", "3.0.8", "3.0.9", "3.1.0", "3.1.1", "3.1.2", "3.1.3", "???"];
+g_getPatchVersion.V = ["1.12.0", "1.12.1", "1.12.2", "2.0.1", "2.0.3", "2.0.4", "2.0.5", "2.0.6", "2.0.7", "2.0.8", "2.0.10", "2.0.12", "2.1.0", "2.1.1", "2.1.2", "2.1.3", "2.2.0", "2.2.2", "2.2.3", "2.3.0", "2.3.2", "2.3.3", "2.4.0", "2.4.1", "2.4.2", "2.4.3", "3.0.2", "3.0.3", "3.0.8", "3.0.9", "3.1.0", "3.1.1", "3.1.2", "3.1.3", "3.3.5", "???"];
 g_getPatchVersion.T = [1153540800000, 1159243200000, 1160712000000, 1165294800000, 1168318800000, 1168578000000, 1168750800000, 1169528400000, 1171342800000, 1171602000000, 1173157200000, 1175572800000, 1179806400000, 1181016000000, 1182225600000, 1184040000000, 1190692800000, 1191297600000, 1191902400000, 1194930000000, 1199768400000, 1200978000000, 1206417600000, 1207022400000, 1210651200000, 1216094400000, 1223956800000, 1225774800000, 1232427600000, 1234242000000, 1239681600000, 1240286400000, 1242705600000, 1243915200000, 9999999999999];
 function g_expandSite() {
 	ge("wrapper").className = "nosidebar";
@@ -1374,21 +1361,15 @@ function g_getIdFromTypeName(a) {
 	var b = g_getIdFromTypeName.L;
 	return (b[a] ? b[a] : -1)
 }
-g_getIdFromTypeName.L = {
-	npc: 1,
-	object: 2,
-	item: 3,
-	itemset: 4,
-	quest: 5,
-	spell: 6,
-	zone: 7,
-	faction: 8,
-	pet: 9,
-	achievement: 10,
-	profile: 100
-};
+g_getIdFromTypeName.L = {npc: 1,object: 2,item: 3,itemset: 4,quest: 5,spell: 6,zone: 7,faction: 8,pet: 9,achievement: 10,profile: 100};
+
 function g_getIngameLink(a, c, b) {
-	prompt(LANG.prompt_ingamelink, '/script DEFAULT_CHAT_FRAME:AddMessage("\\124c'+a+"\\124H"+c+"\\124h["+b+']\\124h\\124r");')
+    prompt(LANG.prompt_ingamelink, '/script DEFAULT_CHAT_FRAME:AddMessage("\\124c' + a + "\\124H" + c + "\\124h[" + b + ']\\124h\\124r");')
+}
+function g_getBBCodeLink(a, c, b) {    
+	var g = "";
+	g='[url='+DOMAIN+'/?item=' + c +'][color=' + a + ']' + b +' [/color][/url]';
+	prompt(LANG.prompt_bbcodelink, g)
 }
 function g_isEmailValid(a) {
 	return a.match(/^([a-z0-9._-]+)(\+[a-z0-9._-]+)?(@[a-z0-9.-]+\.[a-z]{2,4})$/i) != null
@@ -1444,112 +1425,110 @@ function g_createOrRegex(c) {
 	return new RegExp("(" + d + ")", "gi")
 }
 function g_addPages(l, b) {
-	function o(q, d) {
-		var i;
-		if (q == b.page) {
-			i = ce("span");
-			i.className = "selected"
-		} else {
-			i = ce("a");
-			i.href = (q > 1 ? b.url + b.sep + q + b.pound: b.url + b.pound)
-		}
-		ae(i, ct(d != null ? d: q));
-		return i
-	}
-	if (!b.pound) {
-		b.pound = ""
-	}
-	if (!b.sep) {
-		b.sep = "."
-	}
-	if (b.allOrNothing && b.nPages <= 1) {
-		return
-	}
-	var c = (b.align && b.align == "left");
-	var e = ce("div"),
-	k,
-	p = ce("var");
-	e.className = "pages";
-	if (c) {
-		e.className += " pages-left"
-	}
-	if (b.nPages > 1) {
-		k = ce("div");
-		k.className = "pages-numbers";
-		var n = Math.max(2, b.page - 3);
-		var h = Math.min(b.nPages - 1, b.page + 3);
-		var m = [];
-		if (b.page != b.nPages) {
-			m.push(o(b.page + 1, LANG.lvpage_next + String.fromCharCode(8250)))
-		}
-		m.push(o(b.nPages));
-		if (h < b.nPages - 1) {
-			var a = ce("span");
-			ae(a, ct("..."));
-			m.push(a)
-		}
-		for (var g = h; g >= n; --g) {
-			m.push(o(g))
-		}
-		if (n > 2) {
-			var a = ce("span");
-			ae(a, ct("..."));
-			m.push(a)
-		}
-		m.push(o(1));
-		if (b.page != 1) {
-			m.push(o(b.page - 1, String.fromCharCode(8249) + LANG.lvpage_previous))
-		}
-		if (c) {
-			m.reverse()
-		}
-		for (var g = 0, j = m.length; g < j; ++g) {
-			ae(k, m[g])
-		}
-		k.firstChild.style.marginRight = "0";
-		k.lastChild.style.marginLeft = "0"
-	}
-	var p = ce("var");
-	ae(p, ct(sprintf(LANG[b.wording[b.nItems == 1 ? 0 : 1]], b.nItems)));
-	if (b.nPages > 1) {
-		var a = ce("span");
-		ae(a, ct(String.fromCharCode(8211)));
-		ae(p, a);
-		var f = ce("a");
-		f.className = "gotopage";
-		f.href = "javascript:;";
-		ns(f);
-		if (Browser.ie) {
-			ae(f, ct(" "))
-		}
-		f.onclick = function () {
-			var d = prompt(sprintf(LANG.prompt_gotopage, 1, b.nPages), b.page);
-			if (d != null) {
-				d |= 0;
-				if (d != b.page && d >= 1 && d <= b.nPages) {
-					document.location.href = (d > 1 ? b.url + b.sep + d + b.pound: b.url + b.pound)
-				}
-			}
-		};
-		f.onmouseover = function (d) {
-			Tooltip.showAtCursor(d, LANG.tooltip_gotopage, 0, 0, "q")
-		};
-		f.onmousemove = Tooltip.cursorUpdate;
-		f.onmouseout = Tooltip.hide;
-		ae(p, f)
-	}
-	if (c) {
-		ae(e, p);
-		if (k) {
-			ae(e, k)
-		}
-	} else {
-		if (k) {
-			ae(e, k)
-		}
-		ae(e, p)
-	}
-	ae(l, e)
+	    function o(q, d) {
+        var i;
+        if (q == b.page) {
+            i = ce("span");
+            i.className = "selected"
+        } else {
+            i = ce("a");
+            i.href = (q > 1 ? b.url + b.sep + q + b.pound : b.url + b.pound)
+        }
+        ae(i, ct(d != null ? d : q));
+        return i
+    }
+    if (!b.pound) {
+        b.pound = ""
+    }
+    if (!b.sep) {
+        b.sep = "."
+    }
+    if (b.allOrNothing && b.nPages <= 1) {
+        return
+    }
+    var c = (b.align && b.align == "left");
+    var e = ce("div"), k, p = ce("var");
+    e.className = "pages";
+    if (c) {
+        e.className += " pages-left"
+    }
+    if (b.nPages > 1) {
+        k = ce("div");
+        k.className = "pages-numbers";
+        var n = Math.max(2, b.page - 3);
+        var h = Math.min(b.nPages - 1, b.page + 3);
+        var m = [];
+        if (b.page != b.nPages) {
+            m.push(o(b.page + 1, LANG.lvpage_next + String.fromCharCode(8250)))
+        }
+        m.push(o(b.nPages));
+        if (h < b.nPages - 1) {
+            var a = ce("span");
+            ae(a, ct("..."));
+            m.push(a)
+        }
+        for (var g = h; g >= n; --g) {
+            m.push(o(g))
+        }
+        if (n > 2) {
+            var a = ce("span");
+            ae(a, ct("..."));
+            m.push(a)
+        }
+        m.push(o(1));
+        if (b.page != 1) {
+            m.push(o(b.page - 1, String.fromCharCode(8249) + LANG.lvpage_previous))
+        }
+        if (c) {
+            m.reverse()
+        }
+        for (var g = 0, j = m.length; g < j; ++g) {
+            ae(k, m[g])
+        }
+        k.firstChild.style.marginRight = "0";
+        k.lastChild.style.marginLeft = "0"
+    }
+    var p = ce("var");
+    ae(p, ct(sprintf(LANG[b.wording[b.nItems == 1 ? 0 : 1]], b.nItems)));
+    if (b.nPages > 1) {
+        var a = ce("span");
+        ae(a, ct(String.fromCharCode(8211)));
+        ae(p, a);
+        var f = ce("a");
+        f.className = "gotopage";
+        f.href = "javascript:;";
+        ns(f);
+        if (Browser.ie) {
+            ae(f, ct(" "))
+        }
+        f.onclick = function() {
+            var d = prompt(sprintf(LANG.prompt_gotopage, 1, b.nPages), b.page);
+            if (d != null) {
+                d |= 0;
+                if (d != b.page && d >= 1 && d <= b.nPages) {
+                    document.location.href = (d > 1 ? b.url + b.sep + d + b.pound : b.url + b.pound)
+                }
+            }
+        };
+        f.onmouseover = function(d) {
+            Tooltip.showAtCursor(d, LANG.tooltip_gotopage, 0, 0, "q")
+        };
+        f.onmousemove = Tooltip.cursorUpdate;
+        f.onmouseout = Tooltip.hide;
+        ae(p, f)
+    }
+    if (c) {
+        ae(e, p);
+        if (k) {
+            ae(e, k)
+        }
+    } else {
+        if (k) {
+            ae(e, k)
+        }
+        ae(e, p)
+    }
+    ae(l, e)
 }
 function g_disclose(a, b) {
 	b.className = "disclosure-" + (g_toggleDisplay(a) ? "on": "off");
@@ -1590,84 +1569,80 @@ function ss_validateForm(a) {
 	return true
 }
 function ss_appendSticky() {
-	var m = ge("infobox-sticky");
-	var i = g_pageInfo.type;
-	var h = g_pageInfo.typeId;
-	var k = in_array(lv_screenshots, 1, function (a) {
-		return a.sticky
-	});
-	if (k != -1) {
-		var c = lv_screenshots[k];
-		var l = ce("a");
-		l.href = "#screenshots:id=" + c.id;
-		l.onclick = function (a) {
-			ScreenshotViewer.show({
-				screenshots: lv_screenshots,
-				pos: k
-			});
-			return rf2(a)
-		};
-		var f = ce("img"),
-		e = Math.min(150 / c.width, 150 / c.height);
-		f.src = "http://static.wowhead.com/uploads/screenshots/thumb/" + c.id + ".jpg";
-		f.className = "border";
-		ae(l, f);
-		ae(m, l);
-		var g = ce("div");
-		var n = ce("small");
-		l = ce("a");
-		if (g_user.id > 0) {
-			l.href = "javascript:;";
-			l.onclick = ss_submitAScreenshot
-		} else {
-			l.href = "?account=signin"
-		}
-		ae(l, ct(LANG.infobox_submitone));
-		ae(n, l);
-		ae(n, ct(" " + String.fromCharCode(160)));
-		var j = ce("b");
-		ae(j, ct("|"));
-		ae(n, j);
-		ae(n, ct(String.fromCharCode(160) + " "));
-		l = ce("a");
-		l.href = "javascript:;";
-		l.onclick = function () {
-			tabsRelated.focus( - 1);
-			return false
-		};
-		ae(l, ct(sprintf(LANG.infobox_showall, lv_screenshots.length)));
-		ae(n, l);
-		ae(g, n);
-		ae(m, g)
-	} else {
-		var l;
-		if (g_user.id > 0) {
-			l = '<a href="javascript:;" onclick="ss_submitAScreenshot(); return false">'
-		} else {
-			l = '<a href="?account=signin">'
-		}
-		m.innerHTML = sprintf(LANG.infobox_noneyet, l + LANG.infobox_submitone + "</a>")
-	}
+    var m = ge("infobox-sticky");
+    var i = g_pageInfo.type;
+    var h = g_pageInfo.typeId;
+    var k = in_array(lv_screenshots, 1, function(a) {
+        return a.sticky
+    });
+    if (k != -1) {
+        var c = lv_screenshots[k];
+        var l = ce("a");
+        l.href = "#screenshots:id=" + c.id;
+        l.onclick = function(a) {
+            ScreenshotViewer.show({screenshots: lv_screenshots,pos: k});
+            return rf2(a)
+        };
+        var f = ce("img"), e = Math.min(150 / c.width, 150 / c.height);
+        f.src = "/images/screenshots/thumb/" + c.body.replace("gif","jpg").replace("png","jpg");
+        f.className = "border";
+        ae(l, f);
+        ae(m, l);
+        var g = ce("div");
+        var n = ce("small");
+        l = ce("a");
+        if (g_user.id > 0) {
+            l.href = "javascript:;";
+            l.onclick = ss_submitAScreenshot
+        } else {
+            l.href = "?account=signin"
+        }
+        ae(l, ct(LANG.infobox_submitone));
+        ae(n, l);
+        ae(n, ct(" " + String.fromCharCode(160)));
+        var j = ce("b");
+        ae(j, ct("|"));
+        ae(n, j);
+        ae(n, ct(String.fromCharCode(160) + " "));
+        l = ce("a");
+        l.href = "javascript:;";
+        l.onclick = function() {
+            tabsRelated.focus(-1);
+            return false
+        };
+        ae(l, ct(sprintf(LANG.infobox_showall, lv_screenshots.length)));
+        ae(n, l);
+        ae(g, n);
+        ae(m, g)
+    } else {
+        var l;
+        if (g_user.id > 0) {
+            l = '<a href="javascript:;" onclick="ss_submitAScreenshot(); return false">'
+        } else {
+            l = '<a href="?account=signin">'
+        }
+        m.innerHTML = sprintf(LANG.infobox_noneyet, l + LANG.infobox_submitone + "</a>")
+    }
 }
+
 function su_addToSaved(b, a) {
-	if (!b) {
-		return
-	}
-	var d = gc("compare_groups"),
-	c = "?compare";
-	if (!d || confirm(LANG.confirm_addtosaved)) {
-		if (d) {
-			b = d + ";" + b
-		}
-		sc("compare_groups", 20, b, "/", ".wowhead.com")
-	} else {
-		c += "=" + b
-	}
-	if (a) {
-		window.open(c)
-	} else {
-		location.href = c
-	}
+if (!b) {
+        return
+    }
+    var d = gc("compare_groups"), c = "?compare";
+    if (!d || confirm(LANG.confirm_addtosaved)) {
+        if (d) {
+            b = d + ";" + b
+        }
+        sc("compare_groups", 20, b, "/", ".wowhead.com")
+    } else {
+        c += "=" + b
+    }
+    if (a) {
+        window.open(c)
+    } else {
+        location.href = c
+    }
 }
 function Ajax(b, c) {
 	if (!b) {

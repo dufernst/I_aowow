@@ -74,15 +74,15 @@
 									{section loop=$quest.start name=i}
 										{if $quest.start[i].side} <span class="{$quest.start[i].side}-icon">{/if}
 										<a href="?{$quest.start[i].type}={$quest.start[i].entry}"
-											{if $quest.start[i].type == 'item'} class="icontiny q{$quest.start[i].quality}" style="background-image: url(images/icons/tiny/{$quest.start[i].iconname}.gif);"{/if}
+											{if $quest.start[i].type == 'item'} class="icontiny q{$quest.start[i].quality}" style="background-image: url(/images/icons/tiny/{$quest.start[i].iconname}.gif);"{/if}
 										>{$quest.start[i].name}</a>
-										{if $quest.start[i].event} <a href="?event={$quest.start[i].event}" class="icontiny q0" style="background-image: url(images/icons/tiny/inv_holiday_christmas_present_01.gif);"> </a>{/if}
+										{if $quest.start[i].event} <a href="?event={$quest.start[i].event}" class="icontiny q0" style="background-image: url(/images/icons/tiny/inv_holiday_christmas_present_01.gif);"> </a>{/if}
 										{if $quest.start[i].side}</span>{/if}
 										{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#Start#}: </span>{/if}
 									{/section}
 								</div></li>
 							{/if}{/strip}
-							{if isset($quest.end)}<li><div>{#End#}: {section loop=$quest.end name=i}{if $quest.end[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.end[i].type}={$quest.end[i].entry}">{$quest.end[i].name}</a>{if $quest.end[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#End#}: </span>{/if}{/section}</div></li>{/if}
+							{if isset($quest.end)}<li><div><img src="/images/quest_end.png">{#End#}: {section loop=$quest.end name=i}{if $quest.end[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.end[i].type}={$quest.end[i].entry}">{$quest.end[i].name}</a>{if $quest.end[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#End#}: </span>{/if}{/section}</div></li>{/if}
 							{if isset($quest.reqskill)}<li><div>{#Skill#}: {$quest.reqskill.name} ({$quest.reqskill.value})</div></li>{/if}
 							{if isset($quest.reqclass)}<li><div>{#Class#}: {$quest.reqclass}</div></li>{/if}
 							{if isset($quest.Sharable)}<li><div>{#Sharable#}</div></li>{/if}

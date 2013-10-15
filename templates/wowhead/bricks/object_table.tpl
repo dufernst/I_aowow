@@ -11,6 +11,7 @@
 new Listview({ldelim}
 	template:'object',
 	id:'{$id}',
+    note:'{$num_objects} {#Object_Found#}',
 	{if isset($name)}name:LANG.tab_{$name},{/if}
 	{if isset($tabsid)}tabs:{$tabsid},parent:'listview-generic',{/if}
 	{if $percent}extraCols:[Listview.extraCols.percent],{/if}

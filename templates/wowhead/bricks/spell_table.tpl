@@ -15,6 +15,7 @@
 	new Listview({ldelim}
 		template:'spell',
 		id:'{$id}',
+        note:'{#Spell_Found#}',
 		{if isset($name)}name:LANG.tab_{$name},{/if}
 		{if $percent}extraCols:[Listview.extraCols.percent],{/if}
 		visibleCols:[{if $level}'level'{/if}],

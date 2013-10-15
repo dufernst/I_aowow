@@ -518,8 +518,15 @@ function GetQuestInfo(&$data, $dataflag = QUEST_DATAFLAG_MINIMUM)
 				break;
 			}
 		// Категория 1
-		$data['category'] = $data['ZoneOrSort'];
-		// Категория 2 ???
+        $data['category'] = $data['ZoneOrSort'];
+		$category = $data['category'];
+		$data['zone'] = $DB->SelectCell('SELECT name_loc?d FROM aowow_zones WHERE areatableID = ?d', $_SESSION['locale'], $category);
+        $area = $DB->select('SELECT x_min, y_min, x_max, y_max FROM ?_zones WHERE areatableID = ?', $category);
+        $involvednpc  = $DB->selectCell('SELECT id FROM creature_involvedrelation WHERE quest=?', $data['Id']);
+        $npczone = $DB->select('SELECT position_x, position_y FROM creature WHERE id=?', $involvednpc);
+  //      $data['questcordsx'] = round(100 - ($npczone[0]['position_x'] - $area[0]['x_min']) / (($area[0]['x_max'] - $area[0]['x_min']) / 100),2);
+  //      $data['questcordsy'] = round(100 - ($npczone[0]['position_y'] - $area[0]['y_min']) / (($area[0]['y_max'] - $area[0]['y_min']) / 100),2);
+        // Категория 2 ???
 		$data['category2'] = $data['QuestFlags'];
 		// Требуемое пати
 		if($data['SuggestedPlayers']>1)

@@ -25,9 +25,9 @@ function event_find($conditions = NULL)
 	elseif (is_array($conditions) && count($conditions)==1 && (isset($conditions["quest_id"]) || isset($conditions["quest_creature_id"])))
 	{
 		if (isset($conditions["quest_id"]))
-			$rows = $DB->select('SELECT event, cq.id, geq.quest FROM game_event_quest geq, creature_questrelation cq WHERE geq.quest=cq.quest AND cq.quest=?d', $conditions["quest_id"]);
+			$rows = $DB->select('SELECT event, cq.id, geq.quest FROM game_event_quest geq, creature_involvedrelation cq WHERE geq.quest=cq.quest AND cq.quest=?d', $conditions["quest_id"]);
 		else
-			$rows = $DB->select('SELECT event, cq.id, geq.quest FROM game_event_quest geq, creature_questrelation cq WHERE geq.quest=cq.quest AND id=?d', $conditions["quest_creature_id"]);
+			$rows = $DB->select('SELECT event, cq.id, geq.quest FROM game_event_quest geq, creature_involvedrelation cq WHERE geq.quest=cq.quest AND id=?d', $conditions["quest_creature_id"]);
 		$result = array();
 		// This code is to make each event appear only once in array
 		if ($rows)
@@ -48,7 +48,7 @@ function event_find($conditions = NULL)
 	}
 	else
 	{
-		die("Unknown event_find condition");
+		header('Location: index.php');
 	}
 }
 
