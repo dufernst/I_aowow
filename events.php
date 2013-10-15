@@ -22,7 +22,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 11,
 	'typeid' => 0,
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 11)
 );
 $smarty->assign('page', $page);

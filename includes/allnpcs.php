@@ -18,6 +18,9 @@ function creatureinfo2($Row)
 		'type'				=> $Row['type'],
 		'classification'	=> $Row['rank']
 	);
+	$x .= "</td></tr></table>";
+    
+    $creature ['tooltip'] = $x;
 
 	return $creature;
 }

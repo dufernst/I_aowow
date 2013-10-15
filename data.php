@@ -125,7 +125,7 @@ switch($_GET['data'])
 				$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
 				$_SESSION['locale'] > 0 ? 1 : DBSIMPLE_SKIP,
 				74 // SPELL_EFFECT_APPLY_GLYPH
-				
+
 			);
 			$g_glyphs = array();
 			foreach($glyphs as $glyph)

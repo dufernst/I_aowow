@@ -41,10 +41,12 @@ switch($_REQUEST['comment'])
 			stripslashes($text),
 			$parent ? $parent : 0,
             $_SERVER['REMOTE_ADDR']
+
 		);
-        $currdate = date('Y/m/d');
+		$currdate = date('Y/m/d');
 		$username = $_SESSION['username'];
 		$addrep = mysql_query("INSERT INTO account_reputation (username, reputation, reason, date) VALUES ('$username', '1', '3', '$currdate')");
+
 		// рейтинг
 		if($_SESSION['userid'])
 			$DB->query('INSERT INTO ?_comments_rates (commentid, userid, rate) VALUES (?, ?, 1)', $newid, $_SESSION['userid']);

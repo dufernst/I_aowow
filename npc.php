@@ -4,9 +4,10 @@ require_once('includes/allspells.php');
 require_once('includes/allquests.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
+require_once('includes/allscreenshots.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
-require_once('includes/allscreenshots.php');
+
 // Настраиваем Smarty ;)
 $smarty->config_load($conf_file, 'npc');
 
@@ -55,6 +56,7 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 		{
 			$npc['minlevel'] = '??';
 			$npc['maxlevel'] = '??';
+            // $npc['dtype'] = '3';
 		}
 		$npc['mindmg'] = round(($row['mindmg'] + $row['attackpower']) * $row['dmg_multiplier']);
 		$npc['maxdmg'] = round(($row['maxdmg'] + $row['attackpower']) * $row['dmg_multiplier']);
@@ -68,6 +70,10 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 		// faction_A = faction_H
 		$npc['faction_num'] = $row['factionID'];
 		$npc['faction'] = $row['faction-name'];
+        $npc['quotes'] = $DB->select('SELECT * FROM npc_text WHERE ID=?d', $id);
+		$npc['model'] = $DB->selectCell('SELECT modelid_1 FROM creature_template WHERE entry=?d', $id);
+		$npc['quotes_count'] = $DB->selectCell('SELECT COUNT(*) FROM npc_text WHERE ID=?d', $id);
+		$npc['sscreen'] = $DB->selectCell('SELECT body FROM aowow_screenshots WHERE typeid=?d', $id);
 		// Деньги
 		$money = ($row['mingold']+$row['maxgold']) / 2;
 		$npc = array_merge($npc, money2coins($money));

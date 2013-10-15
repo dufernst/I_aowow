@@ -621,24 +621,21 @@ function position($id, $type, $spawnMask = 0)
 		foreach($data as $spawnid => $spawn)
 		{
 			if($spawn['mt'] == 2)
-				$wpWalkingCreaturesGuids[] = $spawn['guid'];
-		}
-		if($wpWalkingCreaturesGuids)
-		{
-			$wps = $DB->select('
-					SELECT c.map AS m, m.position_x AS x, m.position_y AS y, "3" AS `type`
-					FROM creature_movement m, creature c
-					WHERE
-						m.id = c.guid
-						AND m.id IN (?a)
-					{ GROUP BY ROUND(x,?d), ROUND(y,?d) }
-					ORDER BY x,y
-				',
-				$wpWalkingCreaturesGuids,
-				$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP,
-				$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP
-			);
-			$data = array_merge($wps, $data);
+			{
+				$wps = $DB->select('
+						SELECT ?d AS m, position_x AS x, position_y AS y, "3" AS `type`
+						FROM waypoint_data
+						WHERE id = ?d
+						{ GROUP BY ROUND(x,?d), ROUND(y,?d) }
+						ORDER BY x,y
+					',
+					$spawn['m'],
+					$spawn['guid'],
+					$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP,
+					$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP
+				);
+				$data = array_merge($wps, $data);
+			}
 		}
 	}
 
@@ -669,7 +666,7 @@ function position($id, $type, $spawnMask = 0)
 		if($cached_images)
 			foreach($cached_images as $img)
 				imagedestroy($img);
-		$cached_images = array();
+		
 
 		return $data;
 	}

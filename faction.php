@@ -4,8 +4,8 @@ require_once('includes/allnpcs.php');
 require_once('includes/allitems.php');
 require_once('includes/allquests.php');
 require_once('includes/allcomments.php');
-require_once('includes/allachievements.php');
 require_once('includes/allscreenshots.php');
+require_once('includes/allachievements.php');
 
 $smarty->config_load($conf_file, 'faction');
 
@@ -158,7 +158,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 8,
 	'typeid' => $faction['entry'],
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 7, $faction['category'], $faction['category2'])
 );
 $smarty->assign('page', $page);

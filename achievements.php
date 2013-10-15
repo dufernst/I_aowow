@@ -66,7 +66,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 9,
 	'typeid' => 0,
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 9, $achievements['category2'], $achievements['category1'])
 );
 $smarty->assign('page', $page);

@@ -3,10 +3,10 @@ require_once('includes/allreputation.php');
 require_once('includes/allobjects.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
+require_once('includes/allscreenshots.php');
 require_once('includes/allquests.php');
 require_once('includes/allachievements.php');
 require_once('includes/allevents.php');
-require_once('includes/allscreenshots.php');
 
 $smarty->config_load($conf_file, 'object');
 

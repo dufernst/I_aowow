@@ -439,7 +439,6 @@ function render_item_tooltip(&$Row)
 		$x .= LOCALE_DURABILITY.' '.$Row['MaxDurability'].' / '.$Row['MaxDurability'].'<br />';
 	// Требуемые классы
 	if(classes($Row['AllowableClass']))
-		if(classes($Row['AllowableClass']))
 		{
 			// Распределяем вещи
 			if($Row['class'] == 4 AND $Row['subclass'] == 1)
@@ -560,9 +559,11 @@ function render_item_tooltip(&$Row)
 	for($j=1;$j<=5;$j++)
 	{
 		if($Row['spellid_'.$j])
-			$green[]=spell_to_bonus($Row['spellid_'.$j], $Row['spelltrigger_'.$j],
-				$Row['spellcharges_'.$j], $Row['spellppmRate_'.$j],
-				$Row['spellcooldown_'.$j], $Row['spellcategorycooldown_'.$j]);
+		{
+            $green[]= spell_to_bonus($Row['spellid_'.$j], $Row['spelltrigger_'.$j],
+            $Row['spellcharges_'.$j], $Row['spellppmRate_'.$j],
+            $Row['spellcooldown_'.$j], $Row['spellcategorycooldown_'.$j]);
+		}
 	}
 
 	// Перебираем все "зеленые" бонусы

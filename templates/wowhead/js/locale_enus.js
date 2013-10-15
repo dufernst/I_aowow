@@ -841,24 +841,26 @@ var mn_tools=[
 		[10,"2.4.2","?patchnotes=2.4.2"],
 		[11,"2.4.0","?patchnotes=2.4.0"]
 	]],
+	*/
 	[8,"Utilities",,[
 		[,"Database"],
-		[0,"Latest Additions","?latest-additions"],
-		[1,"Latest Articles","?latest-articles"],
-		[2,"Latest Comments","?latest-comments"],
-		[3,"Latest Screenshots","?latest-screenshots"],
-		[9,"New Items in Patch",,[
+		/* [0,"Latest Additions","?latest=additions"],
+		[1,"Latest Articles","?latest=articles"], */
+		[2,"Latest Comments","?latest=comments"],
+		[3,"Latest Screenshots","?latest=screenshots"],
+		/*[9,"New Items in Patch",,[
 			[2,"3.3","?new-items=3.3"],
 			[1,"3.2","?new-items=3.2"],
 			[0,"3.1","?new-items=3.1"]
 		]],
 		[4,"Random Page","?random"],
 		[5,"Unrated Comments","?unrated-comments"],
+        */
 		[,"Forums"],
 		[6,"Latest Replies","?latest-replies"],
 		[7,"Latest Topics","?latest-topics"],
 		[8,"Unanswered Topics","?unanswered-topics"]
-	]]*/
+	]],
 	[30,"Latest Comments","?latest=comments"]
 ];
 var mn_forums=[
@@ -1571,7 +1573,9 @@ var g_quest_types={
 	41:"PvP",
 	82:"World Event",
 	84:"Escort",
-	85:"Heroic"
+	85:"Heroic",
+	88:"Raid (10)",
+	89:"Raid (25)"
 };
 var g_sides={
 	1:"Alliance",
@@ -2172,6 +2176,8 @@ var LANG={
 	req:"Req. ",
 	reputation:"Reputation",
 	rewards:"Rewards",
+	expirience:"Exp.",
+	money:"Money",
 	petfamily:"Pet family",
 	pieces:"Pieces",
 	points:"Points",
@@ -2544,6 +2550,7 @@ var LANG={
 	tab_starts:"Starts",
 	tab_startsquest:"Starts quest",
 	tab_submitascreenshot:"Submit a screenshot",
+	tab_submityourdata:"Send your data",
 	tab_summonedby:"Summoned by",
 	tab_talents:"Talents",
 	tab_tameable:"Tameable",
@@ -2555,6 +2562,8 @@ var LANG={
 	tab_triggeredby:"Triggered by",
 	tab_uncategorizedspells:"Uncategorized spells",
 	tab_unlocks:"Unlocks",
+	tab_reputation:"Reputation History",
+	tab_characters:"Characters",
 	tab_usedby:"Used by",
 	tab_zones:"Zones",
 	menu_browse:"Browse",

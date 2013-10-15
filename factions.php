@@ -58,7 +58,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 7, $c1, $c2)
 );
 $smarty->assign('page', $page);

@@ -8,8 +8,14 @@
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
 					{include file='bricks/allscreenshots.tpl'}
-					var g_pageInfo = {ldelim}type: 5, typeId: {$quest.entry}, name: '{$quest.Title|escape:"quotes"}'{rdelim};
-					g_initPath([0,3,{$quest.maincat},{$quest.category}]);
+					var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$quest.name|escape:"quotes"}'{rdelim};
+					g_initPath({$page.path});
+				</script>
+
+				<script type="text/javascript">
+					{if isset($allitems)}{include			file='bricks/allitems_table.tpl'		data=$allitems			}{/if}
+					{if isset($allspells)}{include			file='bricks/allspells_table.tpl'		data=$allspells			}{/if}
+					{if isset($allachievements)}{include	file='bricks/allachievements_table.tpl'	data=$allachievements	}{/if}
 				</script>
 
 				<table class="infobox">
@@ -19,8 +25,41 @@
 						<ul>
 							{if $quest.QuestLevel>0}<li><div>{#Level#}: {$quest.QuestLevel}</div></li>{/if}
 							{if $quest.MinLevel>0}<li><div>{#Requires_level#}: {$quest.MinLevel}</div></li>{/if}
+                            {if isset($quest.zone)}<li><div>{#Loremaster#}: <a href="/?maps={$quest.ZoneOrSort}">{$quest.zone}</a></li></div>{/if}
 							{if $quest.typename}<li><div>{#Type#}: {$quest.typename}</div></li>{/if}
-							{if isset($quest.side)}<li><div>{#Side#}: <span class="{if ($quest.side.side==1)}alliance{elseif ($quest.side.side==2)}horde{else}both{/if}-icon">{$quest.side.name}</span></div></li>{/if}
+							{if isset($quest.side)}<li><div>{#Side#}: <span class="{if ($quest.side.side==1)} alliance{elseif ($quest.side.side==2)}horde{else}both{/if}-icon">{$quest.side.name}</span></div></li>{/if}
+							{if $quest.RequiredClasses != 0}<li><div>{#Quest_classes#}: 
+							{if $quest.RequiredClasses == 35}
+							<img src="/images/icons/medium/class_warrior.jpg" width="5%"><font color="#CD853F">{#Class_warrior#}</font>,
+							<img src="/images/icons/medium/class_paladin.jpg" width="5%"><font color="#CD5C5C">{#Class_paladin#}</font>,
+							<img src="/images/icons/medium/class_deathknight.jpg" width="5%"><font color="#CD2626">{#Class_deathknight#}</font>
+{elseif $quest.RequiredClasses == 1}
+							<img src="/images/icons/medium/class_warrior.jpg" width="10%"><font color="">{#Class_warrior#}</font>
+{elseif $quest.RequiredClasses == 2}
+							<img src="/images/icons/medium/class_paladin.jpg" width="10%"><font color="">{#Class_paladin#}</font>
+{elseif $quest.RequiredClasses == 4}
+							<img src="/images/icons/medium/class_hunter.jpg" width="10%"><font color="">{#Class_hunter#}</font>
+{elseif $quest.RequiredClasses == 8}
+							<img src="/images/icons/medium/class_rogue.jpg" width="10%"><font color="">{#Class_rogue#}</font>
+{elseif $quest.RequiredClasses == 16}
+							<img src="/images/icons/medium/class_priest.jpg" width="10%"><font color="">{#Class_priest#}</font>
+{elseif $quest.RequiredClasses == 32}
+							<img src="/images/icons/medium/class_deathknight.jpg" width="10%"><font color="">{#Class_deathknight#}</font>
+{elseif $quest.RequiredClasses == 64}
+							<img src="/images/icons/medium/class_shaman.jpg" width="10%"><font color="">{#Class_shaman#}</font>
+{elseif $quest.RequiredClasses == 128}
+							<img src="/images/icons/medium/class_mage.jpg" width="10%"><font color="">{#Class_mage#}</font>
+{elseif $quest.RequiredClasses == 256}
+							<img src="/images/icons/medium/class_warlock.jpg" width="10%"><font color="">{#Class_warlock#}</font>
+{elseif $quest.RequiredClasses == 1024}
+							<img src="/images/icons/medium/class_druid.jpg" width="10%"><font color="">{#Class_druid#}</font>
+{elseif $quest.RequiredClasses == 1424}
+							<img src="/images/icons/medium/class_druid.jpg" width="5%"><font color="">{#Class_druid#}</font>,
+							<img src="/images/icons/medium/class_warlock.jpg" width="5%"><font color="">{#Class_warlock#}</font>,
+							<img src="/images/icons/medium/class_mage.jpg" width="5%"><font color="">{#Class_mage#}</font>,
+							<img src="/images/icons/medium/class_priest.jpg" width="5%"><font color="">{#Class_priest#}</font>
+							{/if}
+							{/if}
 							{strip}{if isset($quest.LimitTime)}
 								<li><div>
 									{#Timer#}:
@@ -31,7 +70,7 @@
 							{/if}{/strip}
 							{strip}{if isset($quest.start)}
 								<li><div>
-									{#Start#}:
+									<img src="/images/quest_av.png">{#Start#}:
 									{section loop=$quest.start name=i}
 										{if $quest.start[i].side} <span class="{$quest.start[i].side}-icon">{/if}
 										<a href="?{$quest.start[i].type}={$quest.start[i].entry}"
@@ -48,6 +87,8 @@
 							{if isset($quest.reqclass)}<li><div>{#Class#}: {$quest.reqclass}</div></li>{/if}
 							{if isset($quest.Sharable)}<li><div>{#Sharable#}</div></li>{/if}
 							{if isset($quest.Daily)}<li><div>{#Daily#}</div></li>{elseif isset($quest.Repeatable)}<li><div>{#Repeatable#}</div></li>{/if}
+                            <li><div>{#Difficulty#}: <font color="yellow">{$quest.MinLevel}</font>  <font color="green">{$quest.MinLevel+5}</font> 
+							<font color="grey">{$quest.MinLevel+15}</font></div></li>
 						</ul>
 					</td></tr>
 {strip}		{* Серия квестов *}
@@ -363,6 +404,17 @@
 <script type="text/javascript">ge('icontab-icon-spl').appendChild(g_spells.createIcon({$quest.SrcSpell.entry}, 0, 0));</script>
 {/if}
 
+<h3>{#Connected_zones#}</h3>
+{#Zone_desc#} <b>{$quest.zone}</b>
+<br />	
+				<div id="mapper-generic"></div>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+				<script type="text/javascript">
+					var myMapper = new Mapper({ldelim}parent: 'mapper-generic', zone: '{$quest.ZoneOrSort}', coords:[[{$quest.questcordsy},{$quest.questcordsx}]]{rdelim});
+					gE(ge('locations'), 'a')[0].onclick();
+				</script>
+				<br>
+
 {if $quest.Details}
 						<h3>{#Description#}</h3>
 						{$quest.Details}
@@ -394,7 +446,7 @@
 							ge('icontab-icon{$smarty.section.j.index+1}').appendChild(g_items.createIcon({$quest.itemchoices[j].entry}, 1, {$quest.itemchoices[j].count}));
 						{/section}
 						</script>
-{/if}
+{/if}				</script>
 
 {if isset($quest.itemrewards)}
 						<div class="pad"></div>
@@ -478,6 +530,9 @@
 							{#at_max_level#}){/if}
 						</div></li>
 {/if}
+{if $quest.honorreward > 0}
+<li><div>{section loop=$quest.start name=i}{if $quest.start[i].side} <span class="{$quest.start[i].side}-icon">{/if}{/section}{$quest.honorreward} {#Honor_reward#}</div></li>
+{/if}
 {if isset($quest.reprewards)}
 {section name=j loop=$quest.reprewards}
 						<li><div>{$quest.reprewards[j].value} {#reputationwith#} <a href="?faction={$quest.reprewards[j].entry}">{$quest.reprewards[j].name}</a></div></li>
@@ -509,10 +564,18 @@
 			<div id="tabs-generic"></div>
 			<div id="listview-generic" class="listview"></div>
 			<script type="text/javascript">
-				var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
-				{if isset($quest.mailrewards)}{include file='bricks/item_table.tpl' id='mail-rewards' tabsid='tabsRelated' data=$quest.mailrewards name='questrewards'}{/if}
-				{if isset($quest.criteria_of)}{include	file='bricks/achievement_table.tpl'	id='criteria-of'	tabsid='tabsRelated'	data=$quest.criteria_of	name='criteriaof'}{/if}
-				new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
+var tabsRelated = new Tabs({ldelim}parent: ge('tabs-generic'){rdelim});
+{if isset($npc.sells)}{include 			file='bricks/item_table.tpl'			id='sells'				name='sells'			tabsid='tabsRelated' data=$npc.sells			}{/if}
+{if isset($npc.drop)}{include 			file='bricks/item_table.tpl'			id='drop'				name='drops'			tabsid='tabsRelated' data=$npc.drop				}{/if}
+{if isset($npc.pickpocketing)}{include	file='bricks/item_table.tpl'			id='pick-pocketing'		name='pickpocketing'	tabsid='tabsRelated' data=$npc.pickpocketing	}{/if}
+{if isset($npc.skinning)}{include		file='bricks/item_table.tpl'			id='skinning'			name='skinning'			tabsid='tabsRelated' data=$npc.skinning			}{/if}
+{if isset($npc.starts)}{include			file='bricks/quest_table.tpl'			id='starts'				name='starts'			tabsid='tabsRelated' data=$npc.starts			}{/if}
+{if isset($npc.ends)}{include			file='bricks/quest_table.tpl'			id='ends'				name='ends'				tabsid='tabsRelated' data=$npc.ends				}{/if}
+{if isset($npc.abilities)}{include		file='bricks/spell_table.tpl'			id='abilities'			name='abilities'		tabsid='tabsRelated' data=$npc.abilities		}{/if}
+{if isset($npc.objectiveof)}{include	file='bricks/quest_table.tpl'			id='objective-of'		name='objectiveof'		tabsid='tabsRelated' data=$npc.objectiveof		}{/if}
+{if isset($npc.teaches)}{include		file='bricks/spell_table.tpl'			id='teaches-ability'	name='teaches'			tabsid='tabsRelated' data=$npc.teaches			}{/if}
+{if isset($npc.criteria_of)}{include 	file='bricks/achievement_table.tpl' 	id='criteria-of'		name='criteriaof'		tabsid='tabsRelated' data=$npc.criteria_of		}{/if}
+new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
 new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_screenshots, tabs: tabsRelated, parent: 'listview-generic', data: lv_screenshots{rdelim});
 tabsRelated.flush();
 </script>

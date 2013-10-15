@@ -180,9 +180,10 @@ $page = array(
 	'Book' => false,
 	'Title' => $zone['name'].' - '.$smarty->get_config_vars('Zone'),
 	'tab' => 1,
-	'type' => 0,
-	'typeid' => 0,
-	'path' => path(1, 1) //path(0, 6, $zone['map'])
+	'type' => 7,
+	'typeid' => $zone['areatableID'],
+	'username' => $_SESSION['username'],
+	'path' => path(1, 1, $zone['areatableID']) //path(0, 6, $zone['map'])
 );
 
 $smarty->assign('page', $page);

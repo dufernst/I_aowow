@@ -5,48 +5,53 @@
   2. http://www.wowhead.com/favicon.gif	->	../images/favicon.gif	(1)
 */
 body {
-background-color:black;
-margin:0;
-padding:0;
-font-family:Arial,sans-serif;
-font-size:13px;
-color:white;
+background-color: black;
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	color: white;
+}
+
+textarea {
+ resize: none;
 }
 
 form {
-padding:0;
-margin:0;
-display:inline;
+	padding: 0;
+	margin: 0;
+	display: inline;
 }
 
 img,iframe {
-border:0;
+	border: 0;
 }
 
 .border {
-border:3px solid #404040;
+	border: 3px solid #404040;
 }
 
 a:hover img.border {
-border-color:#505050;
+	border-color: #505050;
 }
 
 .caption {
-padding-top:2px;
-font-size:11px;
-text-align:right;
+	padding-top: 2px;
+	font-size: 11px;
+	text-align: right;
 }
 
 pre.code {
-color:#eee;
-margin:15px;
-margin-top:2px;
-padding:10px;
-background-color:#1c1c1c;
-border:1px dashed #383838;
-line-height:normal;
-font-family:'Bitstream Vera Sans Mono','Lucida Console','Courier New',Monaco,Courier,monospace;
-overflow:auto;
+	color: #eee;
+	margin: 15px;
+	margin-top: 2px;
+	padding: 10px;
+	background-color: #1c1c1c;
+	border: 1px dashed #383838;
+	line-height: normal;
+	font-family: 'Bitstream Vera Sans Mono', 'Lucida Console', 'Courier New',
+		Monaco, Courier, monospace;
+	overflow: auto;
 }
 
 div.quote {
