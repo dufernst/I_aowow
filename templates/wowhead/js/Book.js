@@ -19,7 +19,7 @@ function Book(D) {
 	B.style.visibility = "hidden";
 	B.className = "previous";
 	A = ce("a");
-	A.appendChild(ct(String.fromCharCode(8249) + LANG.lvpage_previous));
+	A.appendChild(ct(String.fromCharCode(8249) + LANG.book_previous));
 	A.href = "javascript:;";
 	A.onclick = this.previous.bind(this);
 	B.appendChild(A);
@@ -28,7 +28,7 @@ function Book(D) {
 	B.style.visibility = "hidden";
 	B.className = "next";
 	A = ce("a");
-	A.appendChild(ct(LANG.lvpage_next + String.fromCharCode(8250)));
+	A.appendChild(ct(LANG.book_next + String.fromCharCode(8250)));
 	A.href = "javascript:;";
 	A.onclick = this.next.bind(this);
 	B.appendChild(A);
@@ -36,7 +36,7 @@ function Book(D) {
 	B = ce("b");
 	B.appendChild(ct("1"));
 	E.appendChild(B);
-	E.appendChild(ct(LANG.lvpage_of));
+	E.appendChild(ct(LANG.book_of));
 	B = ce("b");
 	B.appendChild(ct(this.nPages));
 	E.appendChild(B);

@@ -1,7 +1,5 @@
 <?php
-
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file, 'maps');
 
 global $page;
@@ -18,7 +16,6 @@ $page = array(
 );
 $smarty->assign('page', $page);
 $smarty->assign('reputation', getreputation($page['username']));
-
 $smarty->display('maps.tpl');
 
 ?>

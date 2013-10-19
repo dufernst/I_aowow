@@ -2,7 +2,6 @@
 
 require_once('includes/allitemsets.php');
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file, 'itemset');
 
 $cache_key = cache_key();

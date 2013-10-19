@@ -34,7 +34,7 @@
 </div>
 </div>
 					<h1>{$event.name|escape:"html"}</h1>
-
+					
 					<div id="efhjkdsoicjx" class="left">
 					{if $event.exdescimg == NULL}{else}<img alt="" style="float: right; margin: 0 0 10px 10px" src="/images/events/{$event.exdescimg}" width="35%">{/if}
 					{$event.exdesc}

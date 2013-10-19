@@ -11,13 +11,14 @@
 					var g_pageInfo = {ldelim}type: {$page.type}, typeId: {$page.typeid}, name: '{$item.name|escape:"quotes"}'{rdelim};
 					g_initPath({$page.path});
 				</script>
+				
 
 				<table class="infobox">
 					<tr><th>{#Quick_Facts#}</th></tr>
 					<tr><td>
 						<div class="infobox-spacer"></div>
 						<ul>
-                            {* Трансмогрификация *}
+							{* Трансмогрификация *}
 							<li><div>{if $item.quality <=4}{#Can_be_transm#}{elseif $item.quality >=5}{#Cannot_be_transm#}{/if}
 							{* Уровень вещи *}
 							{if $item.level}<li><div>{#level#}: {$item.level}</div></li>{/if}
@@ -40,6 +41,7 @@
 							{/if}
 							{if isset($item.disenchantskill)}<li><div>{#Disenchantable#} (<span class="tip" onmouseover="Tooltip.showAtCursor(event, LANG.tooltip_reqenchanting, 0, 0, 'q')" onmousemove="Tooltip.cursorUpdate(event)" onmouseout="Tooltip.hide()">{$item.disenchantskill}</span>)</div></li>{/if}
 							{if isset($item.key)}<li><div>{#Can_be_placed_in_the_keyring#}</div></li>{/if}
+							<li><div>{#Added_in_patch#} {if $item.WDBVerified == 5875}1.12.1{elseif $item.WDBVerified == 6005}1.12.2{elseif $item.WDBVerified == 8606}2.4.3{elseif $item.WDBVerified == 9947}3.1.3{elseif $item.WDBVerified == 10146}3.2.0{elseif $item.WDBVerified == 10505}3.2.2a{elseif $item.WDBVerified == 10571}3.3.0{elseif $item.WDBVerified == 11159}3.3.0a{elseif $item.WDBVerified == 11403}3.3.2{elseif $item.WDBVerified == 11623}3.3.3{elseif $item.WDBVerified == 11723}3.3.3a{elseif $item.WDBVerified == 12340}3.3.5a{/if} </div></li>
 						</ul>
 						<tr><th id="infobox-">{#Screenshots_tab#}</th></tr>
 <tr><td><div class="infobox-spacer"></div><center><div id="infobox-sticky-ss"></div></center></td></tr>
@@ -47,7 +49,6 @@
 				</table>
 
 				<div class="text">
-
 					{strip}
 					<a href="javascript:;" class="button-red" onclick="this.blur(); g_getIngameLink(
 						{if $item.quality==0}
@@ -98,8 +99,10 @@
 						'{$item.entry}', '{$item.name|replace:'"':'\\&quot;'}')">
 					<em><b><i>Link</i></b><span>{#Forum_link#}</span></em></a>
 					<a href="javascript:;" id="dsgndslgn464d" class="button-red" onclick="this.blur(); ModelViewer.show({ldelim} type: {$page.type}, typeId: {$item.entry}, displayId: {$item.displayid}, slot: {$item.type}{rdelim})"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
+
 					{/strip}
-					<a href="http://www.wowhead.com/?{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
+					
+					<a href="http://{if $locale == 8}ru{elseif $locale == 0}www{elseif $locale == 6}es{/if}.wowhead.com/{$query}" class="button-red"><em><b><i>Wowhead</i></b><span>Wowhead</span></em></a>
 					<h1>{$item.name}</h1>
 
 					<div id="icon{$item.entry}-generic" style="float: left"></div>
@@ -113,21 +116,7 @@
 						ge('icon{$item.entry}-generic').appendChild(Icon.create('{$item.iconname}', 2, 0, 0, {$item.stackable}));
 						Tooltip.fix(ge('tooltip{$item.entry}-generic'), 1, 1);
 					</script>
-
-					{if isset($item.pagetext)}
-						<h3>Content</h3>
-						<div id="book-generic"></div>
-						{strip}
-							<script>
-								new Book({ldelim} parent: 'book-generic', pages: [
-								{foreach from=$item.pagetext item=pagetext name=j}
-									'{$pagetext|escape:"javascript"}'
-									{if $smarty.foreach.j.last}{else},{/if}
-								{/foreach}
-								]{rdelim})
-							</script>
-						{/strip}
-					{/if}
+					
 					<h2>{#Related#}</h2>
 
 				</div>
@@ -169,6 +158,7 @@ new Listview({ldelim}template: 'screenshot', id: 'screenshots', name: LANG.tab_s
 tabsRelated.flush();
 ss_appendSticky();
 </script>
+
 
 				{include file='bricks/contribute.tpl'}
 			</div>

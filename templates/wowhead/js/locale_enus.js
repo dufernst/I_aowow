@@ -795,13 +795,13 @@ var mn_database=[
 	[2,"Item Sets","?itemsets"/*,mn_itemSets*/],
 	[4,"NPCs","?npcs",mn_npcs],
 	[3,"Quests","?quests",mn_quests],
-	//[6,"Zones","?zones",mn_zones],
+	/* [6,"Zones","?zones",mn_zones], */
 	[1,"Spells","?spells",mn_spells],
 	[9,"Achievements","?achievements",mn_achievements],
 	[5,"Objects","?objects",mn_objects],
 	[7,"Factions","?factions",mn_factions],
-	//[10,"Titles","?titles",mn_titles],
-	//[8,"Hunter Pets","?pets",mn_pets],
+	/* [10,"Titles","?titles",mn_titles],
+	[8,"Hunter Pets","?pets",mn_pets], */
 	[11,"World Events","?events"/*,mn_holidays*/]
 ];
 var mn_tools=[
@@ -855,13 +855,17 @@ var mn_tools=[
 		]],
 		[4,"Random Page","?random"],
 		[5,"Unrated Comments","?unrated-comments"],
-        */
+		*/
 		[,"Forums"],
-		[6,"Latest Replies","?latest-replies"],
-		[7,"Latest Topics","?latest-topics"],
-		[8,"Unanswered Topics","?unanswered-topics"]
+		[6,"Latest Replies","https://github.com/fallenangelX"],
+		[7,"Latest Topics","https://github.com/fallenangelX"],
+		[8,"Unanswered Topics","https://github.com/fallenangelX"]
 	]],
-	[30,"Latest Comments","?latest=comments"]
+	[,"Useful info"],
+	[32,"Developers Github","https://github.com/fallenangelX"],
+	[33,"Developers Website","https://github.com/fallenangelX"],
+	[34,"Tooltips","?powered"],
+	[35,"Searchbox","?searchbox"]
 ];
 var mn_forums=[
 	[0,"WoW General"],
@@ -971,7 +975,7 @@ var mn_more=[
 ];
 var mn_path=[
 	[0,"Database",,mn_database],
-    [2,"News",,mn_news],
+	[2,"News",,mn_news],
 	[1,"Tools",,mn_tools],
 	//[3,"Community",,mn_community],
 	//[2,"More",,mn_more]
@@ -2135,6 +2139,9 @@ var g_socket_names={
 	14:"Prismatic Socket"
 };
 var LANG={
+	book_previous:"Previous",
+	book_next:"Next",
+	book_of:" of ",
 	comma:", ",
 	ellipsis:"...",
 	dash:" \u2013 ",

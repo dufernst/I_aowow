@@ -18,7 +18,7 @@
 				<div class="text">
 					<div class="h1-icon">
 <div class="iconmedium">
-<ins style='background-image: url("/images/icons/medium/ability_warrior_innerrage.jpg");'></ins>
+<ins style='background-image: url("../images/icons/medium/ability_warrior_innerrage.jpg");'></ins>
 <del></del>
 </div>
 </div>

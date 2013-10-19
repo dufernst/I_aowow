@@ -56,7 +56,7 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 		{
 			$npc['minlevel'] = '??';
 			$npc['maxlevel'] = '??';
-            // $npc['dtype'] = '3';
+            $npc['dtype'] = '3';
 		}
 		$npc['mindmg'] = round(($row['mindmg'] + $row['attackpower']) * $row['dmg_multiplier']);
 		$npc['maxdmg'] = round(($row['maxdmg'] + $row['attackpower']) * $row['dmg_multiplier']);
@@ -217,11 +217,15 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 			SELECT ?#, spellID
 			FROM npc_trainer, ?_spell, ?_spellicons
 			WHERE
-				entry=?d
-				AND spellID=Spell
-				AND id=spellicon
+			(
+			-entry IN (SELECT spell FROM npc_trainer WHERE entry = ?)
+			OR (entry = ? AND npc_trainer.spell > 0)
+			)
+			AND spellID = npc_trainer.spell
+			AND id=spellicon
 			',
 			$spell_cols[2],
+			$npc['entry'],
 			$npc['entry']
 		);
 		if($teachspells)
@@ -300,15 +304,15 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 
 		// Начиниают квесты...
 		$rows_qs = $DB->select('
-			SELECT ?#
+                	SELECT ?#
 			FROM creature_questrelation c, quest_template q
 			WHERE
 				c.id=?
 				AND q.entry=c.quest
-			',
-			$quest_cols[2],
-			$id
-		);
+             	',
+            	$quest_cols[2],
+            	$id
+        	);
 		if($rows_qs)
 		{
 			$npc['starts'] = array();
@@ -399,7 +403,7 @@ if(!$npc = load_cache(NPC_PAGE, $cache_key))
 				$npc['criteria_of'][] = achievementinfo2($row);
 			}
 		}
-
+		
 		// Репутация за убийство
 		$row = $DB->selectRow('
 			SELECT RewOnKillRepFaction1, RewOnKillRepValue1, MaxStanding1, RewOnKillRepFaction2, RewOnKillRepValue2, MaxStanding2
@@ -474,7 +478,6 @@ $smarty->assign('npc', $npc);
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
 $smarty->assign('reputation', getreputation($page['username']));
-
 // Запускаем шаблонизатор
 $smarty->display('npc.tpl');
 

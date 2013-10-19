@@ -795,14 +795,32 @@ var mn_database=[
 	[2,"Комплекты","?itemsets"/*,mn_itemSets*/],
 	[4,"НИП","?npcs",mn_npcs],
 	[3,"Задания","?quests",mn_quests],
-	//[6,"Местности","?zones",mn_zones],
+	/* [6,"Местности","?zones",mn_zones], */
 	[1,"Заклинания","?spells",mn_spells],
 	[9,"Достижения","?achievements",mn_achievements],
 	[5,"Объекты","?objects",mn_objects],
 	[7,"Фракции","?factions",mn_factions],
-	//[10,"Звания","?titles",mn_titles],
-	//[8,"Питомцы","?pets",mn_pets],
+	/*[10,"Звания","?titles",mn_titles],
+	[8,"Питомцы","?pets",mn_pets],*/
 	[11,"Игровые События","?events"/*,mn_holidays*/]
+];
+var mn_news=[
+	[0,"Новости","/?news"],
+	//Удалите /* и */ если вы хотите добавить ссылки на новости ваших серверов
+	/*[1,"Сервер","",[
+		[,"x5"],
+		[1,"Server 1", ""],
+		[2,"Server 2", ""],
+		[,"x10"],
+		[3,"Server 3", ""],
+		[4,"Server 4", ""]
+	]],
+	// Измените ссылки на социальные сети по своему желанию
+	[,"Социальные сети"],
+	[1,"Facebook", 'http://facebook.com/'],
+	[2,"Вконтакте", 'http://vk.com/'],
+	[3,"Twitter", 'http://twitter.com/'],
+	[4,"Канал IRC", '/']*/
 ];
 var mn_tools=[
 	[0,"Расчёт талантов","?talent",mn_talentCalc],
@@ -841,25 +859,31 @@ var mn_tools=[
 		[10,"2.4.2","?patchnotes=2.4.2"],
 		[11,"2.4.0","?patchnotes=2.4.0"]
 	]],
+	*/
 	[8,"Дополнительно",,[
 		[,"База данных"],
-		[0,"Новые добавления","?latest-additions"],
-		[1,"Новые статьи","?latest-articles"],
-		[2,"Новые комментарии","?latest-comments"],
-		[3,"Новые изображения","?latest-screenshots"],
-		[9,"Новые предметы обновления",,[
+		/* [0,"Новые добавления","?latest=additions"],
+		[1,"Новые статьи","?latest=articles"], */
+		[2,"Новые комментарии","?latest=comments"],
+		[3,"Новые изображения","?latest=screenshots"],
+		/* [9,"Новые предметы обновления",,[
 			[2,"3.3","?new-items=3.3"],
 			[1,"3.2","?new-items=3.2"],
 			[0,"3.1","?new-items=3.1"]
 		]],
 		[4,"Случайная страница","?random"],
 		[5,"Комментарии без оценки","?unrated-comments"],
-		[,"Форум"],
-		[6,"Новые ответы","?latest-replies"],
-		[7,"Новые темы","?latest-topics"],
-		[8,"Темы без ответа","?unanswered-topics"]
-	]]*/
-	[30,"Новые комментарии","?latest=comments"]
+		*/
+		//[,"Форум"],
+		/*[6,"Новые ответы","https://github.com/fallenangelX"],
+		[7,"Новые темы","https://github.com/fallenangelX"],
+		[8,"Темы без ответа","https://github.com/fallenangelX"]*/
+	]],
+	//[,"Полезное"],
+	/*[32,"Github разработчика","https://github.com/fallenangelX"],
+	[33,"Сайт разработчика","https://github.com/fallenangelX"],
+	[34,"Tooltips","?powered"],
+	[35,"Searchbox","?searchbox"]*/
 ];
 var mn_forums=[
 	[0,"Общие темы WoW"],
@@ -887,15 +911,6 @@ var mn_forums=[
 	[2,"Случайные темы"],
 	[1,"Отзывы о Wowhead"]
 ];
-var mn_community=[
-	[3,"Форум","?forums",mn_forums],
-	[7,"Новости / Блог","?blog"],
-	[1,"Конкурсы","?contests"],
-	[4,"Канал IRC","?irc"],
-	[,"Социальные сети"],
-	[6,"Facebook Page","http://facebook.com/Wowhead"],
-	[5,"Twitter Page","http://twitter.com/Wowhead"]
-];mn_community[5].otherImage=["http://static.wowhead.com/images/blog/share/services.gif","-32"];mn_community[6].otherImage=["http://static.wowhead.com/images/blog/share/services.gif","-128"];
 var mn_more=[
 	[,"О Wowhead"],
 	[0,"Контакты","?aboutus"],
@@ -950,9 +965,10 @@ var mn_more=[
 ];
 var mn_path=[
 	[0,"База данных",,mn_database],
+	//[2,"Новости",,mn_news],
 	[1,"Инструменты",,mn_tools],
 	//[3,"Сообщество",,mn_community],
-	//[2,"Дополнительно",,mn_more]
+	//[2,"Дополнительно",,mn_more],
 ];
 var g_contact_reasons={
 	1:"Общее",
@@ -1569,8 +1585,11 @@ var g_quest_types={
 	62:"Рейд",
 	41:"PvP",
 	82:"Событие",
+	83:"Легендарный",
 	84:"Сопровождение",
-	85:"Героический"
+	85:"Героический",
+	88:"Рейд (10)",
+	89:"Рейд (25)"
 };
 var g_sides={
 	1:"Альянс",
@@ -2171,6 +2190,8 @@ var LANG={
 	req:"Треб. ",
 	reputation:"Репутация",
 	rewards:"Награды",
+	expirience:"Опыт",
+	money:"Деньги",
 	petfamily:"Порода питомцев",
 	pieces:"Части",
 	points:"Очки",
@@ -2543,6 +2564,7 @@ var LANG={
 	tab_starts:"Начинает",
 	tab_startsquest:"[Starts quest]",
 	tab_submitascreenshot:"Отправить изображение",
+	tab_submityourdata:"Отправить Данные",
 	tab_summonedby:"Призывается",
 	tab_talents:"Таланты",
 	tab_tameable:"Приручаются",
@@ -2554,6 +2576,8 @@ var LANG={
 	tab_triggeredby:"Срабатывает от",
 	tab_uncategorizedspells:"Без категории",
 	tab_unlocks:"Открывает",
+	tab_reputation:"История репутации",
+	tab_characters:"Персонажи",
 	tab_usedby:"Используется",
 	tab_zones:"Местности",
 	menu_browse:"Просмотр",

@@ -1,6 +1,5 @@
 <?php
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file, 'talent');
 
 global $page;

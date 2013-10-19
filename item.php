@@ -10,8 +10,6 @@ require_once('includes/allcomments.php');
 require_once('includes/allachievements.php');
 require_once('includes/allscreenshots.php');
 require_once('includes/allreputation.php');
-
-
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file, 'item');
 
@@ -691,7 +689,7 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 	}
 	unset($rows_cf);
 
-	// Добывается из спелла
+    // Добывается из спелла
 	$drops_sp = drop('spell_loot_template', $item['entry']);
 	if($drops_sp)
 	{
@@ -749,12 +747,12 @@ if(!$item = load_cache(ITEM_PAGE, $cache_key))
 global $page;
 $page = array(
 	'Mapper' => false,
-	'Book' => $item['pagetext'] ? true : false,
+	'Book' => false,
 	'Title' => $item['name'].' - '.$smarty->get_config_vars('Items'),
 	'tab' => 0,
 	'type' => 3,
 	'typeid' => $item['entry'],
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 0, $item['classs'], $item['subclass'], $item['type'])
 );
 $smarty->assign('page', $page);

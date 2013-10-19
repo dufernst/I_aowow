@@ -3,7 +3,6 @@
 // Необходима функция creatureinfo
 require_once('includes/allnpcs.php');
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file, 'npc');
 
 @list($type) = extract_values($podrazdel);
@@ -32,7 +31,7 @@ if(!$npcs = load_cache(NPC_LISTING, $cache_key))
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		isset($type) ? $type : DBSIMPLE_SKIP,
+		($type!='')? $type: DBSIMPLE_SKIP,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
 
@@ -66,7 +65,6 @@ $page = array(
 	'username' => $_SESSION['username'],
 	'path' => path(0, 4, $type)
 );
-
 $smarty->assign('page', $page);
 
 $smarty->assign('npcs', $npcs);

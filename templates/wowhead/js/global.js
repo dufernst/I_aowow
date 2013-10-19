@@ -669,7 +669,7 @@ function g_urlize(a, b) {
 }
 function g_getLocale(a) {
 	if (a && g_locale.id == 25) {
-		return 0
+		return 3
 	}
 	return g_locale.id
 }

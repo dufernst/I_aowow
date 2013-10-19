@@ -2,7 +2,6 @@
 
 require_once('includes/game.php');
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file);
 
 switch($_GET['latest'])
@@ -136,5 +135,4 @@ $page = array(
 
 $smarty->assign('page', $page);
 $smarty->assign('reputation', getreputation($page['username']));
-
 ?>

@@ -4,7 +4,6 @@ require_once('includes/allspells.php');
 require_once('includes/allcomments.php');
 require_once('includes/allscreenshots.php');
 require_once('includes/allreputation.php');
-
 $smarty->config_load($conf_file, 'itemset');
 
 $id = intval($podrazdel);
@@ -42,7 +41,7 @@ if(!$itemset = load_cache(ITEMSET_PAGE, $cache_key))
 				$itemset['count']++;
 			}
 		}
-        $rclass = array(1 => '1', 2 => '2', 4 => '3', 8 => '4', 16 => '5', 32 => '6', 64 => '7', 128 => '8', 256 => '9', 1024 => '11');
+		$rclass = array(1 => '1', 2 => '2', 4 => '3', 8 => '4', 16 => '5', 32 => '6', 64 => '7', 128 => '8', 256 => '9', 1024 => '11');
 
         if ($itemset['pieces'][$itemset['count']] > 0){
 
@@ -81,7 +80,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 4,
 	'typeid' => $itemset['entry'],
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => '[0, 2]'
 );
 $smarty->assign('page', $page);

@@ -15,7 +15,7 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
 {
 	unset($items);
 
-    // слотове;
+  // слотове;
    $slots = null;
    if(isset($_REQUEST['sl'])){
        if(is_array($_REQUEST['sl'])){
@@ -72,7 +72,7 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
      }else{
           $gb = 'quality';
      }
-
+    
 	// Составляем запрос к БД, выполняющий поиск по заданным классу и подклассу
 	$rows = $DB->select('
 		SELECT ?#, i.entry, maxcount
@@ -83,7 +83,7 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
 			id=displayid
 			{ AND class = ? }
 			{ AND subclass = ? }
-			{ AND i.ItemLevel >= ? }
+            { AND i.ItemLevel >= ? }
             { AND i.ItemLevel <= ? }
             { AND i.RequiredLevel >= ?}
             { AND i.RequiredLevel <= ?}
@@ -99,7 +99,7 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
 		($_SESSION['locale'])? 1: DBSIMPLE_SKIP,
 		isset($class) ? $class : DBSIMPLE_SKIP,
 		isset($subclass) ? $subclass : DBSIMPLE_SKIP,
-		// search
+        // search
         isset($_REQUEST['minle']) && is_numeric($_REQUEST['minle']) ? $_REQUEST['minle'] : "0",   // min item level
         isset($_REQUEST['maxle']) && is_numeric($_REQUEST['maxle']) ? $_REQUEST['maxle'] : "284", // max item level
         
@@ -111,7 +111,7 @@ if(!$items = load_cache(ITEM_LISTING, $cache_key))
         $slots,
         $quality,
         $gb, 
-
+        
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
 
@@ -143,7 +143,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
-    'username' => $_SESSION['username'],
+	'username' => $_SESSION['username'],
 	'path' => path(0, 0, $class, $subclass, $type)
 );
 $smarty->assign('page', $page);

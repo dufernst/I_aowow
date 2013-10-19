@@ -34,9 +34,9 @@ else
 		$nEndTime = GetMicroTime();
 		$szGeneratedTime = "Page generated in ".number_format(($nEndTime - $nStartTime), 6)." seconds.";
 		echo "<!-- $szGeneratedTime -->\r\n";
-		echo "<!-- ????????? ??????????? ?????? ".round(memory_get_peak_usage()/(1024*1024),3)." MB -->\r\n";
+		echo "<!-- Затрачено оперативной памяти ".round(memory_get_peak_usage()/(1024*1024),3)." MB -->\r\n";
 		$Contents = ob_get_contents(); 
-		echo "<!-- ????? ?????? ?????: ".strlen($Contents)." ???? -->";	
+		echo "<!-- Общий размер файла: ".strlen($Contents)." байт -->";	
 	}
 {/php}
 	<br>

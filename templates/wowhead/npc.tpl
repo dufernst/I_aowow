@@ -17,10 +17,21 @@
 				<tr><td><div class="infobox-spacer"></div>
 					<ul>
 						<li><div>{#Level#}: {if $npc.minlevel<>$npc.maxlevel}{$npc.minlevel} - {/if}{$npc.maxlevel}</div></li>
-						<li><div>{#Classification#}: {$npc.rank}</div></li>
+						<li><div>{#Classification#}: {if $npc.dtype == 3}<img src="../images/boss_icon.png"> {$npc.rank}{else}{$npc.rank}{/if}</div></li>
 						<li><div>{#React#}: <span class="q{if $npc.A==-1}10{elseif $npc.A==1}2{else}{/if}">A</span> <span class="q{if $npc.H==-1}10{elseif $npc.H==1}2{else}{/if}">H</span></div></li>
 						<li><div>{#Faction#}: <a href="?faction={$npc.faction_num}">{$npc.faction}</a></div></li>
-						<li><div>{#Health#}: {if $npc.minhealth<>$npc.maxhealth}{$npc.minhealth} - {/if}{$npc.maxhealth}</div></li>
+						<li><div>{#Health#}: 
+						{if $npc.heroic.type == 1}
+						<span class="tip" id="infobox-details"
+							onmouseover="Tooltip.showAtCursor(event, 'Heroic 10ppl:  {$npc.10pplh}<br>Heroic 25ppl: {$npc.25pplh}', 0, 0, 0)"
+							onmousemove="Tooltip.cursorUpdate(event)"
+							onmouseout="Tooltip.hide()">{$npc.minhealth}</span></div></li>
+						{else}
+						<span class="tip" id="infobox-details"
+							onmouseover="Tooltip.showAtCursor(event, 'Normal 10ppl:  {$npc.minhealth}<br>Normal 25ppl: {$npc.25ppln}', 0, 0, 0)"
+							onmousemove="Tooltip.cursorUpdate(event)"
+							onmouseout="Tooltip.hide()">{$npc.minhealth}</span></div></li>
+						{/if}
 {if ($npc.minmana or $npc.maxmana)}
 						<li><div>{#Mana#}: {if $npc.minmana<>$npc.maxmana}{$npc.minmana} - {/if}{$npc.maxmana}</div></li>
 {/if}
@@ -57,6 +68,7 @@
 				<a href="javascript:;" id="dsgndslgn464d" class="button-red" onclick="this.blur(); ModelViewer.show({ldelim} type: {$page.type}, typeId: {$npc.entry}, displayId: {$npc.model}{rdelim})"><em><b><i>{#Viewer_3D#}</i></b><span>{#Viewer_3D#}</span></em></a>
 				<h1>{$npc.name}{if $npc.subname} &lt;{$npc.subname}&gt;{/if}</h1>
 			
+
 {if $npc.heroic}
 				<div>{if $npc.heroic.type == 1}{#This_is_heroic_NPC#}{else}{#This_is_normal_NPC#}{/if} <a href="?npc={$npc.heroic.entry}">{$npc.heroic.name}</a>.</div>
 				<div class="pad"></div>
@@ -146,6 +158,48 @@
 {/if}
 {/foreach}
 </span>
+
+					<h3>{#Rewards#}</h3>
+{if isset($npc.reprewards)}
+{section name=j loop=$npc.reprewards}
+						<li><div>{$npc.reprewards[j].value} {#reputationwith#} <a href="?faction={$npc.reprewards[j].entry}">{$npc.reprewards[j].name}</a></div></li>
+{/section}
+{/if}	
+{if isset($npc.onkillrep)}
+{#Onkill_rep#}
+{foreach from=$npc.killrep item=onkill}
+{if $npc.dtype == 3}
+<ul>
+	<li>
+		<span class="rep-difficulty">Normal</span>
+	</li>
+<ul>
+	<li>
+		<div>
+			<span>{$onkill.value}</span> {#reputationwith#} <a href="/faction={$onkill.entry}">{$onkill.name}</a>
+		</div>
+	</li>
+</ul>
+</ul>
+<ul>
+	<li>
+		<span class="rep-difficulty">Heroic</span>
+	</li>
+<ul>
+	<li>
+		<div>
+			<span>{$onkill.value*2}</span> {#reputationwith#} <a href="/faction={$onkill.entry}">{$onkill.name}</a>
+		</div>
+	</li>
+</ul>
+</ul>
+{elseif $onkill.value < 0}
+<li><div><font color="red"><strong>{$onkill.value}</strong></font> {#reputationwith#} <a href="?faction={$onkill.entry}" rel="faction={$onkill.entry}">{$onkill.name}</a></div></li>
+{elseif $onkill.value > 0}
+<li><div><font color="green"><strong>+{$onkill.value}</strong></font>  {#reputationwith#} <a href="?faction={$onkill.entry}" rel="faction={$onkill.entry}">{$onkill.name}</a></div></li>
+{/if}
+{/foreach}
+{/if}
 
 				<h2>{#Related#}</h2>
 
