@@ -8,12 +8,12 @@ a.home-sitetoggler-beta, a.home-sitetoggler-beta span {
 }
 
 a.home-sitetoggler-beta {
-    background: url(/images/home/special/mop/corner-beta.png) no-repeat;
+    background: url(../images/home/special/mop/corner-beta.png) no-repeat;
     z-index: 10;
 }
 
 a.home-sitetoggler-beta span {
-    background: url(/images/home/special/mop/corner-beta.png) no-repeat 0 -131px;
+    background: url(../images/home/special/mop/corner-beta.png) no-repeat 0 -131px;
     opacity: 0;
     filter: alpha(opacity=0);
 
@@ -56,13 +56,13 @@ body.skin {
 	width: 261px;
 	height: 119px;
 	margin: 0 auto 20px auto;
-	background: url(/images/logos/home.gif) no-repeat;
+	background: url(../images/logos/home.gif) no-repeat;
 }
 
 body.skin .home-logo {
 	width: 261px !important;
 	height: 119px !important;
-	/*background: url(/images/logos/home.png) no-repeat !important;*/
+	/*background: url(../images/logos/home.png) no-repeat !important;*/
 }
 
 .home-menu {
@@ -84,7 +84,7 @@ body.skin .home-logo {
 	margin: 0;
 	outline: 0;
 	border: 1px solid #adadad;
-	background: white url(/images/ui/form/input-textbox-bg.gif) repeat-x;
+	background: white url(../images/ui/form/input-textbox-bg.gif) repeat-x;
 
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -104,7 +104,7 @@ body.skin .home-search input {
 	top: 4px;
 	width: 24px;
 	height: 24px;
-	background: url(/images/header/search.gif) 4px 4px no-repeat;
+	background: url(../images/header/search.gif) 4px 4px no-repeat;
 }
 
 .home-oneliner {

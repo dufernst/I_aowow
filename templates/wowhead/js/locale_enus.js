@@ -806,9 +806,9 @@ var mn_database=[
 ];
 var mn_tools=[
 	[0,"Talent Calculator","?talent",mn_talentCalc],
-	//[2,"Hunter Pet Calculator","?petcalc",mn_petCalc],
-	//[5,"Profiler","?profiles"],
-	//[3,"Item Comparison","?compare"],
+	[2,"Hunter Pet Calculator","?petcalc",mn_petCalc],
+	[5,"Profiler","?profiles"],
+	[3,"Item Comparison","?compare"],
 	[1,"Maps","?maps"],
 	/*[,"Other"],
 	[6,"Guides","",[
