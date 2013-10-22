@@ -43,7 +43,7 @@ background-image:url(../images/talent/arrows/left2.gif);
 
 .iconmedium div.icon-bubble {
 background:none;
-filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/talent/bubble2.png');
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/talent/bubble2.png');
 }
 
 .talentcalc-lower a {
